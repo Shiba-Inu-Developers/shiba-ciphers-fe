@@ -1,0 +1,33 @@
+<div class="bg-white h-screen flex items-center justify-center">
+  <div class="max-w-lg mr-4 w-full">
+    <div class="bg-gray-100 p-8 rounded-lg shadow-[inset-12-8-40-#46464620]">
+      <h2 class="text-2xl font-semibold mb-6">Verifikácia pomocou OTP</h2>
+
+      <form (ngSubmit)="onVerify()" [formGroup]="myForm">
+        <div class="mb-4">
+          <label
+            class="block text-gray-700 text-sm font-bold mb-2"
+            for="otp"
+          >OTP:</label
+          >
+          <input
+            class="w-full p-2 border rounded-lg shadow-inner"
+            id="otp"
+            name="otp"
+            formControlName="otp"
+            type="text"
+          />
+        </div>
+
+        <div class="flex items-center justify-between mb-4">
+          <button
+            class="w-1/2 bg-blue-500 text-white p-2 rounded-lg"
+            type="submit"
+          >
+            Verifikovať email
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

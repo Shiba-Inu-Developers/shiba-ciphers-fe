@@ -1,0 +1,52 @@
+<div class="bg-white h-screen flex items-center justify-center">
+  <div class="max-w-lg mr-4 w-full">
+    <div class="bg-gray-100 p-8 rounded-lg shadow-[inset-12-8-40-#46464620]">
+      <h2 class="text-2xl font-semibold mb-6">Registrácia</h2>
+
+      <form (ngSubmit)="onRegistration()" [formGroup]="myForm">
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="email"
+          >Email:</label
+          >
+          <input
+            class="w-full p-2 border rounded-lg shadow-inner"
+            formControlName="email"
+            id="email"
+            name="email"
+            type="email"
+          />
+          <div *ngIf="myForm.get('email')?.errors && myForm.get('email')?.errors?.['invalidEmail']">Prosím zadajte
+            validný email.
+          </div>
+        </div>
+        <div class="mb-4">
+          <label
+            class="block text-gray-700 text-sm font-bold mb-2"
+            for="password"
+          >Heslo:</label
+          >
+          <input
+            class="w-full p-2 border rounded-lg shadow-inner"
+            formControlName="password"
+            id="password"
+            name="password"
+            type="password"
+          />
+        </div>
+
+        <div class="flex items-center justify-between mb-4">
+          <button
+            class="w-1/2 bg-blue-500 text-white p-2 rounded-lg"
+            type="submit"
+          >
+            Registrovať sa
+          </button>
+        </div>
+      </form>
+    </div>
+    <p class="mt-4 text-sm text-gray-600 text-center">
+      Máte účet,
+      <a class="text-blue-500" href="/login">prihláste sa</a>.
+    </p>
+  </div>
+</div>

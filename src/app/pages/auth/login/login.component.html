@@ -1,0 +1,55 @@
+<div class="bg-white h-screen flex items-center justify-center">
+  <div class="max-w-lg mr-4 w-full">
+    <div class="bg-gray-100 p-8 rounded-lg shadow-[inset-12-8-40-#46464620]">
+      <h2 class="text-2xl font-semibold mb-6">Prihlásenie</h2>
+
+      <form (ngSubmit)="onLogin()" [formGroup]="myForm">
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="email"
+          >Email:</label
+          >
+          <input
+            class="w-full p-2 border rounded-lg shadow-inner"
+            id="email"
+            name="email"
+            formControlName="email"
+            type="email"
+          />
+        </div>
+
+        <div class="mb-4">
+          <label
+            class="block text-gray-700 text-sm font-bold mb-2"
+            for="password"
+          >Heslo:</label
+          >
+          <input
+            class="w-full p-2 border rounded-lg shadow-inner"
+            id="password"
+            name="password"
+            formControlName="password"
+            type="password"
+          />
+        </div>
+
+        <div class="flex items-center justify-between mb-4">
+          <button
+            class="w-1/2 bg-blue-500 text-white p-2 rounded-lg"
+            type="submit"
+          >
+            Prihlásiť sa
+          </button>
+          <p class="text-sm text-gray-600">
+            <a class="text-blue-500" href="/zabudnute-heslo"
+            >Zabudli ste heslo?</a
+            >
+          </p>
+        </div>
+      </form>
+    </div>
+    <p class="mt-4 text-sm text-gray-600 text-center">
+      Ak ešte nemáte účet,
+      <a class="text-blue-500" href="/sign-up">registrujte sa</a>.
+    </p>
+  </div>
+</div>

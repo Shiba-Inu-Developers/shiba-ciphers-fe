@@ -24,7 +24,8 @@
   </div>
   <div class="flex items-center justify-end md:flex-1 lg:w-0">
     <a class="flex items-center space-x-2" href="/login">
-      <span>Prihlásiť sa</span>
+      <span *ngIf="!isLogged">Prihlásiť sa</span>
+      <span *ngIf="isLogged">Odhlásiť sa</span>
       <i class="material-icons" style="font-size: 50px; color: white"
         >account_circle</i
       >

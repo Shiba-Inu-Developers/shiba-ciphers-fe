@@ -1,146 +1,75 @@
-<div class="mx-5">
-  <!-- <ol
-    class="flex items-center w-full space-x-4 sm:space-x-8 rtl:space-x-reverse"
-  >
-    <li
-      class="flex items-center text-gray-500 dark:text-gray-400 space-x-2.5 rtl:space-x-reverse cursor-pointer"
-      [class.text-blue-600]="currentStep === 1"
-      [class.dark:text-blue-500]="currentStep === 1"
-      (click)="onStepChange(1)"
+<div class="mx-5 mt-2 shadow-md rounded-md h-lvh bg-gray-100">
+  <div class="m-3">
+    <ol
+      class="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base"
     >
-      <span
-        class="flex items-center justify-center w-8 h-8 border border-gray-500 rounded-full shrink-0 dark:border-gray-400"
-        [class.border-blue-600]="currentStep === 1"
+      <li
+        class="flex md:w-full items-center cursor-pointer"
+        [class.text-blue-600]="currentStep === 1"
+        [class.dark:text-blue-500]="currentStep === 1"
+        [class.after:border-blue-600]="currentStep === 1"
+        [class.dark:after:border-blue-500]="currentStep === 1"
+        (click)="onStepChange(1)"
       >
-        1
-      </span>
-      <span>
-        <h3 class="font-medium leading-tight">Zašifrovaný text</h3>
-        <p class="mt-1 text-sm">Step details here</p>
-      </span>
-    </li>
-    <li
-      class="flex items-center text-gray-500 dark:text-gray-400 space-x-2.5 rtl:space-x-reverse cursor-pointer"
-      [class.text-blue-600]="currentStep === 2"
-      [class.dark:text-blue-500]="currentStep === 2"
-      (click)="onStepChange(2)"
-    >
-      <span
-        class="flex items-center justify-center w-8 h-8 border border-gray-500 rounded-full shrink-0 dark:border-gray-400"
-        [class.border-blue-600]="currentStep === 2"
+        <span
+          class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500"
+        >
+          <span class="me-2">1</span>
+          Personal <span class="hidden sm:inline-flex sm:ms-2">Info</span>
+        </span>
+      </li>
+      <li
+        class="flex md:w-full items-center cursor-pointer"
+        [class.text-blue-600]="currentStep === 2"
+        [class.dark:text-blue-500]="currentStep === 2"
+        [class.after:border-blue-600]="currentStep === 2"
+        [class.dark:after:border-blue-500]="currentStep === 2"
+        (click)="onStepChange(2)"
       >
-        2
-      </span>
-      <span>
-        <h3 class="font-medium leading-tight">Dešifrovaný kľúč</h3>
-        <p class="mt-1 text-sm">Step details here</p>
-      </span>
-    </li>
-    <li
-      class="flex items-center text-gray-500 dark:text-gray-400 space-x-2.5 rtl:space-x-reverse cursor-pointer"
-      [class.text-blue-600]="currentStep === 3"
-      [class.dark:text-blue-500]="currentStep === 3"
-      (click)="onStepChange(3)"
-    >
-      <span
-        class="flex items-center justify-center w-8 h-8 border border-gray-500 rounded-full shrink-0 dark:border-gray-400"
-        [class.border-blue-600]="currentStep === 3"
+        <span
+          class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500"
+        >
+          <span class="me-2">2</span>
+          Account <span class="hidden sm:inline-flex sm:ms-2">Info</span>
+        </span>
+      </li>
+      <li
+        class="flex items-center cursor-pointer"
+        [class.text-blue-600]="currentStep === 3"
+        [class.dark:text-blue-500]="currentStep === 3"
+        [class.after:border-blue-600]="currentStep === 3"
+        [class.dark:after:border-blue-500]="currentStep === 3"
+        (click)="onStepChange(3)"
       >
-        3
-      </span>
-      <span>
-        <h3 class="font-medium leading-tight">Potvrdenie</h3>
-        <p class="mt-1 text-sm">Step details here</p>
-      </span>
-    </li>
-  </ol> -->
+        <span class="me-2">3</span>
+        Confirmation
+      </li>
+    </ol>
 
-  <ol
-    class="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base"
-  >
-    <li
-      class="flex md:w-full items-center cursor-pointer"
-      [class.text-blue-600]="currentStep === 1"
-      [class.dark:text-blue-500]="currentStep === 1"
-      [class.after:border-blue-600]="currentStep === 1"
-      [class.dark:after:border-blue-500]="currentStep === 1"
-      (click)="onStepChange(1)"
-    >
-      <span
-        class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500"
+    <div class="mt-10">
+      <ng-container *ngIf="currentStep === 1">
+        <app-cipher-text></app-cipher-text>
+      </ng-container>
+      <ng-container *ngIf="currentStep === 2">
+        <app-cipher-key></app-cipher-key>
+      </ng-container>
+      <ng-container *ngIf="currentStep === 3"> </ng-container>
+    </div>
+    <div class="flex justify-end mt-10">
+      <button
+        class="mr-4 text-white bg-gray-400 hover:bg-gray-500 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        *ngIf="currentStep !== 1"
+        (click)="onBack()"
       >
-        <span class="me-2">1</span>
-        Personal <span class="hidden sm:inline-flex sm:ms-2">Info</span>
-      </span>
-    </li>
-    <li
-      class="flex md:w-full items-center cursor-pointer"
-      [class.text-blue-600]="currentStep === 2"
-      [class.dark:text-blue-500]="currentStep === 2"
-      [class.after:border-blue-600]="currentStep === 2"
-      [class.dark:after:border-blue-500]="currentStep === 2"
-      (click)="onStepChange(2)"
-    >
-      <span
-        class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500"
+        Späť
+      </button>
+      <button
+        class="text-white bg-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        *ngIf="currentStep !== 3"
+        (click)="onNext()"
       >
-        <span class="me-2">2</span>
-        Account <span class="hidden sm:inline-flex sm:ms-2">Info</span>
-      </span>
-    </li>
-    <li
-      class="flex items-center cursor-pointer"
-      [class.text-blue-600]="currentStep === 3"
-      [class.dark:text-blue-500]="currentStep === 3"
-      [class.after:border-blue-600]="currentStep === 3"
-      [class.dark:after:border-blue-500]="currentStep === 3"
-      (click)="onStepChange(3)"
-    >
-      <span class="me-2">3</span>
-      Confirmation
-    </li>
-  </ol>
-
-  <div class="mt-10">
-    <ng-container *ngIf="currentStep === 1">
-      <app-cipher-text></app-cipher-text>
-    </ng-container>
-    <ng-container *ngIf="currentStep === 2">
-      <app-cipher-key></app-cipher-key>
-    </ng-container>
-    <ng-container *ngIf="currentStep === 3"> </ng-container>
-  </div>
-
-  <!-- <div class="flex justify-end mt-10">
-    <button
-      class="mr-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-      *ngIf="currentStep !== 1"
-      (click)="onBack()"
-    >
-      Späť
-    </button>
-    <button
-      class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-      *ngIf="currentStep !== 3"
-      (click)="onNext()"
-    >
-      Ďalej
-    </button>
-  </div> -->
-  <div class="flex justify-end mt-10">
-    <button
-      class="mr-4 text-white bg-gray-400 hover:bg-gray-500 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-      *ngIf="currentStep !== 1"
-      (click)="onBack()"
-    >
-      Späť
-    </button>
-    <button
-      class="text-white bg-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-      *ngIf="currentStep !== 3"
-      (click)="onNext()"
-    >
-      Ďalej
-    </button>
+        Ďalej
+      </button>
+    </div>
   </div>
 </div>

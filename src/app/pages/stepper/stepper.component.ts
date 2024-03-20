@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { StepperService } from './stepper.service';
 
 @Component({
   selector: 'app-stepper',
@@ -8,7 +9,7 @@ import { Component } from '@angular/core';
 export class StepperComponent {
   currentStep = 1;
 
-  constructor() {}
+  constructor(private stepperService: StepperService) {}
 
   ngOnInit() {}
 
@@ -24,4 +25,24 @@ export class StepperComponent {
     this.currentStep = step;
     console.log('Current step:', this.currentStep);
   }
+
+  // onStep1(data: any): void {
+  //   this.stepperService.step1(data).subscribe((result) => {
+  //     // Handle the result
+  //   });
+  // }
+
+  // onStep2(data: any): void {
+  //   this.stepperService.step2(data).subscribe((result) => {
+  //     // Handle the result
+  //   });
+  // }
+
+  // onStep3(data: any): void {
+  //   this.stepperService.step3(data).subscribe((result) => {
+  //     // Handle the result
+  //   });
+  // }
+
+  // Add more steps as needed
 }

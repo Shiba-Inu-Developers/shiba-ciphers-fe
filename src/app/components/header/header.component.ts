@@ -1,3 +1,5 @@
+import { AuthService } from 'src/app/pages/auth/auth.service';
+import { UserService } from './../../services/user.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -7,4 +9,10 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
   isLogged = false;
+  // isLogged = this.authService.getIsAuth();
+  constructor(private authService: AuthService) {}
+
+  switchText(isLogged: boolean) {
+    this.isLogged = !isLogged;
+  }
 }

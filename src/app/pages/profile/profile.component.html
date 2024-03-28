@@ -45,9 +45,9 @@
                 <input
                   type="text"
                   id="first_name"
+                  [(ngModel)]="firstName"
                   class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                   placeholder="Your first name"
-                  value="Jane"
                   required
                 />
               </div>
@@ -61,9 +61,9 @@
                 <input
                   type="text"
                   id="last_name"
+                  [(ngModel)]="lastName"
                   class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                   placeholder="Your last name"
-                  value="Ferguson"
                   required
                 />
               </div>
@@ -78,6 +78,7 @@
               <input
                 type="email"
                 id="email"
+                [(ngModel)]="email"
                 class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                 placeholder="your.email@mail.com"
                 required
@@ -116,6 +117,7 @@
             <div class="flex justify-end">
               <button
                 type="submit"
+                (click)="onEditData()"
                 class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
               >
                 Save

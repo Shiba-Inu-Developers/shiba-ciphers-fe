@@ -20,11 +20,9 @@ export class UserService {
   }
 
   getUser(): Observable<any> {
-    console.log('getUser1');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${localStorage.getItem('token')}`
     });
-    console.log('getUser2');
     return this.http.get<any>('/api/user-info', { headers });
   }
 

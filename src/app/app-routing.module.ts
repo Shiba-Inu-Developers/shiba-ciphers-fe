@@ -8,6 +8,7 @@ import { CipherComponent } from './pages/cipher/cipher.component';
 import { VerifyOtpComponent } from './pages/auth/verify-otp/verify-otp.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { StepperComponent } from './pages/stepper/stepper.component';
+import { AuthGuard } from './pages/auth/auth.guard';
 
 //******Setting url direction of pages*******/
 const routes: Routes = [

@@ -23,6 +23,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StepperComponent } from './pages/stepper/stepper.component';
 import { CipherTextComponent } from './pages/cipher-text/cipher-text.component';
 import { CipherKeyComponent } from './pages/cipher-key/cipher-key.component';
+import { FilterComponent } from './pages/filter/filter.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { CipherKeyComponent } from './pages/cipher-key/cipher-key.component';
     StepperComponent,
     CipherTextComponent,
     CipherKeyComponent,
+    FilterComponent,
   ],
   imports: [
     BrowserModule,

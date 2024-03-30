@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, AfterViewInit } from '@angular/core';
+import { Component, Input, ViewChild, ViewContainerRef, AfterViewInit } from '@angular/core';
 import {Subject, pipe, Observable} from 'rxjs';
 import { ModalComponent } from 'src/app/components/modal/modal.component';
 import {
@@ -10,6 +10,7 @@ import { ModalService } from 'src/app/components/modal/modal.service';
 import { takeUntil } from 'rxjs/operators';
 import {User} from "oidc-client";
 import {UserService} from "../../services/user.service";
+import { ProfileService } from './profile.service';
 
 @Component({
   selector: 'app-profile',
@@ -23,11 +24,14 @@ export class ProfileComponent implements AfterViewInit {
   email = '';
 
   // private readonly ngUnsubscribe = new Subject();
+  @Input() user: any;
   reset: Subject<boolean> = new Subject<boolean>();
   modalRef: NgbModalRef | undefined;
+
   constructor(
     private modalService: ModalService,
     private viewContainerRef: ViewContainerRef,
+    private profileService: ProfileService,
     private userService: UserService,
     private ngModal: NgbModal
   ) {}
@@ -57,6 +61,7 @@ export class ProfileComponent implements AfterViewInit {
     modal.componentInstance.submitModal.subscribe((isSubmitted: boolean) => {
       if (isSubmitted) {
         console.log('Profilová fotografia bola odstránená.');
+        this.profileService.deletePic(this.user.id);
         this.ngOnInit();
       } else {
         console.log('Formulár nebol odoslaný.');
@@ -79,4 +84,34 @@ export class ProfileComponent implements AfterViewInit {
     });
   }
 
+
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const imageBlob = e.target.result;
+        this.profileService.editPic(this.user.id, imageBlob);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onUpdateProfile(
+    id: number,
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+    phoneNumber: string
+  ): void {
+    this.profileService.updatePost(
+      id,
+      email,
+      password,
+      firstName,
+      lastName,
+      phoneNumber
+    );
+  }
 }

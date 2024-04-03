@@ -1,22 +1,21 @@
-import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
-import {Subject} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-
 export class AuthService {
+  private isAthenticated = false;
   private token: string = '';
   private authStatusListener = new Subject<boolean>();
 
-  private rootURL = "https://localhost:44460/weatherforecast";
+  private rootURL = 'https://localhost:44460/weatherforecast';
 
   private email: string = '';
 
-  constructor(private http: HttpClient, private router: Router) {
-  }
+  constructor(private http: HttpClient, private router: Router) {}
 
   setEmail(email: string) {
     this.email = email;
@@ -30,26 +29,33 @@ export class AuthService {
     return this.token || localStorage.getItem('token');
   }
 
+  getIsAuth() {
+    return this.isAthenticated;
+  }
+
   onRegistration(email: string, password: string) {
     const data = {
       email: email,
-      password: password
+      password: password,
     };
 
     this.http.post('/api/User', data).subscribe((result) => {
       console.warn('result', result);
-      this.router.navigate(['/otp-verification'], {state: {email: data.email}});
+      this.router.navigate(['/otp-verification'], {
+        state: { email: data.email },
+      });
     });
   }
 
   onLogin(email: string, password: string) {
     const data = {
       email: email,
-      password: password
+      password: password,
     };
 
     this.http.post('/api/Login', data).subscribe((result) => {
       console.warn('result', result);
+      this.isAthenticated = true;
       // @ts-ignore
       this.token = result['token'];
       localStorage.setItem('token', this.token);
@@ -61,7 +67,7 @@ export class AuthService {
   onVerify(otp: string) {
     const data = {
       otp: otp,
-      email: this.getEmail()
+      email: this.getEmail(),
     };
 
     this.http.post('/api/VerifyOtp', data).subscribe((result) => {
@@ -69,6 +75,4 @@ export class AuthService {
       this.router.navigate(['/login']);
     });
   }
-
-
 }

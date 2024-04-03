@@ -8,6 +8,7 @@ import { CipherComponent } from './pages/cipher/cipher.component';
 import { VerifyOtpComponent } from './pages/auth/verify-otp/verify-otp.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { StepperComponent } from './pages/stepper/stepper.component';
+import { AuthGuard } from './pages/auth/auth.guard';
 
 //******Setting url direction of pages*******/
 const routes: Routes = [
@@ -16,7 +17,11 @@ const routes: Routes = [
     component: HomeComponent,
     // canActivate: [AuthGuard], //Pridat AuthGuard aby sa zobrazovalo len to co je potrebne
   },
-  { path: 'profile', component: ProfileComponent },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [AuthGuard], //Pridat AuthGuard aby sa zobrazovalo len to co je potrebne
+  },
   { path: 'login', component: LoginComponent },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'cipher', component: StepperComponent },

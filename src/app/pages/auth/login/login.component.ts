@@ -22,19 +22,20 @@ export class LoginComponent implements OnInit {
       email: new FormControl(''),
       password: new FormControl(''),
     });
-    google.account.id.initialize({
-      client_id:
-        '856076861704-tdfb7v4b6fvs1q10ss9ov01oeutd5neq.apps.googleusercontent.com',
-      callback: (response: any) => {},
-      // auto_prompt: true,
-    });
+    // Nefunkcneee
+    // google.account.id.initialize({
+    //   client_id:
+    //     '856076861704-tdfb7v4b6fvs1q10ss9ov01oeutd5neq.apps.googleusercontent.com',
+    //   callback: (response: any) => {},
+    //   // auto_prompt: true,
+    // });
 
-    google.account.id.renderButton(document.getElementById('google-btn'), {
-      theme: 'filled_blue',
-      size: 'large',
-      shape: 'rectangle',
-      with: 350,
-    });
+    // google.account.id.renderButton(document.getElementById('google-btn'), {
+    //   theme: 'filled_blue',
+    //   size: 'large',
+    //   shape: 'rectangle',
+    //   with: 350,
+    // });
   }
 
   onLogin() {

@@ -23,6 +23,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StepperComponent } from './pages/stepper/stepper.component';
 import { CipherTextComponent } from './pages/cipher-text/cipher-text.component';
 import { CipherKeyComponent } from './pages/cipher-key/cipher-key.component';
+import { AuthGuard } from './pages/auth/auth.guard';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { CipherKeyComponent } from './pages/cipher-key/cipher-key.component';
     NgbModule,
   ],
   providers: [
+    AuthGuard,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],

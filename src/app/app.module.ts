@@ -24,6 +24,7 @@ import { StepperComponent } from './pages/stepper/stepper.component';
 import { CipherTextComponent } from './pages/cipher-text/cipher-text.component';
 import { CipherKeyComponent } from './pages/cipher-key/cipher-key.component';
 import { AuthGuard } from './pages/auth/auth.guard';
+import {MyDocumentsComponent} from "./pages/my-documents/my-documents.component";
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { AuthGuard } from './pages/auth/auth.guard';
     StepperComponent,
     CipherTextComponent,
     CipherKeyComponent,
+    MyDocumentsComponent,
   ],
   imports: [
     BrowserModule,

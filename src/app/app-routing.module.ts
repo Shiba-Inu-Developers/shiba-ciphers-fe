@@ -18,6 +18,7 @@ const routes: Routes = [
     // canActivate: [AuthGuard], //Pridat AuthGuard aby sa zobrazovalo len to co je potrebne
   },
   { path: 'profile', component: ProfileComponent },
+  { path: 'stepper', component: StepperComponent },
   { path: 'login', component: LoginComponent },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'cipher', component: StepperComponent },

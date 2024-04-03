@@ -9,6 +9,7 @@ import { VerifyOtpComponent } from './pages/auth/verify-otp/verify-otp.component
 import { ProfileComponent } from './pages/profile/profile.component';
 import { StepperComponent } from './pages/stepper/stepper.component';
 import { AuthGuard } from './pages/auth/auth.guard';
+import {MyDocumentsComponent} from "./pages/my-documents/my-documents.component";
 
 //******Setting url direction of pages*******/
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
   },
   { path: 'profile', component: ProfileComponent },
   { path: 'stepper', component: StepperComponent },
+  { path: 'my-documents', component: MyDocumentsComponent },
   { path: 'login', component: LoginComponent },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'cipher', component: StepperComponent },

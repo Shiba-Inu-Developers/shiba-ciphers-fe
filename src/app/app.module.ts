@@ -24,6 +24,7 @@ import { StepperComponent } from './pages/stepper/stepper.component';
 import { CipherTextComponent } from './pages/cipher-text/cipher-text.component';
 import { CipherKeyComponent } from './pages/cipher-key/cipher-key.component';
 import { FilterComponent } from './pages/filter/filter.component';
+import { MyDocumentsComponent } from './pages/my-documents/my-documents.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { FilterComponent } from './pages/filter/filter.component';
     CipherTextComponent,
     CipherKeyComponent,
     FilterComponent,
+    MyDocumentsComponent,
   ],
   imports: [
     BrowserModule,

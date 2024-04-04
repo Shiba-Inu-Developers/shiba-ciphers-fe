@@ -23,7 +23,8 @@ const routes: Routes = [
     component: ProfileComponent,
     canActivate: [AuthGuard], //Pridat AuthGuard aby sa zobrazovalo len to co je potrebne
   },
-  { path: 'my-documents', component: MyDocumentsComponent },
+  { path: 'my-documents', component: MyDocumentsComponent, canActivate: [AuthGuard]},
+  { path: 'stepper', component: StepperComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'cipher', component: StepperComponent },

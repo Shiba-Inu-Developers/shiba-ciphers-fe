@@ -39,7 +39,7 @@ export class AuthService {
       password: password,
     };
 
-    this.http.post('/api/User', data).subscribe((result) => {
+    this.http.post('/api/weatherforecast/User', data).subscribe((result) => {
       console.warn('result', result);
       this.router.navigate(['/otp-verification'], {
         state: { email: data.email },
@@ -53,7 +53,7 @@ export class AuthService {
       password: password,
     };
 
-    this.http.post('/api/Login', data).subscribe((result) => {
+    this.http.post('/api/weatherforecast/Login', data).subscribe((result) => {
       console.warn('result', result);
       this.isAthenticated = true;
       // @ts-ignore
@@ -70,7 +70,7 @@ export class AuthService {
       email: this.getEmail(),
     };
 
-    this.http.post('/api/VerifyOtp', data).subscribe((result) => {
+    this.http.post('/api/weatherforecast/VerifyOtp', data).subscribe((result) => {
       console.warn('result', result);
       this.router.navigate(['/login']);
     });

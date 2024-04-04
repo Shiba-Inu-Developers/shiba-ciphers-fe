@@ -14,7 +14,7 @@ export class UserService {
   }
 
   getUsers() {
-    this.http.get('/api/Users').subscribe((result) => {
+    this.http.get('/api/weatherforecast/Users').subscribe((result) => {
       console.warn('result', result);
     });
   }
@@ -23,14 +23,14 @@ export class UserService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${localStorage.getItem('token')}`
     });
-    return this.http.get<any>('/api/user-info', { headers });
+    return this.http.get<any>('/api/weatherforecast/user-info', { headers });
   }
 
   putUser(data: any): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${localStorage.getItem('token')}`
     });
-    return this.http.put<any>('/api/update-user-info', data, { headers });
+    return this.http.put<any>('/api/weatherforecast/update-user-info', data, { headers });
   }
 
 

@@ -17,7 +17,7 @@ export class MyDocumentsComponent implements OnInit{
   }
 
   getAllDocuments() {
-    this.http.get<any[]>('/api/history-images').subscribe((documents: any[]) => {
+    this.http.get<any[]>('/api/myimages/history-images').subscribe((documents: any[]) => {
       this.documents = documents;
     });
   }

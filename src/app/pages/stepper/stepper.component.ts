@@ -24,4 +24,22 @@ export class StepperComponent {
     this.currentStep = step;
     console.log('Current step:', this.currentStep);
   }
+
+
+
+
+
+  //TODO: VHODIT DO JEDNEJ FUNCKIE
+  onTextProcess() {
+    console.log('Text processing')
+  }
+
+  onKeyProcess() {
+    console.log('Key processing')
+  }
+
+  onDecipherProcess() {
+    console.log('Decipher processing')
+  }
+
 }

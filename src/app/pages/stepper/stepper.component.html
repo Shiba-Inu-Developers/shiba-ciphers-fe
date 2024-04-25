@@ -45,7 +45,7 @@
 
   <div class="mt-10">
     <ng-container *ngIf="currentStep === 1">
-      <app-cipher-text></app-cipher-text>
+      <app-cipher-text (selectedFile)="helpSetSelectedFileText($event)"></app-cipher-text>
     </ng-container>
     <ng-container *ngIf="currentStep === 2">
       <app-cipher-key></app-cipher-key>
@@ -69,14 +69,14 @@
     <button
       class="text-white bg-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
       *ngIf="currentStep == 1"
-      (click)="onTextProcess()"
+      (click)="onTextProcess(selectedFileText)"
     >
       Spracovať Text
     </button>
     <button
       class="text-white bg-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
       *ngIf="currentStep == 2"
-      (click)="onKeyProcess()"
+      (click)="onKeyProcess(selectedFileKey)"
     >
       Spracovať Key
     </button>

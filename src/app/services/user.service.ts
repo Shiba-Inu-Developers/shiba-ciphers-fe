@@ -33,5 +33,19 @@ export class UserService {
     return this.http.put<any>('/api/weatherforecast/update-user-info', data, { headers });
   }
 
+  // post to call API endpoint for uploading file and imageType
+  sendImageToCache(file: File | null, imageType: string) {
+    const formData = new FormData();
+    // @ts-ignore
+    formData.append('image', file, file.name);
+    formData.append('imageType', imageType);
+
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      'imageType': imageType
+    });
+    return this.http.post('api/myimages/save-image-ds', formData, { headers: headers });
+  }
+
 
 }

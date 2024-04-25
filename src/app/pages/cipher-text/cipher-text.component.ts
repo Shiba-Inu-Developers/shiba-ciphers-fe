@@ -1,4 +1,4 @@
-import { Component, ElementRef, Output, ViewChild } from '@angular/core';
+import {Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-cipher-text',
@@ -7,6 +7,7 @@ import { Component, ElementRef, Output, ViewChild } from '@angular/core';
 })
 export class CipherTextComponent {
   @Output() cipherText: string = '';
+  @Output() selectedFile = new EventEmitter<File>();
   @ViewChild('dropzoneFile') dropzoneFile!: ElementRef;
   @ViewChild('textInput') textInput!: ElementRef<HTMLTextAreaElement>;
   @ViewChild('imagePreview') imagePreview!: ElementRef<HTMLImageElement>;
@@ -18,6 +19,7 @@ export class CipherTextComponent {
       reader.onload = (e: any) => {
         this.imagePreview.nativeElement.src = e.target.result;
       };
+      this.selectedFile.emit(file);
       reader.readAsDataURL(file);
     } else {
       // Handle non-image files or errors

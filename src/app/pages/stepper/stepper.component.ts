@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-stepper',
@@ -6,9 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./stepper.component.css'],
 })
 export class StepperComponent {
+
+  selectedFileText: File | null = null;
+  selectedFileKey: File | null = null;
+
   currentStep = 1;
 
-  constructor() {}
+  constructor(
+    private userService: UserService,
+  ) {}
 
   ngOnInit() {}
 
@@ -28,14 +35,44 @@ export class StepperComponent {
 
 
 
-
-  //TODO: VHODIT DO JEDNEJ FUNCKIE
-  onTextProcess() {
-    console.log('Text processing')
+  helpSetSelectedFileText(file: File | null) {
+    this.selectedFileText = file;
   }
 
-  onKeyProcess() {
+  helpSetSelectedFileKey(file: File | null) {
+    this.selectedFileKey = file;
+  }
+
+  //TODO: VHODIT DO JEDNEJ FUNCKIE
+
+  // Cookies pre BE:
+  // imageType = ["Text", "Key"]
+  onTextProcess(file: File | null) {
+    console.log('Text processing')
+    // take image from cipher-text
+    this.selectedFileText = file;
+    console.log("TEXT: ",this.selectedFileText)
+    // send to API endpoint file and imageType
+
+    this.userService.sendImageToCache(this.selectedFileText, "Text").subscribe({
+      next: (data) => {
+        console.log('Data:', data);
+      },
+      error: (error) => console.error('There was an error!', error)
+    });
+  }
+
+  onKeyProcess(file: File | null) {
     console.log('Key processing')
+    // take image from cipher-key
+    this.selectedFileKey = file;
+    console.log("KEY: ",this.selectedFileKey)
+    this.userService.sendImageToCache(this.selectedFileText, "Key").subscribe({
+      next: (data) => {
+        console.log('Data:', data);
+      },
+      error: (error) => console.error('There was an error!', error)
+    });
   }
 
   onDecipherProcess() {

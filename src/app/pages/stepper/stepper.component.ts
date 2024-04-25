@@ -54,7 +54,8 @@ export class StepperComponent {
     console.log("TEXT: ",this.selectedFileText)
     // send to API endpoint file and imageType
 
-    this.userService.sendImageToCache(this.selectedFileText, "Text").subscribe({
+    var step = "s1";
+    this.userService.sendImageToCache(this.selectedFileText, "Text", step).subscribe({
       next: (data) => {
         console.log('Data:', data);
       },
@@ -67,13 +68,22 @@ export class StepperComponent {
     // take image from cipher-key
     this.selectedFileKey = file;
     console.log("KEY: ",this.selectedFileKey)
-    this.userService.sendImageToCache(this.selectedFileText, "Key").subscribe({
+
+    var step = "s1";
+    this.userService.sendImageToCache(this.selectedFileText, "Key", step).subscribe({
       next: (data) => {
         console.log('Data:', data);
       },
       error: (error) => console.error('There was an error!', error)
     });
   }
+
+
+  onStepProcess() {
+    console.log('Step processing')
+  }
+
+
 
   onDecipherProcess() {
     console.log('Decipher processing')

@@ -33,8 +33,12 @@ export class UserService {
     return this.http.put<any>('/api/weatherforecast/update-user-info', data, { headers });
   }
 
+
+
+
   // post to call API endpoint for uploading file and imageType
-  sendImageToCache(file: File | null, imageType: string) {
+  // TODO: pridať step do cookies aby som to vedel poslať z BE do Datastoru
+  sendImageToCache(file: File | null, imageType: string, step: string) {
     const formData = new FormData();
     // @ts-ignore
     formData.append('image', file, file.name);
@@ -42,10 +46,21 @@ export class UserService {
 
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      'imageType': imageType
+      'imageType': imageType,
+      'step': step
     });
     return this.http.post('api/myimages/save-image-ds', formData, { headers: headers });
   }
 
+  // get to call API endpoint that will retrieve image/json/txt from cache based on step
+  // steps will be sent in headers
+  // steps: s1, s2, s3, s4, s5, s6
+  getImageFromCache(step: string) {
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      'step': step
+    });
+    return this.http.get('api/myimages/get-image-ds', {headers: headers});
+  }
 
 }

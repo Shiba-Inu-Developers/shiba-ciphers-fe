@@ -13,7 +13,7 @@
       <span
         class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500"
       >
-        <span class="me-2">1</span> <span class="hidden sm:inline-flex sm:ms-2"> Text</span>
+        <span class="me-2">1</span> <span class="hidden sm:inline-flex sm:ms-2">Classification</span>
       </span>
     </li>
     <li
@@ -27,7 +27,7 @@
       <span
         class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500"
       >
-        <span class="me-2">2</span> <span class="hidden sm:inline-flex sm:ms-2">Key</span>
+        <span class="me-2">2</span> <span class="hidden sm:inline-flex sm:ms-2">Text segmentation</span>
       </span>
     </li>
     <li
@@ -39,18 +39,76 @@
       (click)="onStepChange(3)"
     >
       <span class="me-2">3</span>
+      Text decrypt
+    </li>
+    <li
+      class="flex items-center cursor-pointer"
+      [class.text-blue-600]="currentStep === 4"
+      [class.dark:text-blue-500]="currentStep === 4"
+      [class.after:border-blue-600]="currentStep === 4"
+      [class.dark:after:border-blue-500]="currentStep === 4"
+      (click)="onStepChange(4)"
+    >
+      <span class="me-2">4</span>
+      Key upload
+    </li>
+    <li
+      class="flex items-center cursor-pointer"
+      [class.text-blue-600]="currentStep === 5"
+      [class.dark:text-blue-500]="currentStep === 5"
+      [class.after:border-blue-600]="currentStep === 5"
+      [class.dark:after:border-blue-500]="currentStep === 5"
+      (click)="onStepChange(5)"
+    >
+      <span class="me-2">5</span>
+      Key segmentation & decryption
+    </li>
+    <li
+      class="flex items-center cursor-pointer"
+      [class.text-blue-600]="currentStep === 6"
+      [class.dark:text-blue-500]="currentStep === 6"
+      [class.after:border-blue-600]="currentStep === 6"
+      [class.dark:after:border-blue-500]="currentStep === 6"
+      (click)="onStepChange(6)"
+    >
+      <span class="me-2">6</span>
       Decipher
+    </li>
+    <li
+      class="flex items-center cursor-pointer"
+      [class.text-blue-600]="currentStep === 7"
+      [class.dark:text-blue-500]="currentStep === 7"
+      [class.after:border-blue-600]="currentStep === 7"
+      [class.dark:after:border-blue-500]="currentStep === 7"
+      (click)="onStepChange(7)"
+    >
+      <span class="me-2">7</span>
+      Result
     </li>
   </ol>
 
   <div class="mt-10">
     <ng-container *ngIf="currentStep === 1">
-      <app-cipher-text (selectedFile)="helpSetSelectedFileText($event)"></app-cipher-text>
+      <app-s1-classification></app-s1-classification>
     </ng-container>
     <ng-container *ngIf="currentStep === 2">
-      <app-cipher-key></app-cipher-key>
+      <app-s2t-segmentation></app-s2t-segmentation>
     </ng-container>
-    <ng-container *ngIf="currentStep === 3"> </ng-container>
+    <ng-container *ngIf="currentStep === 3">
+      <app-s3t-decrypt></app-s3t-decrypt>
+    </ng-container>
+    <ng-container *ngIf="currentStep === 4">
+      <app-s2k-upload></app-s2k-upload>
+    </ng-container>
+    <ng-container *ngIf="currentStep === 5">
+      <app-s3k-segmentation-decrypt></app-s3k-segmentation-decrypt>
+    </ng-container>
+    <ng-container *ngIf="currentStep === 6">
+      <app-s4-decipher></app-s4-decipher>
+    </ng-container>
+    <ng-container *ngIf="currentStep === 7">
+      <app-s5-decipher-result></app-s5-decipher-result>
+    </ng-container>
   </div>
   <div class="flex justify-end mt-10">
     <button

@@ -84,9 +84,40 @@ export class StepperComponent {
   }
 
 
+  // NEW STEPPER FUNCTIONS
+  //S1-Classification
+  onClassificationProcess() {
+    console.log('Classification processing')
+  }
 
-  onDecipherProcess() {
+  //S2t-Segmentation
+  onTextSegmentationProcess() {
+    console.log('Text segmentation processing')
+  }
+
+  //S3t-Decrypt
+  onTextDecryptProcess() {
+    console.log('Text decrypt processing')
+  }
+
+  //S2k-Upload
+  onKeyUploadProcess(){
+    console.log('Key upload processing')
+  }
+
+  //S3k-Segmentation-Decrypt
+  onKeySegmentationDecryptProcess(){
+    console.log('Key segmentation & decrypt processing')
+  }
+
+  //S4-Decipher
+  onDecipherProcess(){
     console.log('Decipher processing')
+  }
+
+  //S5-Decipher-Result
+  onDecipherResult(){
+    console.log('Decrypt result processing')
   }
 
 }

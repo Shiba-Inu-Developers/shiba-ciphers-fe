@@ -118,36 +118,9 @@
     >
       Späť
     </button>
-    <!--
     <button
       class="text-white bg-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-      (click)="inaF()"
-    >{{changeName(currentStep)}}
-    </button> -->
-    <button
-      class="text-white bg-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-      *ngIf="currentStep == 1"
-      (click)="onTextProcess(selectedFileText)"
-    >
-      Spracovať Text
-    </button>
-    <button
-      class="text-white bg-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-      *ngIf="currentStep == 2"
-      (click)="onKeyProcess(selectedFileKey)"
-    >
-      Spracovať Key
-    </button>
-    <button
-      class="text-white bg-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-      *ngIf="currentStep == 3"
-      (click)="onDecipherProcess()"
-    >
-      Dešifrovať
-    </button>
-    <button
-      class="text-white bg-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-      *ngIf="currentStep !== 3"
+      *ngIf="currentStep !== 7"
       (click)="onNext()"
     >
       Ďalej

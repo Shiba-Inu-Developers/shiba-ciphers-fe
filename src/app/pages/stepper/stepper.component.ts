@@ -85,32 +85,45 @@ export class StepperComponent {
 
 
   // NEW STEPPER FUNCTIONS
+
   //S1-Classification
+  //Ulož: originál textImage do DataStore
+  //Vráť: segmentovaný textImage
   onClassificationProcess() {
     console.log('Classification processing')
   }
 
   //S2t-Segmentation
+  //Ulož: (upravený) segmentovaný textImage do DataStore
+  //Vráť: JSON
   onTextSegmentationProcess() {
     console.log('Text segmentation processing')
   }
 
   //S3t-Decrypt
+  //Ulož: (upravený) JSON do DataStore
+  //Vráť: nič
   onTextDecryptProcess() {
     console.log('Text decrypt processing')
   }
 
   //S2k-Upload
+  //Ulož: original keyImage do Datastore + segmentovaný keyImage do DataStore
+  //Vráť: JSON
   onKeyUploadProcess(){
     console.log('Key upload processing')
   }
 
   //S3k-Segmentation-Decrypt
+  //Ulož: (upravený) JSON do DataStore
+  //Vráť: nič
   onKeySegmentationDecryptProcess(){
     console.log('Key segmentation & decrypt processing')
   }
 
   //S4-Decipher
+  //Vybraný text a key pošli na BE (buď uložené v DataStore alebo priamo z FE)
+  //Vráť: dešifrovaný text
   onDecipherProcess(){
     console.log('Decipher processing')
   }

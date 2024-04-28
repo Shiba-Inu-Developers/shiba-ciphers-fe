@@ -1,1 +1,22 @@
-<p>s4-decipher works!</p>
+<div class="flex justify-center items-center h-screen bg-gray-200">
+  <div class="w-1/2 p-4">
+    <h2 class="text-center mb-4">KEY</h2>
+    <img *ngIf="imageKey; else noKeyImage" [src]="imageKey" class="mx-auto" />
+    <ng-template #noKeyImage>
+      <p class="text-center">Nie je nahratý obrázok</p>
+    </ng-template>
+    <input type="file" (change)="onKeyImageChange($event)" class="mt-4" />
+  </div>
+  <div class="w-1/2 p-4">
+    <h2 class="text-center mb-4">TEXT</h2>
+    <img
+      *ngIf="imageText; else noTextImage"
+      [src]="imageText"
+      class="mx-auto"
+    />
+    <ng-template #noTextImage>
+      <p class="text-center">Nie je nahratý obrázok</p>
+    </ng-template>
+    <input type="file" (change)="onTextImageChange($event)" class="mt-4" />
+  </div>
+</div>

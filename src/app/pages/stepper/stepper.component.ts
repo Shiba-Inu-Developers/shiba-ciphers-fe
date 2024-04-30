@@ -8,6 +8,7 @@ import {UserService} from "../../services/user.service";
 })
 export class StepperComponent {
 
+  selectedFile: File | null = null;
   selectedFileText: File | null = null;
   selectedFileKey: File | null = null;
 
@@ -33,7 +34,9 @@ export class StepperComponent {
   }
 
 
-
+  helpSetSelectedFile(file: File | null) {
+    this.selectedFile = file;
+  }
 
   helpSetSelectedFileText(file: File | null) {
     this.selectedFileText = file;
@@ -79,9 +82,78 @@ export class StepperComponent {
   }
 
 
-  onStepProcess() {
-    console.log('Step processing')
+  onS0Process(file: File | null) {
+    console.log('S0 processing')
+    this.selectedFileText = file;
+    console.log("IMAGE: ",this.selectedFileText)
+
+    this.userService.sendImageToBE_s0(this.selectedFileText).subscribe({
+      next: (data: string) => {
+        try {
+          const jsonData = JSON.parse(data);
+          console.log('Data:', jsonData);
+          //TODO: update component element
+
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+        }
+      },
+      error: (error) => console.error('There was an error!', error)
+    });
   }
+
+  onS1Process(file: File | null) {
+    console.log('S1 processing')
+  }
+
+  onS2tProcess() {
+    console.log('S2t processing')
+  }
+
+  onS3tProcess() {
+    console.log('S3t processing')
+  }
+
+  onS2kProcess() {
+    console.log('S2k processing')
+  }
+
+  onS3kProcess() {
+    console.log('S3k processing')
+  }
+
+  onS4Process() {
+    console.log('S4 processing')
+  }
+
+  onS5Process() {
+    console.log('S5 processing')
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   // NEW STEPPER FUNCTIONS

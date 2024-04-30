@@ -36,16 +36,15 @@ export class UserService {
 
 
 
-  // post to call API endpoint for uploading file and imageType
-  // TODO: pridať step do cookies aby som to vedel poslať z BE do Datastoru
+  // STEPPER
   sendImageToBE_s0(file: File | null) {
     const formData = new FormData();
     // @ts-ignore
-    formData.append('image', file, file.name);
+    formData.append('image', file);
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     });
-    return this.http.post('api/myimages/stepper-s0', formData, { headers: headers });
+    return this.http.post('api/myimages/stepper-s0', formData, { headers: headers, responseType: 'text' });
   }
 
 
@@ -78,7 +77,7 @@ export class UserService {
   sendImageToBE_s2k(file: File | null) {
     const formData = new FormData();
     // @ts-ignore
-    formData.append('image', file, file.name);
+    formData.append('image', file);
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     });
@@ -97,9 +96,9 @@ export class UserService {
   sendImagesToBE_s4(file1: File | null, file2: File | null) {
     const formData = new FormData();
     // @ts-ignore
-    formData.append('text', file1, file1.name);
+    formData.append('text', file1);
     // @ts-ignore
-    formData.append('key', file2, file2.name);
+    formData.append('key', file2);
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     });

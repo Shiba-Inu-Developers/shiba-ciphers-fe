@@ -55,7 +55,7 @@ export class StepperComponent {
     // send to API endpoint file and imageType
 
     var step = "s1";
-    this.userService.sendImageToCache(this.selectedFileText, "Text", step).subscribe({
+    this.userService.sendImageToBE_s0(this.selectedFileText).subscribe({
       next: (data) => {
         console.log('Data:', data);
       },
@@ -70,7 +70,7 @@ export class StepperComponent {
     console.log("KEY: ",this.selectedFileKey)
 
     var step = "s1";
-    this.userService.sendImageToCache(this.selectedFileText, "Key", step).subscribe({
+    this.userService.sendImageToBE_s0(this.selectedFileText).subscribe({
       next: (data) => {
         console.log('Data:', data);
       },
@@ -88,9 +88,16 @@ export class StepperComponent {
 
   //S1-Classification
   //Ulož: originál textImage do DataStore
-  //Vráť: segmentovaný textImage
+  //Vráť: segmentovaný textImage (JSON)
   onClassificationProcess() {
     console.log('Classification processing')
+    var image = this.selectedFileText;
+    this.userService.sendImageToBE_s0(this.selectedFileText).subscribe({
+      next: (data) => {
+        console.log('Data:', data);
+      },
+      error: (error) => console.error('There was an error!', error)
+    });
   }
 
   //S2t-Segmentation

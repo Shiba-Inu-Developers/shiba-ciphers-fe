@@ -38,19 +38,79 @@ export class UserService {
 
   // post to call API endpoint for uploading file and imageType
   // TODO: pridať step do cookies aby som to vedel poslať z BE do Datastoru
-  sendImageToCache(file: File | null, imageType: string, step: string) {
+  sendImageToBE_s0(file: File | null) {
     const formData = new FormData();
     // @ts-ignore
     formData.append('image', file, file.name);
-    formData.append('imageType', imageType);
-
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      'imageType': imageType,
-      'step': step
     });
-    return this.http.post('api/myimages/save-image-ds', formData, { headers: headers });
+    return this.http.post('api/myimages/stepper-s0', formData, { headers: headers });
   }
+
+
+  sendAreasToBE_s1() {
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+    });
+    return this.http.post('api/myimages/stepper-s1', { headers: headers });
+  }
+
+  sendAreasToBE_s2t(areas: any) {
+    var formData = new FormData();
+    formData.append('areas', areas);
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+    });
+    return this.http.post('api/myimages/stepper-s2t', formData, { headers: headers });
+  }
+
+  // ???
+  // s3t
+  // ???
+  // ???
+  // s3t
+  // ???
+  // ???
+  // s3t
+  // ???
+
+  sendImageToBE_s2k(file: File | null) {
+    const formData = new FormData();
+    // @ts-ignore
+    formData.append('image', file, file.name);
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+    });
+    return this.http.post('api/myimages/stepper-s2k', formData, { headers: headers });
+  }
+
+  sendAreasToBE_s3k(areas: any) {
+    var formData = new FormData();
+    formData.append('areas', areas);
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+    });
+    return this.http.post('api/myimages/stepper-s3k', formData, { headers: headers });
+  }
+
+  sendImagesToBE_s4(file1: File | null, file2: File | null) {
+    const formData = new FormData();
+    // @ts-ignore
+    formData.append('text', file1, file1.name);
+    // @ts-ignore
+    formData.append('key', file2, file2.name);
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+    });
+    return this.http.post('api/myimages/stepper-s4', formData, { headers: headers });
+  }
+
+
+
+
+
+
 
   // get to call API endpoint that will retrieve image/json/txt from cache based on step
   // steps will be sent in headers

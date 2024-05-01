@@ -150,11 +150,29 @@ export class StepperComponent {
   }
 
   onS3tProcess() {
+    //maybe not needed
     console.log('S3t processing')
   }
 
   onS2kProcess() {
     console.log('S2k processing')
+    this.selectedFileKey = this.selectedFile;
+    console.log("KEY: ",this.selectedFileKey)
+
+    this.userService.sendImageToBE_s2k(this.selectedFileText).subscribe({
+      next: (data: string) => {
+        try {
+          const jsonData = JSON.parse(data);
+          console.log('Data:', jsonData);
+          //TODO: update component element
+
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+        }
+      },
+      error: (error) => console.error('There was an error!', error)
+    });
+
   }
 
   onS3kProcess() {

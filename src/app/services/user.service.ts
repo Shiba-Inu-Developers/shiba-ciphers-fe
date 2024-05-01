@@ -61,7 +61,7 @@ export class UserService {
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     });
-    return this.http.post('api/myimages/stepper-s2t', formData, { headers: headers });
+    return this.http.post('api/myimages/stepper-s2t', formData, { headers: headers, responseType: 'text'});
   }
 
   // ???

@@ -13,6 +13,7 @@ export class StepperComponent {
   selectedFile: File | null = null;
   selectedFileText: File | null = null;
   selectedFileKey: File | null = null;
+  temporaryJson: any = null;
 
   currentStep = 1;
 
@@ -29,6 +30,9 @@ export class StepperComponent {
   onNext() {
     if (this.currentStep == 1) {
       this.onS1Process();
+    }
+    else if (this.currentStep == 2) {
+      this.onS2tProcess();
     }
     this.currentStep++;
   }
@@ -127,7 +131,21 @@ export class StepperComponent {
 
 
   onS2tProcess() {
-    console.log('S2t processing')
+    console.log('S2t processing');
+    var areas = this.temporaryJson;
+
+    this.userService.sendAreasToBE_s2t(areas).subscribe({
+      next: (data: any) => {
+        try {
+          console.log('Data:', data);
+          //TODO: update component element
+
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+        }
+      },
+      error: (error) => console.error('There was an error!', error)
+    });
   }
 
   onS3tProcess() {

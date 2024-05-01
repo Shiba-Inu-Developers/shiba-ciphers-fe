@@ -52,7 +52,7 @@ export class UserService {
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     });
-    return this.http.post('api/myimages/stepper-s1', { headers: headers });
+    return this.http.post<string>('api/myimages/stepper-s1', { headers: headers, responseType: 'text' });
   }
 
   sendAreasToBE_s2t(areas: any) {

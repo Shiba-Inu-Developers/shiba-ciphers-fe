@@ -27,6 +27,9 @@ export class StepperComponent {
   }
 
   onNext() {
+    if (this.currentStep == 1) {
+      this.onS1Process();
+    }
     this.currentStep++;
   }
 
@@ -104,9 +107,24 @@ export class StepperComponent {
     });
   }
 
-  onS1Process(file: File | null) {
+  onS1Process() {
     console.log('S1 processing')
+    this.userService.sendAreasToBE_s1().subscribe({
+      next: (data: any) => {
+        try {
+          var helpData = JSON.stringify(data);
+          const jsonDataS1 = JSON.parse(helpData);
+          console.log('Data:', jsonDataS1);
+          //TODO: update component element
+
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+        }
+      },
+      error: (error) => console.error('There was an error!', error)
+    });
   }
+
 
   onS2tProcess() {
     console.log('S2t processing')

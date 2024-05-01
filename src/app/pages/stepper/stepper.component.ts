@@ -177,6 +177,21 @@ export class StepperComponent {
 
   onS3kProcess() {
     console.log('S3k processing')
+    this.temporaryJson = "AreasJson";
+    var areas = this.temporaryJson;
+
+    this.userService.sendAreasToBE_s3k(areas).subscribe({
+      next: (data: any) => {
+        try {
+          console.log('Data:', data);
+          //TODO: update component element
+
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+        }
+      },
+      error: (error) => console.error('There was an error!', error)
+    });
   }
 
   onS4Process() {

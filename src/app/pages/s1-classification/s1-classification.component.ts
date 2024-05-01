@@ -11,12 +11,10 @@ export class S1ClassificationComponent {
 
   onFileChange(event: Event) {
     const file = this.getSelectedFile();
-    console.log('Vybraný súborXXXXXXXXXXXXX:', file);
     if (file && this.isImage(file)) {
       const reader = new FileReader();
       this.selectedFile.emit(file);
       reader.readAsDataURL(file);
-      console.log('Vybraný súbor:', file);
     } else {
       // Handle non-image files or errors
       console.error('Selected file is not an image.');

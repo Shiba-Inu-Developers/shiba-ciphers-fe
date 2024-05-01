@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {UserService} from "../../services/user.service";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-stepper',
   templateUrl: './stepper.component.html',
   styleUrls: ['./stepper.component.css'],
 })
+
 export class StepperComponent {
 
   selectedFile: File | null = null;

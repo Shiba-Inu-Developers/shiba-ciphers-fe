@@ -13,7 +13,7 @@ export class StepperComponent {
   selectedFile: File | null = null;
   selectedFileText: File | null = null;
   selectedFileKey: File | null = null;
-  temporaryJson: any = null;
+  temporaryJson: any;
 
   currentStep = 1;
 
@@ -132,6 +132,7 @@ export class StepperComponent {
 
   onS2tProcess() {
     console.log('S2t processing');
+    this.temporaryJson = "AreasJson";
     var areas = this.temporaryJson;
 
     this.userService.sendAreasToBE_s2t(areas).subscribe({

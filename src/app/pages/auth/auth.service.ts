@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 export class AuthService {
   private isAthenticated = false;
   private token: string = '';
-  private authStatusListener = new Subject<boolean>();
+  public authStatusListener = new Subject<boolean>();
 
   private rootURL = 'https://localhost:44460/weatherforecast';
 
@@ -74,5 +74,18 @@ export class AuthService {
       console.warn('result', result);
       this.router.navigate(['/login']);
     });
+  }
+
+  getAuthData() {
+    const token = localStorage.getItem('token');
+    return token ? { token } : null;
+  }
+
+  initAuthStatus() {
+    const authData = this.getAuthData();
+    if (authData) {
+      this.isAthenticated = true;
+      this.authStatusListener.next(true);
+    }
   }
 }

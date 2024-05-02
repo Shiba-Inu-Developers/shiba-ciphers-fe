@@ -76,6 +76,13 @@ export class AuthService {
     });
   }
 
+  logout() {
+    this.token = "";
+    this.isAthenticated = false;
+    this.authStatusListener.next(false);
+    localStorage.removeItem('token');
+  }
+
   getAuthData() {
     const token = localStorage.getItem('token');
     return token ? { token } : null;

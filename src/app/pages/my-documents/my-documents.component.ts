@@ -9,16 +9,24 @@ import { HttpClient } from '@angular/common/http';
 export class MyDocumentsComponent implements OnInit{
 
   documents: any[] = [];
+  documentTexts: any[] = [];
+  documentKeys: any[] = [];
 
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.getAllDocuments()
+    this.getAllDocumentsText()
+    this.getAllDocumentsKeys()
   }
 
-  getAllDocuments() {
-    this.http.get<any[]>('/api/myimages/history-images').subscribe((documents: any[]) => {
-      this.documents = documents;
+  getAllDocumentsText() {
+    this.http.get<any[]>('/api/myimages/text-records').subscribe((documents: any[]) => {
+      this.documentTexts = documents;
+    });
+  }
+  getAllDocumentsKeys() {
+    this.http.get<any[]>('/api/myimages/key-records').subscribe((documents: any[]) => {
+      this.documentKeys = documents;
     });
   }
 }

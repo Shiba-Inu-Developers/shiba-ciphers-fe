@@ -10,6 +10,9 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { StepperComponent } from './pages/stepper/stepper.component';
 import { AuthGuard } from './pages/auth/auth.guard';
 import {MyDocumentsComponent} from "./pages/my-documents/my-documents.component";
+import {S1ClassificationComponent} from "./pages/s1-classification/s1-classification.component";
+import {KeyStepperComponent} from "./pages/key-stepper/key-stepper.component";
+import {TextStepperComponent} from "./pages/text-stepper/text-stepper.component";
 
 //******Setting url direction of pages*******/
 const routes: Routes = [
@@ -27,6 +30,9 @@ const routes: Routes = [
   { path: 'stepper', component: StepperComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'sign-up', component: SignUpComponent },
+  { path: 'classification', component: S1ClassificationComponent,  canActivate: [AuthGuard] },
+  { path: 'key-stepper', component: KeyStepperComponent,  canActivate: [AuthGuard] },
+  { path: 'text-stepper', component: TextStepperComponent,  canActivate: [AuthGuard] },
   { path: 'cipher', component: StepperComponent },
   { path: 'otp-verification', component: VerifyOtpComponent },
   { path: '404', component: NotFoundComponent },

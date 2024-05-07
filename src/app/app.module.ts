@@ -32,6 +32,8 @@ import { S2kUploadComponent } from './pages/s2k-upload/s2k-upload.component';
 import { S3kSegmentationDecryptComponent } from './pages/s3k-segmentation-decrypt/s3k-segmentation-decrypt.component';
 import { S4DecipherComponent } from './pages/s4-decipher/s4-decipher.component';
 import { S5DecipherResultComponent } from './pages/s5-decipher-result/s5-decipher-result.component';
+import {KeyStepperComponent} from "./pages/key-stepper/key-stepper.component";
+import {TextStepperComponent} from "./pages/text-stepper/text-stepper.component";
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { S5DecipherResultComponent } from './pages/s5-decipher-result/s5-deciphe
     ProfileComponent,
     ModalComponent,
     StepperComponent,
+    KeyStepperComponent,
+    TextStepperComponent,
     CipherTextComponent,
     CipherKeyComponent,
     MyDocumentsComponent,

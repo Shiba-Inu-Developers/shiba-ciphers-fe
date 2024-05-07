@@ -1,12 +1,13 @@
 <div class="flex justify-center items-center h-screen bg-gray-200">
-  <div class="w-1/2">
+  <div class="w-1/2 relative">
     <canvas
       #canvas
       id="canvas"
-      class="shadow-lg"
+      class="absolute inset-0 w-full h-full shadow-lg"
       width="400"
       height="300"
     ></canvas>
+    <img [src]="backgroundImageUrl" class="absolute inset-0 w-full h-full object-cover" alt="Background Image">
   </div>
   <div class="w-1/2">
     <textarea [(ngModel)]="backendText" class="w-full h-full p-4"></textarea>

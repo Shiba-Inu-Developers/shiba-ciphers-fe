@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-s1-classification',
@@ -21,24 +21,40 @@ export class S1ClassificationComponent {
     }
   }
 
-  isImage(file: File): boolean {
-    return file.type.startsWith('image/');
+  onFileDrop(event: any) {
+    event.preventDefault();
+    const files = event.dataTransfer.files;
+    if (files.length > 0) {
+      const file = files[0];
+      if (this.isImage(file)) {
+        this.selectedFile.emit(file);
+      } else {
+        console.error('Dropped file is not an image.');
+      }
+    }
   }
+
+  isImage(file: File): boolean {
+    const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif']; // Prípustné koncovky obrázkových súborov
+    const fileNameParts = file.name.split('.'); // Rozdelíme názov súboru na časti podľa bodiek
+    const fileExtension = fileNameParts[fileNameParts.length - 1].toLowerCase(); // Získame koncovku súboru a prevádzime ju na malé písmená
+
+    return allowedExtensions.includes(fileExtension); // Overíme, či je koncovka súboru v zozname prípustných koncoviek
+  }
+
 
   getSelectedFile(): File | null {
-    return this.dropzoneFile.nativeElement.files[0];
+    const input = this.dropzoneFile.nativeElement as HTMLInputElement;
+    const files = input.files;
+    return files ? files[0] : null;
   }
 
-
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
     const selectedFile = this.getSelectedFile();
     if (selectedFile) {
       console.log('Vybraný súbor:', selectedFile.name);
       console.log('Typ súboru:', selectedFile.type);
-      // Further processing of the file
+      // Ďalšie spracovanie súboru
     }
   }
-
 }

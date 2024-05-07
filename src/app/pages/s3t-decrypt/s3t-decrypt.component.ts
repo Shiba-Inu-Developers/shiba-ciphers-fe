@@ -1,9 +1,5 @@
 import {
   Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-  AfterViewInit,
 } from '@angular/core';
 
 @Component({
@@ -11,52 +7,29 @@ import {
   templateUrl: './s3t-decrypt.component.html',
   styleUrls: ['./s3t-decrypt.component.css'],
 })
-export class S3tDecryptComponent implements OnInit, AfterViewInit {
-  @ViewChild('canvas', { static: true })
-  canvasElement!: ElementRef;
+export class S3tDecryptComponent {
+  backendText: string = ''; // Text zo servera
+  polygonCoordinates: { x: number, y: number }[] = [ // Falošné súradnice pre kreslenie polygonu
+    { x: 100, y: 100 },
+    { x: 200, y: 100 },
+    { x: 200, y: 200 },
+    { x: 100, y: 200 }
+  ];
+  backgroundImageUrl: string = 'background-image-url.jpg'; // Falošná URL adresa obrázka na pozadí
 
-  private canvas!: CanvasRenderingContext2D;
-  private image!: HTMLImageElement;
-  private polygon!: Path2D;
-
-  // Premenná pre text z backendu
-  backendText: string = '';
-
-  constructor() {}
-
-  ngOnInit(): void {
-    this.canvas = this.canvasElement.nativeElement.getContext('2d');
-    this.image = new Image();
-    this.polygon = new Path2D();
-
-    // Tu by ste mali načítať text z backendu
-    // this.backendText = ...
+  constructor() {
+    this.fetchFakeData(); // Načítanie falošných údajov pri inicializácii komponentu
   }
 
-  ngAfterViewInit(): void {
-    this.image.onload = () => {
-      this.canvas.drawImage(
-        this.image,
-        0,
-        0,
-        this.canvas.canvas.width,
-        this.canvas.canvas.height
-      );
+  fetchFakeData() {
+    // Simulácia načítania údajov zo servera po krátkom časovom intervale
+    setTimeout(() => {
+      this.backendText = this.generateFakeText(); // Generovanie falošného textu
+    }, 1000); // Napríklad počkáme 1 sekundu pred zobrazením falošných údajov
+  }
 
-      // vytvorenie polygonu
-      this.polygon.moveTo(10, 10);
-      this.polygon.lineTo(50, 30);
-      this.polygon.lineTo(40, 70);
-      this.polygon.lineTo(60, 50);
-      this.polygon.lineTo(100, 150);
-      this.polygon.lineTo(40, 100);
-      this.polygon.closePath();
-
-      // vykreslenie polygonu
-      this.canvas.fill(this.polygon);
-    };
-
-    // Načítanie obrázka z backendu
-    this.image.src = 'URL_OBRAZKA';
+  generateFakeText(): string {
+    // Generovanie falošného textu
+    return `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`;
   }
 }

@@ -23,13 +23,13 @@
     </nav>
   </div>
   <div class="flex items-center justify-end md:flex-1 lg:w-0">
-    <a *ngIf="isLogged; else loginLink" class="flex items-center space-x-2" href="/login" (click)="onLogout()">
+    <a *ngIf="isLogged; else loginLink" class="flex items-center space-x-2" [routerLink]="['/login']" (click)="onLogout()">
       <span>Odhlásiť sa</span>
       <i class="material-icons" style="font-size: 50px; color: white">account_circle</i>
     </a>
 
     <ng-template #loginLink>
-      <a class="flex items-center space-x-2" href="/login">
+      <a class="flex items-center space-x-2" [routerLink]="['/login']">
         <span>Prihlásiť sa</span>
         <i class="material-icons" style="font-size: 50px; color: white">account_circle</i>
       </a>

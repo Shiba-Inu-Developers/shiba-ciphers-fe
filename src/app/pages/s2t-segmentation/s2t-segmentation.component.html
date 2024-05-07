@@ -1,1 +1,8 @@
-<p>s2t-segmentation works!</p>
+<div>
+  <canvas #canvas width="500" height="500"
+          style="border:1px solid black;"
+          (mousedown)="onCanvasMouseDown($event)"
+          (mouseup)="onCanvasMouseUp($event)"
+          (mousemove)="onCanvasMouseMove($event)">
+  </canvas>
+</div>

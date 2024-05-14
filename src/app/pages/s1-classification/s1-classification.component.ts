@@ -8,15 +8,24 @@ import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular
 export class S1ClassificationComponent {
   @Output() selectedFile = new EventEmitter<File>();
   @ViewChild('dropzoneFile') dropzoneFile!: ElementRef;
+  fileUrl: string | null = null;
+  backgroundImageStyle: { [klass: string]: any; } = {};
 
   onFileChange(event: Event) {
     const file = this.getSelectedFile();
     if (file && this.isImage(file)) {
       const reader = new FileReader();
-      this.selectedFile.emit(file);
+      reader.onload = (event) => {
+        this.fileUrl = event.target?.result as string;
+        this.backgroundImageStyle = {
+          'background-image': `url(${this.fileUrl})`,
+          'background-size': 'cover',
+          'background-position': 'center'
+        };
+      };
       reader.readAsDataURL(file);
+      this.selectedFile.emit(file);
     } else {
-      // Handle non-image files or errors
       console.error('Selected file is not an image.');
     }
   }
@@ -27,6 +36,11 @@ export class S1ClassificationComponent {
     if (files.length > 0) {
       const file = files[0];
       if (this.isImage(file)) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          this.fileUrl = event.target?.result as string;
+        };
+        reader.readAsDataURL(file);
         this.selectedFile.emit(file);
       } else {
         console.error('Dropped file is not an image.');
@@ -57,4 +71,13 @@ export class S1ClassificationComponent {
       // Ďalšie spracovanie súboru
     }
   }
+
+  saveInStorage() {
+    const selectedFile = this.getSelectedFile();
+    console.log('Selected file:', selectedFile);
+    if (selectedFile) {
+      localStorage.setItem('selectedFile', selectedFile.name);
+    }
+  }
+
 }

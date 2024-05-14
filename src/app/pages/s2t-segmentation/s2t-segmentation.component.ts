@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-s2t-segmentation',
@@ -6,6 +6,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
   styleUrls: ['./s2t-segmentation.component.css']
 })
 export class S2tSegmentationComponent {
+  @Output() selectedFile = new EventEmitter<File>();
   @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
   private context!: CanvasRenderingContext2D;
 

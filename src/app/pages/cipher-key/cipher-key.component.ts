@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-cipher-key',
@@ -6,5 +6,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./cipher-key.component.css']
 })
 export class CipherKeyComponent {
-
 }

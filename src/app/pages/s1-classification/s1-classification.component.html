@@ -5,9 +5,10 @@
         <div class="mb-4 w-full" (drop)="onFileDrop($event)">
           <label
             for="dropzone-file"
+            [ngStyle]="backgroundImageStyle"
             class="flex flex-col items-center bg-white justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-200"
           >
-            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+            <div *ngIf="!fileUrl" class="flex flex-col items-center justify-center pt-5 pb-6">
               <svg
                 class="w-8 h-8 mb-4"
                 aria-hidden="true"
@@ -33,15 +34,18 @@
           </label>
         </div>
       </div>
-      <div class="flex flex-col items-center justify-center p-6">
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" [routerLink]="'/key-stepper'">
-          Key
-        </button>
-      </div>
-      <div class="flex flex-col items-center justify-center p-6">
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" [routerLink]="'/text-stepper'">
-          Text
-        </button>
+<!--      <img  [src]="fileUrl" alt="Selected file">-->
+      <div class="flex flex-col items-center justify-center">
+        <div class="w-full">
+          <div class="flex flex-col items-center justify-center p-6">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4" [routerLink]="'/key-stepper'" (click)="saveInStorage()">
+              Key
+            </button>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" [routerLink]="'/text-stepper'" (click)="saveInStorage()">
+              Text
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

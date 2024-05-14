@@ -3,7 +3,7 @@ import {
   OnInit,
   ViewChild,
   ElementRef,
-  AfterViewInit,
+  AfterViewInit, Input,
 } from '@angular/core';
 
 @Component({
@@ -12,6 +12,7 @@ import {
   styleUrls: ['./s3k-segmentation-decrypt.component.css'],
 })
 export class S3kSegmentationDecryptComponent implements OnInit, AfterViewInit {
+  @Input() file: File | null = null;
   @ViewChild('canvas', { static: true })
   canvasElement!: ElementRef;
 
@@ -28,6 +29,14 @@ export class S3kSegmentationDecryptComponent implements OnInit, AfterViewInit {
     this.canvas = this.canvasElement.nativeElement.getContext('2d');
     this.image = new Image();
     this.polygon = new Path2D();
+
+    if (this.file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        this.image.src = event.target?.result as string;
+      };
+      reader.readAsDataURL(this.file);
+    }
 
     // Tu by ste mali načítať text z backendu
     // this.backendText = ...

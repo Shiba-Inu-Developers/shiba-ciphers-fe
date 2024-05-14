@@ -3,7 +3,7 @@ import {
   OnInit,
   ViewChild,
   ElementRef,
-  AfterViewInit,
+  AfterViewInit, Output, EventEmitter,
 } from '@angular/core';
 
 @Component({
@@ -12,6 +12,7 @@ import {
   styleUrls: ['./s2k-upload.component.css'],
 })
 export class S2kUploadComponent{
+  @Output() selectedFile = new EventEmitter<File>();
   @ViewChild('backgroundElement', { static: true }) backgroundElement!: ElementRef<HTMLDivElement>;
 
   constructor() { }
@@ -22,6 +23,7 @@ export class S2kUploadComponent{
 
     if (file) {
       const reader = new FileReader();
+      this.selectedFile.emit(file);
       reader.onload = () => {
         this.backgroundElement.nativeElement.style.backgroundImage = `url(${reader.result})`;
       };

@@ -30,7 +30,9 @@ const routes: Routes = [
   { path: 'stepper', component: StepperComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'sign-up', component: SignUpComponent },
-  { path: 'classification', component: S1ClassificationComponent,  canActivate: [AuthGuard] },
+  { path: 'classification', component: S1ClassificationComponent,
+    // canActivate: [AuthGuard]
+  },
   { path: 'key-stepper', component: KeyStepperComponent,  canActivate: [AuthGuard] },
   { path: 'text-stepper', component: TextStepperComponent,  canActivate: [AuthGuard] },
   { path: 'cipher', component: StepperComponent },

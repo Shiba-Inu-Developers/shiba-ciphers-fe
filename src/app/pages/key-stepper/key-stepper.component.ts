@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {FormsModule} from "@angular/forms";
 
@@ -8,7 +8,8 @@ import {FormsModule} from "@angular/forms";
   styleUrls: ['./key-stepper.component.css'],
 })
 
-export class KeyStepperComponent {
+export class KeyStepperComponent implements OnInit{
+  @Input() file: File | null = null;
 
   selectedFile: File | null = null;
   selectedFileText: File | null = null;
@@ -21,8 +22,22 @@ export class KeyStepperComponent {
     private userService: UserService,
   ) {}
 
-  ngOnInit() {}
-
+  ngOnInit() {
+    const selectedFileName = localStorage.getItem('selectedFile');
+    if (selectedFileName) {
+      fetch(selectedFileName)
+        .then(response => response.blob())
+        .then(blob => {
+          this.file = new File([blob], selectedFileName);
+        });
+    } else {
+      fetch('path/to/default/image.png') // Nahraďte 'path/to/default/image.png' cestou k predvolenému obrázku
+        .then(response => response.blob())
+        .then(blob => {
+          this.file = new File([blob], 'default.png');
+        });
+    }
+  }
   onBack() {
     this.currentStep--;
   }

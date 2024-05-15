@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import {ImageService} from "../../services/image.service";
 
 @Component({
   selector: 'app-s1-classification',
@@ -10,6 +11,8 @@ export class S1ClassificationComponent {
   @ViewChild('dropzoneFile') dropzoneFile!: ElementRef;
   fileUrl: string | null = null;
   backgroundImageStyle: { [klass: string]: any; } = {};
+
+  constructor(private imageService: ImageService) { }
 
   onFileChange(event: Event) {
     const file = this.getSelectedFile();
@@ -76,8 +79,7 @@ export class S1ClassificationComponent {
     const selectedFile = this.getSelectedFile();
     console.log('Selected file:', selectedFile);
     if (selectedFile) {
-      localStorage.setItem('selectedFile', selectedFile.name);
+      this.imageService.setImage(selectedFile);
     }
   }
-
 }

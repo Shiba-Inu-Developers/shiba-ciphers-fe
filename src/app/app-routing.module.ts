@@ -33,8 +33,12 @@ const routes: Routes = [
   { path: 'classification', component: S1ClassificationComponent,
     // canActivate: [AuthGuard]
   },
-  { path: 'key-stepper', component: KeyStepperComponent,  canActivate: [AuthGuard] },
-  { path: 'text-stepper', component: TextStepperComponent,  canActivate: [AuthGuard] },
+  { path: 'key-stepper', component: KeyStepperComponent,
+    // canActivate: [AuthGuard]
+  },
+  { path: 'text-stepper', component: TextStepperComponent,
+    // canActivate: [AuthGuard]
+  },
   { path: 'cipher', component: StepperComponent },
   { path: 'otp-verification', component: VerifyOtpComponent },
   { path: '404', component: NotFoundComponent },

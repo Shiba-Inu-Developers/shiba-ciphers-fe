@@ -34,6 +34,7 @@ import { S4DecipherComponent } from './pages/s4-decipher/s4-decipher.component';
 import { S5DecipherResultComponent } from './pages/s5-decipher-result/s5-decipher-result.component';
 import {KeyStepperComponent} from "./pages/key-stepper/key-stepper.component";
 import {TextStepperComponent} from "./pages/text-stepper/text-stepper.component";
+import {ImageService} from "./services/image.service";
 
 @NgModule({
   declarations: [

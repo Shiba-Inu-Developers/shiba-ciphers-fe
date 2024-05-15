@@ -15,6 +15,8 @@ export class S2kUploadComponent{
   @Output() selectedFile = new EventEmitter<File>();
   @ViewChild('backgroundElement', { static: true }) backgroundElement!: ElementRef<HTMLDivElement>;
 
+
+
   constructor() { }
 
   onFileChange(event: Event) {

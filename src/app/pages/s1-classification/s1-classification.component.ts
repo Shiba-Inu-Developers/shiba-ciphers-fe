@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import {ImageService} from "../../services/image.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-s1-classification',
@@ -12,7 +13,7 @@ export class S1ClassificationComponent {
   fileUrl: string | null = null;
   backgroundImageStyle: { [klass: string]: any; } = {};
 
-  constructor(private imageService: ImageService) { }
+  constructor(private imageService: ImageService, private router: Router) { }
 
   onFileChange(event: Event) {
     const file = this.getSelectedFile();
@@ -75,11 +76,25 @@ export class S1ClassificationComponent {
     }
   }
 
-  saveInStorage() {
+
+  saveTextInStorage() {
     const selectedFile = this.getSelectedFile();
     console.log('Selected file:', selectedFile);
     if (selectedFile) {
       this.imageService.setImage(selectedFile);
+      this.router.navigate(['/text-stepper']);
+    }
+  }
+
+  async saveKeyInStorage() {
+    const selectedFile = this.getSelectedFile();
+    console.log('Selected file:', selectedFile);
+    if (selectedFile) {
+      this.imageService.setImage(selectedFile);
+
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      this.router.navigate(['/key-stepper']);
     }
   }
 }

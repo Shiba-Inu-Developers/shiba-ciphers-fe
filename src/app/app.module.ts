@@ -24,17 +24,17 @@ import { StepperComponent } from './pages/stepper/stepper.component';
 import { CipherTextComponent } from './pages/cipher-text/cipher-text.component';
 import { CipherKeyComponent } from './pages/cipher-key/cipher-key.component';
 import { AuthGuard } from './pages/auth/auth.guard';
-import {MyDocumentsComponent} from "./pages/my-documents/my-documents.component";
+import { MyDocumentsComponent } from './pages/my-documents/my-documents.component';
 import { S1ClassificationComponent } from './pages/s1-classification/s1-classification.component';
 import { S2tSegmentationComponent } from './pages/s2t-segmentation/s2t-segmentation.component';
 import { S3tDecryptComponent } from './pages/s3t-decrypt/s3t-decrypt.component';
-import { S2kUploadComponent } from './pages/s2k-upload/s2k-upload.component';
 import { S3kSegmentationDecryptComponent } from './pages/s3k-segmentation-decrypt/s3k-segmentation-decrypt.component';
 import { S4DecipherComponent } from './pages/s4-decipher/s4-decipher.component';
 import { S5DecipherResultComponent } from './pages/s5-decipher-result/s5-decipher-result.component';
-import {KeyStepperComponent} from "./pages/key-stepper/key-stepper.component";
-import {TextStepperComponent} from "./pages/text-stepper/text-stepper.component";
-import {ImageService} from "./services/image.service";
+import { KeyStepperComponent } from './pages/key-stepper/key-stepper.component';
+import { TextStepperComponent } from './pages/text-stepper/text-stepper.component';
+import { ImageService } from './services/image.service';
+import { S2kDecryptComponent } from './pages/s2k-decrypt/s2k-decrypt.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +60,7 @@ import {ImageService} from "./services/image.service";
     S1ClassificationComponent,
     S2tSegmentationComponent,
     S3tDecryptComponent,
-    S2kUploadComponent,
+    S2kDecryptComponent,
     S3kSegmentationDecryptComponent,
     S4DecipherComponent,
     S5DecipherResultComponent,

@@ -91,7 +91,9 @@
 
   <div class="mt-10">
     <ng-container *ngIf="currentStep === 1">
-      <app-s2t-segmentation></app-s2t-segmentation>
+      <app-s2t-segmentation
+        (rectanglesChange)="coordinatesChange($event)"
+      ></app-s2t-segmentation>
     </ng-container>
     <ng-container *ngIf="currentStep === 2">
       <app-s3t-decrypt></app-s3t-decrypt>

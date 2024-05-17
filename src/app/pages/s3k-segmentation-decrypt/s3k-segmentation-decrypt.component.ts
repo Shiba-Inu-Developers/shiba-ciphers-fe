@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-  AfterViewInit,
-  Input,
-} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ImageService } from '../../services/image.service';
 
 @Component({
@@ -13,14 +6,12 @@ import { ImageService } from '../../services/image.service';
   templateUrl: './s3k-segmentation-decrypt.component.html',
   styleUrls: ['./s3k-segmentation-decrypt.component.css'],
 })
-// , AfterViewInit
 export class S3kSegmentationDecryptComponent implements OnInit {
   @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
-  canvasElement!: ElementRef;
+  @ViewChild('image', { static: true })
+  imageElement!: ElementRef<HTMLImageElement>;
   private ctx!: CanvasRenderingContext2D;
-  private image!: HTMLImageElement;
   fileUrl: string | null = null;
-  private polygon!: Path2D;
   selectedFileName: string | null = null;
   rectangleNames: string[] = [];
   start: { x: number; y: number } | null = null;
@@ -28,8 +19,6 @@ export class S3kSegmentationDecryptComponent implements OnInit {
     start: { x: number; y: number };
     end: { x: number; y: number };
   }[] = [];
-
-  // Premenná pre text z backendu
   backendText: string = '';
 
   constructor(private imageService: ImageService) {}
@@ -41,52 +30,54 @@ export class S3kSegmentationDecryptComponent implements OnInit {
       throw new Error('Could not get 2D rendering context from canvas');
     }
     this.ctx = context;
-    this.image = new Image();
-
-    // Fill the entire canvas
-    this.ctx.fillRect(
-      0,
-      0,
-      this.canvas.nativeElement.width,
-      this.canvas.nativeElement.height
-    );
 
     const selectedFileName = this.imageService.getImageUrl();
     if (selectedFileName) {
-      fetch(selectedFileName)
-        .then((response) => response.blob())
-        .then((blob) => {
-          console.log(selectedFileName);
-          console.log(blob);
-          const file = new File([blob], selectedFileName);
-          console.log(file);
-          const reader = new FileReader();
-          console.log(reader);
-          reader.onload = (event) => {
-            this.image.onload = () => {
-              console.log(this.image);
-              this.ctx.drawImage(
-                this.image,
-                0,
-                0,
-                this.canvas.nativeElement.width,
-                this.canvas.nativeElement.height
-              );
-            };
-            this.image.src = event.target?.result as string;
-          };
-          reader.readAsDataURL(file);
-        });
+      this.loadImage(selectedFileName);
     }
   }
-  onCanvasMouseUp(event: MouseEvent) {
-    if (this.start === null) return;
-    const rect = (event.target as HTMLCanvasElement).getBoundingClientRect();
+
+  loadImage(url: string): void {
+    fetch(url)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const file = new File([blob], url);
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const img = this.imageElement.nativeElement;
+          img.onload = () => this.adjustCanvasSize(img);
+          img.src = event.target?.result as string;
+        };
+        reader.readAsDataURL(file);
+      });
+  }
+
+  adjustCanvasSize(image: HTMLImageElement): void {
+    const canvas = this.canvas.nativeElement;
+    const width = 1000;
+    const height = image.naturalHeight * (width / image.naturalWidth);
+    canvas.width = width;
+    canvas.height = height;
+    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    this.ctx.drawImage(image, 0, 0, width, height);
+  }
+
+  onCanvasMouseDown(event: MouseEvent): void {
+    const rect = this.canvas.nativeElement.getBoundingClientRect();
     const scaleX = this.canvas.nativeElement.width / rect.width;
     const scaleY = this.canvas.nativeElement.height / rect.height;
     const x = (event.clientX - rect.left) * scaleX;
     const y = (event.clientY - rect.top) * scaleY;
+    this.start = { x, y };
+  }
 
+  onCanvasMouseUp(event: MouseEvent): void {
+    if (!this.start) return;
+    const rect = this.canvas.nativeElement.getBoundingClientRect();
+    const scaleX = this.canvas.nativeElement.width / rect.width;
+    const scaleY = this.canvas.nativeElement.height / rect.height;
+    const x = (event.clientX - rect.left) * scaleX;
+    const y = (event.clientY - rect.top) * scaleY;
     this.rectangles.push({ start: this.start, end: { x, y } });
     this.rectangleNames.push(`Rectangle ${this.rectangles.length}`);
     this.start = null;
@@ -94,48 +85,20 @@ export class S3kSegmentationDecryptComponent implements OnInit {
     this.printAllRectanglesCoordinates();
   }
 
-  onCanvasMouseDown(event: MouseEvent) {
-    const rect = (event.target as HTMLCanvasElement).getBoundingClientRect();
-    const scaleX = this.canvas.nativeElement.width / rect.width;
-    const scaleY = this.canvas.nativeElement.height / rect.height;
-    const x = (event.clientX - rect.left) * scaleX;
-    const y = (event.clientY - rect.top) * scaleY;
-
-    this.start = { x, y };
-  }
-
-  // private drawAllRectangles() {
-  //   this.rectangles.forEach((rectangle) => {
-  //     this.ctx.beginPath();
-  //     this.ctx.rect(
-  //       rectangle.start.x,
-  //       rectangle.start.y,
-  //       rectangle.end.x - rectangle.start.x,
-  //       rectangle.end.y - rectangle.start.y
-  //     );
-  //     this.ctx.stroke();
-  //   });
-  // }
-
-  private drawAllRectangles() {
-    // Clear the canvas
+  drawAllRectangles(): void {
     this.ctx.clearRect(
       0,
       0,
       this.canvas.nativeElement.width,
       this.canvas.nativeElement.height
     );
-
-    // Draw the image
     this.ctx.drawImage(
-      this.image,
+      this.imageElement.nativeElement,
       0,
       0,
       this.canvas.nativeElement.width,
       this.canvas.nativeElement.height
     );
-
-    // Draw all rectangles
     this.rectangles.forEach((rectangle) => {
       this.ctx.beginPath();
       this.ctx.rect(
@@ -148,51 +111,21 @@ export class S3kSegmentationDecryptComponent implements OnInit {
     });
   }
 
-  private printAllRectanglesCoordinates() {
+  printAllRectanglesCoordinates(): void {
     this.rectangles.forEach((rectangle, index) => {
       console.log(`Rectangle ${index + 1}:`);
       console.log(
-        `Suradnice: (x: ${rectangle.end.x}, y: ${rectangle.end.y}, ${
+        `Coordinates: (x: ${rectangle.end.x}, y: ${rectangle.end.y}, ${
           rectangle.start.x - rectangle.end.x
         }, ${rectangle.start.y - rectangle.end.y})`
       );
-      // console.log(`Start: (${rectangle.start.x}, ${rectangle.start.y})`);
-      // console.log(`End: (${rectangle.end.x}, ${rectangle.end.y})`);
     });
   }
 
-  removeRectangle(index: number) {
+  removeRectangle(index: number): void {
     this.rectangles.splice(index, 1);
     this.rectangleNames.splice(index, 1);
     this.drawAllRectangles();
     this.printAllRectanglesCoordinates();
   }
-
-  // ngAfterViewInit(): void {
-  //   this.image.onload = () => {
-  //     this.ctx.drawImage(
-  //       this.image,
-  //       0,
-  //       0,
-  //       this.canvas.nativeElement.width,
-  //       this.canvas.nativeElement.height
-  //     );
-  //
-  //     // create polygon
-  //     this.polygon = new Path2D();
-  //     this.polygon.moveTo(10, 10);
-  //     this.polygon.lineTo(50, 30);
-  //     this.polygon.lineTo(40, 70);
-  //     this.polygon.lineTo(60, 50);
-  //     this.polygon.lineTo(100, 150);
-  //     this.polygon.lineTo(40, 100);
-  //     this.polygon.closePath();
-  //
-  //     // draw polygon
-  //     this.ctx.fill(this.polygon);
-  //   };
-  //
-  //   // Load image from backend
-  //   this.image.src = 'URL_OF_THE_IMAGE';
-  // }
 }

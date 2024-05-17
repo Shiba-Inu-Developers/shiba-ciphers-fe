@@ -1,28 +1,12 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { ImageService } from 'src/app/services/image.service';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { ImageService } from '../../services/image.service';
 
 @Component({
-  selector: 'app-s2t-segmentation',
-  templateUrl: './s2t-segmentation.component.html',
-  styleUrls: ['./s2t-segmentation.component.css'],
+  selector: 'app-s2k-decrypt',
+  templateUrl: './s2k-decrypt.component.html',
+  styleUrls: ['./s2k-decrypt.component.css'],
 })
-export class S2tSegmentationComponent implements OnInit, AfterViewInit {
-  @Output() coordinatesChange: EventEmitter<
-    {
-      x: number;
-      y: number;
-      height: number;
-      width: number;
-    }[]
-  > = new EventEmitter();
+export class S2kDecryptComponent implements OnInit {
   @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('image', { static: true })
   imageElement!: ElementRef<HTMLImageElement>;
@@ -34,6 +18,7 @@ export class S2tSegmentationComponent implements OnInit, AfterViewInit {
   }[] = [];
   rectangleNames: string[] = [];
   selectedFileName!: string;
+  backendText: string = '';
 
   constructor(private imageService: ImageService) {}
 
@@ -49,7 +34,7 @@ export class S2tSegmentationComponent implements OnInit, AfterViewInit {
 
   adjustCanvasSize(image: HTMLImageElement): void {
     const canvas = this.canvas.nativeElement;
-    const width = 1000;
+    const width = 600;
     const height = image.naturalHeight * (width / image.naturalWidth);
     canvas.width = width;
     canvas.height = height;
@@ -77,7 +62,6 @@ export class S2tSegmentationComponent implements OnInit, AfterViewInit {
     this.start = null;
     this.drawAllRectangles();
     this.printAllRectanglesCoordinates();
-    this.emitCoordinates();
   }
 
   drawAllRectangles(): void {
@@ -117,16 +101,5 @@ export class S2tSegmentationComponent implements OnInit, AfterViewInit {
     this.rectangles.splice(index, 1);
     this.rectangleNames.splice(index, 1);
     this.drawAllRectangles();
-  }
-
-  emitCoordinates(): void {
-    this.coordinatesChange.emit(
-      this.rectangles.map((rectangle) => ({
-        x: rectangle.start.x,
-        y: rectangle.start.y,
-        width: rectangle.end.x - rectangle.start.x,
-        height: rectangle.end.y - rectangle.start.y,
-      }))
-    );
   }
 }

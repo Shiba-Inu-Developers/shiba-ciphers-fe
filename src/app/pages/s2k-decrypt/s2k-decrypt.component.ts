@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ImageService } from '../../services/image.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-s2k-decrypt',
@@ -16,14 +17,26 @@ export class S2kDecryptComponent implements OnInit {
     start: { x: number; y: number };
     end: { x: number; y: number };
   }[] = [];
+  isTutorialPage: boolean = false;
   rectangleNames: string[] = [];
   selectedFileName!: string;
   backendText: string = '';
 
-  constructor(private imageService: ImageService) {}
+  constructor(private imageService: ImageService, private router: Router) {
+    // Získanie aktuálnej URL cesty
+    const currentUrl = this.router.url;
+    // Overenie, či aktuálna URL cesta zodpovedá tutoriálovej URL ceste
+    this.isTutorialPage = currentUrl.includes('tutorial-key-stepper');
+  }
 
   ngOnInit() {
-    this.selectedFileName = this.imageService.getImageUrl() ?? '';
+    if (!this.isTutorialPage) {
+      this.selectedFileName = this.imageService.getImageUrl() ?? '';
+    } else {
+      this.selectedFileName = 'assets/pics/tutorialKey.jpg';
+      this.backendText =
+        'This is a tutorial page for key decryption. Please select the key area. You can select multiple areas.';
+    }
   }
 
   ngAfterViewInit() {

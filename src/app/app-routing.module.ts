@@ -9,10 +9,10 @@ import { VerifyOtpComponent } from './pages/auth/verify-otp/verify-otp.component
 import { ProfileComponent } from './pages/profile/profile.component';
 import { StepperComponent } from './pages/stepper/stepper.component';
 import { AuthGuard } from './pages/auth/auth.guard';
-import {MyDocumentsComponent} from "./pages/my-documents/my-documents.component";
-import {S1ClassificationComponent} from "./pages/s1-classification/s1-classification.component";
-import {KeyStepperComponent} from "./pages/key-stepper/key-stepper.component";
-import {TextStepperComponent} from "./pages/text-stepper/text-stepper.component";
+import { MyDocumentsComponent } from './pages/my-documents/my-documents.component';
+import { S1ClassificationComponent } from './pages/s1-classification/s1-classification.component';
+import { KeyStepperComponent } from './pages/key-stepper/key-stepper.component';
+import { TextStepperComponent } from './pages/text-stepper/text-stepper.component';
 
 //******Setting url direction of pages*******/
 const routes: Routes = [
@@ -24,19 +24,44 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
-    canActivate: [AuthGuard], //Pridat AuthGuard aby sa zobrazovalo len to co je potrebne
+    canActivate: [AuthGuard],
   },
-  { path: 'my-documents', component: MyDocumentsComponent, canActivate: [AuthGuard]},
+  {
+    path: 'tutorial-classification',
+    component: S1ClassificationComponent,
+    // canActivate: [AuthGuard], //Pridat AuthGuard aby sa zobrazovalo len to co je potrebne
+  },
+  {
+    path: 'tutorial-key-stepper',
+    component: KeyStepperComponent,
+    // canActivate: [AuthGuard], //Pridat AuthGuard aby sa zobrazovalo len to co je potrebne
+  },
+  {
+    path: 'tutorial-text-stepper',
+    component: TextStepperComponent,
+    // canActivate: [AuthGuard], //Pridat AuthGuard aby sa zobrazovalo len to co je potrebne
+  },
+  {
+    path: 'my-documents',
+    component: MyDocumentsComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'stepper', component: StepperComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'sign-up', component: SignUpComponent },
-  { path: 'classification', component: S1ClassificationComponent,
+  {
+    path: 'classification',
+    component: S1ClassificationComponent,
     // canActivate: [AuthGuard]
   },
-  { path: 'key-stepper', component: KeyStepperComponent,
+  {
+    path: 'key-stepper',
+    component: KeyStepperComponent,
     // canActivate: [AuthGuard]
   },
-  { path: 'text-stepper', component: TextStepperComponent,
+  {
+    path: 'text-stepper',
+    component: TextStepperComponent,
     // canActivate: [AuthGuard]
   },
   { path: 'cipher', component: StepperComponent },

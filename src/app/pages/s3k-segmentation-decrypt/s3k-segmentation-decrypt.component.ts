@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ImageService } from '../../services/image.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-s3k-segmentation-decrypt',
@@ -20,20 +21,35 @@ export class S3kSegmentationDecryptComponent implements OnInit {
     end: { x: number; y: number };
   }[] = [];
   backendText: string = '';
+  isTutorialPage: boolean = false;
 
-  constructor(private imageService: ImageService) {}
+  constructor(private imageService: ImageService, private router: Router) {
+    // Získanie aktuálnej URL cesty
+    const currentUrl = this.router.url;
+    // Overenie, či aktuálna URL cesta zodpovedá tutoriálovej URL ceste
+    this.isTutorialPage = currentUrl.includes('tutorial-key-stepper');
+  }
 
   ngOnInit(): void {
-    this.fileUrl = localStorage.getItem('selectedFile');
-    const context = this.canvas.nativeElement.getContext('2d');
-    if (!context) {
-      throw new Error('Could not get 2D rendering context from canvas');
-    }
-    this.ctx = context;
+    if (!this.isTutorialPage) {
+      this.fileUrl = localStorage.getItem('selectedFile');
+      const context = this.canvas.nativeElement.getContext('2d');
+      if (!context) {
+        throw new Error('Could not get 2D rendering context from canvas');
+      }
+      this.ctx = context;
 
-    const selectedFileName = this.imageService.getImageUrl();
-    if (selectedFileName) {
-      this.loadImage(selectedFileName);
+      const selectedFileName = this.imageService.getImageUrl();
+      if (selectedFileName) {
+        this.loadImage(selectedFileName);
+      }
+    } else {
+      const context = this.canvas.nativeElement.getContext('2d');
+      if (!context) {
+        throw new Error('Could not get 2D rendering context from canvas');
+      }
+      this.ctx = context;
+      this.loadImage('assets/pics/tutorialKey.jpg');
     }
   }
 
@@ -101,6 +117,7 @@ export class S3kSegmentationDecryptComponent implements OnInit {
     );
     this.rectangles.forEach((rectangle) => {
       this.ctx.beginPath();
+      this.ctx.lineWidth = 5;
       this.ctx.rect(
         rectangle.start.x,
         rectangle.start.y,

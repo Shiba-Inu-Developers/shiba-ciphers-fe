@@ -1,15 +1,20 @@
 <div class="flex flex-col items-center justify-center">
-  <div class="w-full">
-    <div class="grid grid-cols-2 gap-4">
+  <h1 *ngIf="isTutorialPage" class="mb-8 text-3xl font-bold">Tutorial</h1>
+  <div class="w-full h-600">
+    <div class="grid grid-cols-2 gap-4 h-full">
       <div class="flex flex-col items-center justify-center p-6">
-        <div class="mb-4 w-full" (drop)="onFileDrop($event)">
+        <div class="mb-4 w-full h-full">
           <label
             for="dropzone-file"
             [ngStyle]="backgroundImageStyle"
-            class="flex flex-col items-center bg-white justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-200"
+            class="flex flex-col items-center bg-white justify-center w-full h-full border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-200"
           >
-            <div *ngIf="!fileUrl" class="flex flex-col items-center justify-center pt-5 pb-6">
+            <div
+              *ngIf="!fileUrl"
+              class="flex flex-col items-center justify-center pt-5 pb-6"
+            >
               <svg
+                *ngIf="!tutorialPic"
                 class="w-8 h-8 mb-4"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
@@ -24,24 +29,44 @@
                   d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                 />
               </svg>
-              <p class="mb-2 text-sm">
-                <span class="font-semibold">Click to upload</span> or drag and
-                drop
+              <p class="mb-2 text-sm" *ngIf="!tutorialPic">
+                <span class="font-semibold">Click to upload</span>
               </p>
-              <p class="text-xs">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+              <p class="text-xs" *ngIf="!tutorialPic">SVG, PNG, JPG</p>
             </div>
-            <input #dropzoneFile id="dropzone-file" type="file" class="hidden" (change)="onFileChange($event)" />
+            <input
+              #dropzoneFile
+              id="dropzone-file"
+              type="file"
+              class="hidden"
+              (change)="onFileChange($event)"
+            />
           </label>
         </div>
+        <button
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4"
+          (click)="processImage()"
+        >
+          Process Image
+        </button>
       </div>
-<!--      <img  [src]="fileUrl" alt="Selected file">-->
       <div class="flex flex-col items-center justify-center">
         <div class="w-full">
           <div class="flex flex-col items-center justify-center p-6">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4" (click)="saveKeyInStorage()">
+            <p>{{ keyPercentage / 100 | percent : "1.0-2" }}</p>
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
+              (click)="saveKeyInStorage()"
+              [disabled]="!isImageProcessed"
+            >
               Key
             </button>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="saveTextInStorage()">
+            <p>{{ textPercentage / 100 | percent : "1.0-2" }}</p>
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              (click)="saveTextInStorage()"
+              [disabled]="!isImageProcessed"
+            >
               Text
             </button>
           </div>

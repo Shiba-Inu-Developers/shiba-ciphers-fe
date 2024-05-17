@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-text-stepper',
@@ -14,10 +15,16 @@ export class TextStepperComponent {
   selectedFileText: File | null = null;
   selectedFileKey: File | null = null;
   temporaryJson: any;
+  isTutorialPage: boolean = false;
 
   currentStep = 1;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private router: Router) {
+    // Získanie aktuálnej URL cesty
+    const currentUrl = this.router.url;
+    // Overenie, či aktuálna URL cesta zodpovedá tutoriálovej URL ceste
+    this.isTutorialPage = currentUrl.includes('tutorial-text-stepper');
+  }
 
   ngOnInit() {}
 

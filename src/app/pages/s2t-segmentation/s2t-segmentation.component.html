@@ -1,8 +1,17 @@
-<div>
-  <canvas #canvas width="500" height="500"
-          style="border:1px solid black;"
-          (mousedown)="onCanvasMouseDown($event)"
-          (mouseup)="onCanvasMouseUp($event)"
-          (mousemove)="onCanvasMouseMove($event)">
+<div style="position: relative">
+  <img
+    [src]="selectedFileName"
+    width="500"
+    height="500"
+    style="position: absolute; left: 0; top: 0; z-index: 1"
+  />
+  <canvas
+    #canvas
+    width="500"
+    height="500"
+    style="border: 1px solid black"
+    (mousedown)="onCanvasMouseDown($event)"
+    (mouseup)="onCanvasMouseUp($event)"
+  >
   </canvas>
 </div>

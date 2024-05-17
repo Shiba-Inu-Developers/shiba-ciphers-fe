@@ -6,7 +6,7 @@
       <form (ngSubmit)="onRegistration()" [formGroup]="myForm">
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="email"
-          >Email:</label
+            >Email:</label
           >
           <input
             class="w-full p-2 border rounded-lg shadow-inner"
@@ -15,15 +15,17 @@
             name="email"
             type="email"
           />
-          <div *ngIf="myForm.get('email')?.errors && myForm.get('email')?.errors?.['invalidEmail']">Prosím zadajte
-            validný email.
+          <div
+            *ngIf="myForm.get('email')?.errors && myForm.get('email')?.errors?.['invalidEmail']"
+          >
+            Prosím zadajte validný email.
           </div>
         </div>
         <div class="mb-4">
           <label
             class="block text-gray-700 text-sm font-bold mb-2"
             for="password"
-          >Heslo:</label
+            >Heslo:</label
           >
           <input
             class="w-full p-2 border rounded-lg shadow-inner"
@@ -46,7 +48,7 @@
     </div>
     <p class="mt-4 text-sm text-gray-600 text-center">
       Máte účet,
-      <a class="text-blue-500" href="/login">prihláste sa</a>.
+      <a class="text-blue-500" routerLink="/login">prihláste sa</a>.
     </p>
   </div>
 </div>

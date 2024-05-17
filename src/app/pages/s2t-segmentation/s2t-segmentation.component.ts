@@ -1,85 +1,134 @@
-import {Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { ImageService } from 'src/app/services/image.service';
 
 @Component({
   selector: 'app-s2t-segmentation',
   templateUrl: './s2t-segmentation.component.html',
-  styleUrls: ['./s2t-segmentation.component.css']
+  styleUrls: ['./s2t-segmentation.component.css'],
 })
-export class S2tSegmentationComponent {
-  @Output() selectedFile = new EventEmitter<File>();
-  @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
-  private context!: CanvasRenderingContext2D;
+export class S2tSegmentationComponent implements OnInit, AfterViewInit {
+  @ViewChild('canvas') canvas!: ElementRef<HTMLCanvasElement>;
+  selectedFileName!: string;
+  ctx!: CanvasRenderingContext2D;
+  start: { x: number; y: number } | null = null;
+  rectangle: {
+    start: { x: number; y: number };
+    end: { x: number; y: number };
+  } | null = null;
+  rectangles: {
+    start: { x: number; y: number };
+    end: { x: number; y: number };
+  }[] = [];
+  rectangleNames: string[] = [];
 
-  private isDrawing: boolean = false;
-  private points: { x: number, y: number }[] = [];
-  private predefinedPoints: { x: number, y: number }[] = [ // Preddefinované body pre vykreslenie
-    { x: 100, y: 100 },
-    { x: 200, y: 100 },
-    { x: 200, y: 200 },
-    { x: 100, y: 200 }
-  ];
+  constructor(private imageService: ImageService) {}
 
-  constructor() { }
+  ngOnInit() {
+    this.selectedFileName = this.imageService.getImageUrl() ?? '';
+  }
 
   ngAfterViewInit() {
-    this.context = this.canvas.nativeElement.getContext('2d')!;
-    this.drawPredefinedPolygon();
-  }
-
-  private drawPredefinedPolygon() {
-    if (!this.context) return;
-
-    this.context.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
-    this.context.beginPath();
-    this.context.moveTo(this.predefinedPoints[0].x, this.predefinedPoints[0].y);
-
-    for (let i = 1; i < this.predefinedPoints.length; i++) {
-      this.context.lineTo(this.predefinedPoints[i].x, this.predefinedPoints[i].y);
-    }
-
-    this.context.closePath();
-    this.context.stroke();
-  }
-
-  private drawPolygon() {
-    if (!this.context) return;
-
-    this.context.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
-    this.context.beginPath();
-    this.context.moveTo(this.points[0].x, this.points[0].y);
-
-    for (let i = 1; i < this.points.length; i++) {
-      this.context.lineTo(this.points[i].x, this.points[i].y);
-    }
-
-    if (this.isDrawing) {
-      this.context.lineTo(this.points[this.points.length - 1].x, this.points[this.points.length - 1].y);
-    }
-
-    this.context.closePath();
-    this.context.stroke();
+    this.ctx = this.canvas.nativeElement.getContext('2d')!;
   }
 
   onCanvasMouseDown(event: MouseEvent) {
-    this.isDrawing = true;
     const rect = this.canvas.nativeElement.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-    this.points.push({ x, y });
-    this.drawPolygon();
+
+    this.start = { x, y };
   }
 
   onCanvasMouseUp(event: MouseEvent) {
-    this.isDrawing = false;
+    if (this.start === null) return;
+
+    const rect = this.canvas.nativeElement.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    this.rectangle = { start: this.start, end: { x, y } };
+    this.start = null;
+    this.drawAllRectangles();
+    this.printAllRectanglesCoordinates();
   }
 
-  onCanvasMouseMove(event: MouseEvent) {
-    if (this.isDrawing) {
-      const rect = this.canvas.nativeElement.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-      this.points.push({ x, y });
-      this.drawPolygon();
-    }
+  // private drawRectangle() {
+  //   if (!this.context || !this.rectangle) return;
+
+  //   this.context.clearRect(
+  //     0,
+  //     0,
+  //     this.canvas.nativeElement.width,
+  //     this.canvas.nativeElement.height
+  //   );
+
+  //   this.context.beginPath();
+  //   this.context.rect(
+  //     this.rectangle.start.x,
+  //     this.rectangle.start.y,
+  //     this.rectangle.end.x - this.rectangle.start.x,
+  //     this.rectangle.end.y - this.rectangle.start.y
+  //   );
+  //   this.context.stroke();
+  // }
+
+  private drawAllRectangles() {
+    this.rectangles.forEach((rectangle) => {
+      this.ctx.beginPath();
+      this.ctx.rect(
+        rectangle.start.x,
+        rectangle.start.y,
+        rectangle.end.x - rectangle.start.x,
+        rectangle.end.y - rectangle.start.y
+      );
+      this.ctx.stroke();
+    });
+  }
+
+  // private printCoordinates() {
+  //   if (!this.rectangle) return;
+
+  //   console.log(
+  //     `Start: (${this.rectangle.start.x}, ${this.rectangle.start.y})`
+  //   );
+  //   console.log(
+  //     `Suradnice: (x: ${this.rectangle.end.x}, y: ${this.rectangle.end.y}, ${
+  //       this.rectangle.start.x - this.rectangle.end.x
+  //     }, ${this.rectangle.start.y - this.rectangle.end.y})`
+  //   );
+  //   console.log(`End: (${this.rectangle.end.x}, ${this.rectangle.end.y})`);
+  // }
+
+  private printAllRectanglesCoordinates() {
+    this.rectangles.forEach((rectangle, index) => {
+      console.log(`Rectangle ${index + 1}:`);
+      console.log(
+        `Suradnice: (x: ${rectangle.end.x}, y: ${rectangle.end.y}, ${
+          rectangle.start.x - rectangle.end.x
+        }, ${rectangle.start.y - rectangle.end.y})`
+      );
+      // console.log(`Start: (${rectangle.start.x}, ${rectangle.start.y})`);
+      // console.log(`End: (${rectangle.end.x}, ${rectangle.end.y})`);
+    });
+  }
+
+  removeRectangle(index: number) {
+    this.rectangles.splice(index, 1);
+    this.rectangleNames.splice(index, 1);
+    this.ctx.clearRect(
+      0,
+      0,
+      this.canvas.nativeElement.width,
+      this.canvas.nativeElement.height
+    );
+    this.drawAllRectangles();
   }
 }

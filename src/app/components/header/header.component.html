@@ -9,37 +9,59 @@
       <a class="text-base font-medium hover:text-gray-300" routerLink="/profile"
         >Profile</a
       >
-<!--      <a-->
-<!--        class="text-base font-medium hover:text-gray-300"-->
-<!--        routerLink="/stepper"-->
-<!--        >Stepper</a-->
-<!--      >-->
-      <a class="text-base font-medium hover:text-gray-300" routerLink="/key-stepper">Key Stepper</a>
+      <!--      <a-->
+      <!--        class="text-base font-medium hover:text-gray-300"-->
+      <!--        routerLink="/stepper"-->
+      <!--        >Stepper</a-->
+      <!--      >-->
+      <a
+        class="text-base font-medium hover:text-gray-300"
+        routerLink="/key-stepper"
+        >Key Stepper</a
+      >
 
       <!-- Tab pre klasifikáciu "Text" -->
-      <a class="text-base font-medium hover:text-gray-300" routerLink="/text-stepper">Text Stepper</a>
-
-      <a class="text-base font-medium hover:text-gray-300" routerLink="/classification">Classification</a>
-
-
-      <a class="text-base font-medium hover:text-gray-300" routerLink="/my-documents"
-      >My Documents</a
+      <a
+        class="text-base font-medium hover:text-gray-300"
+        routerLink="/text-stepper"
+        >Text Stepper</a
       >
-      <a class="text-base font-medium hover:text-gray-300" routerLink="/contact"
+
+      <a
+        class="text-base font-medium hover:text-gray-300"
+        routerLink="/classification"
+        >Classification</a
+      >
+
+      <a
+        class="text-base font-medium hover:text-gray-300"
+        routerLink="/my-documents"
+        >My Documents</a
+      >
+      <!-- <a class="text-base font-medium hover:text-gray-300" routerLink="/contact"
         >Contact</a
-      >
+      > -->
     </nav>
   </div>
   <div class="flex items-center justify-end md:flex-1 lg:w-0">
-    <a *ngIf="isLogged; else loginLink" class="flex items-center space-x-2" [routerLink]="['/login']" (click)="onLogout()">
+    <a
+      *ngIf="isLogged; else loginLink"
+      class="flex items-center space-x-2"
+      [routerLink]="['/login']"
+      (click)="onLogout()"
+    >
       <span>Odhlásiť sa</span>
-      <i class="material-icons" style="font-size: 50px; color: white">account_circle</i>
+      <i class="material-icons" style="font-size: 50px; color: white"
+        >account_circle</i
+      >
     </a>
 
     <ng-template #loginLink>
       <a class="flex items-center space-x-2" [routerLink]="['/login']">
         <span>Prihlásiť sa</span>
-        <i class="material-icons" style="font-size: 50px; color: white">account_circle</i>
+        <i class="material-icons" style="font-size: 50px; color: white"
+          >account_circle</i
+        >
       </a>
     </ng-template>
   </div>

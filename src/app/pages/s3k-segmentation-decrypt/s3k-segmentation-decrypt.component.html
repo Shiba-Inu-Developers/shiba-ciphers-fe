@@ -1,12 +1,29 @@
 <div class="flex justify-center items-center h-screen bg-gray-200">
-  <div class="w-1/2">
-    <canvas
-      #canvas
-      id="canvas"
-      class="shadow-lg"
-      width="400"
-      height="300"
-    ></canvas>
+  <div class="flex justify-center w-full">
+    <div style="position: relative">
+      <img
+        [src]="selectedFileName"
+        style="z-index: 1; width: 600px; height: auto"
+      />
+      <canvas
+        #canvas
+        style="
+          border: 1px solid black;
+          z-index: 2;
+          background-color: transparent;
+          width: 600px;
+          height: auto;
+        "
+        (mousedown)="onCanvasMouseDown($event)"
+        (mouseup)="onCanvasMouseUp($event)"
+      >
+      </canvas>
+    </div>
+    <div class="ml-4">
+      <div *ngFor="let name of rectangleNames; index as i">
+        <button (click)="removeRectangle(i)">{{ name }}</button>
+      </div>
+    </div>
   </div>
   <div class="w-1/2">
     <textarea [(ngModel)]="backendText" class="w-full h-full p-4"></textarea>

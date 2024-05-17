@@ -1,19 +1,25 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
-import {ImageService} from "../../services/image.service";
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { ImageService } from '../../services/image.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-s1-classification',
   templateUrl: './s1-classification.component.html',
-  styleUrls: ['./s1-classification.component.css']
+  styleUrls: ['./s1-classification.component.css'],
 })
 export class S1ClassificationComponent {
   @Output() selectedFile = new EventEmitter<File>();
   @ViewChild('dropzoneFile') dropzoneFile!: ElementRef;
   fileUrl: string | null = null;
-  backgroundImageStyle: { [klass: string]: any; } = {};
+  backgroundImageStyle: { [klass: string]: any } = {};
 
-  constructor(private imageService: ImageService, private router: Router) { }
+  constructor(private imageService: ImageService, private router: Router) {}
 
   onFileChange(event: Event) {
     const file = this.getSelectedFile();
@@ -24,7 +30,7 @@ export class S1ClassificationComponent {
         this.backgroundImageStyle = {
           'background-image': `url(${this.fileUrl})`,
           'background-size': 'cover',
-          'background-position': 'center'
+          'background-position': 'center',
         };
       };
       reader.readAsDataURL(file);
@@ -60,7 +66,6 @@ export class S1ClassificationComponent {
     return allowedExtensions.includes(fileExtension); // Overíme, či je koncovka súboru v zozname prípustných koncoviek
   }
 
-
   getSelectedFile(): File | null {
     const input = this.dropzoneFile.nativeElement as HTMLInputElement;
     const files = input.files;
@@ -76,12 +81,14 @@ export class S1ClassificationComponent {
     }
   }
 
-
-  saveTextInStorage() {
+  async saveTextInStorage() {
     const selectedFile = this.getSelectedFile();
     console.log('Selected file:', selectedFile);
     if (selectedFile) {
       this.imageService.setImage(selectedFile);
+
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
       this.router.navigate(['/text-stepper']);
     }
   }
@@ -92,7 +99,7 @@ export class S1ClassificationComponent {
     if (selectedFile) {
       this.imageService.setImage(selectedFile);
 
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       this.router.navigate(['/key-stepper']);
     }

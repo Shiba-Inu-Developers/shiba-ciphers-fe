@@ -50,16 +50,15 @@ export class KeyStepperComponent implements OnInit {
   }
 
   async onNext() {
-    this.userService.sendAreasToBE_s3k(this.decryptedKeyTextJson).subscribe(
-      (response) => {
-        // Ak je odpoveď úspešná, zvýšime currentStep
-        this.currentStep++;
-      },
-      (error) => {
-        // Ak nastane chyba, môžete tu pridať kód na spracovanie chyby
-        console.error(error);
-      }
-    );
+    console.log("SS:", this.s3kDecrypt.rectangles)
+    this.decryptedKeyTextJson = this.s3kDecrypt.updateRectangles(this.s3kDecrypt.rectangles);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    let decryptedKeyTextObject = JSON.parse(this.decryptedKeyTextJson.__zone_symbol__value);
+    console.log("DecryptedKeyTextObject:", decryptedKeyTextObject);
+    let decryptedKeyTextString = JSON.stringify(decryptedKeyTextObject);
+    console.log("DecryptedKeyTextString:", decryptedKeyTextString);
+    this.decryptedKeyTextJson = decryptedKeyTextString;
+    this.currentStep++;
   }
 
   /*

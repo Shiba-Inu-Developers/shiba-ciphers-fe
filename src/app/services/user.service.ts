@@ -91,7 +91,7 @@ export class UserService {
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     });
-    return this.http.post('api/myimages/stepper-s3k', formData, { headers: headers, responseType: 'text'});
+    return this.http.post('api/myimages/stepper-s2k', formData, { headers: headers, responseType: 'text'});
   }
 
   sendImagesToBE_s4(file1: File | null, file2: File | null) {

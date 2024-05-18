@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./s2k-decrypt.component.css'],
 })
 export class S2kDecryptComponent implements OnInit {
-  @Input() backendText: string = '';
+  @Input() backendText!: string;
   isTutorialPage: boolean = false;
 
   constructor(private imageService: ImageService, private router: Router) {

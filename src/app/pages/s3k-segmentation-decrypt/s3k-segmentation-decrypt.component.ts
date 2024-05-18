@@ -21,7 +21,7 @@ export class S3kSegmentationDecryptComponent implements OnInit {
     start: { x: number; y: number };
     end: { x: number; y: number };
   }[] = [];
-  backendText: string = '';
+  backendText: string | undefined = '';
   isTutorialPage: boolean = false;
 
   constructor(
@@ -66,7 +66,7 @@ export class S3kSegmentationDecryptComponent implements OnInit {
     }
   }
 
-  updateRectangles(rectangles: any): string {
+  async updateRectangles(rectangles: any): Promise<string | undefined> {
     let rectanglesArray: {
       x: number;
       y: number;
@@ -74,7 +74,7 @@ export class S3kSegmentationDecryptComponent implements OnInit {
       height: number;
     }[] = [];
 
-    this.rectangles.forEach((rectangle) => {
+    rectangles.forEach((rectangle: { start: { x: number; y: number; }; end: { x: number; y: number; }; }) => {
       let x = rectangle.start.x;
       let y = rectangle.start.y;
       let width = rectangle.end.x - rectangle.start.x;
@@ -94,11 +94,9 @@ export class S3kSegmentationDecryptComponent implements OnInit {
     let rectanglesJson = JSON.stringify({ areas: serverAreas });
     console.log(rectanglesJson);
 
-    this.userService.sendAreasToBE_s2k(serverAreas).subscribe((res) => {
-      console.log(res);
-      this.backendText = res;
-    });
+    this.backendText = await this.userService.sendAreasToBE_s2k(serverAreas).toPromise();
 
+    console.log("BACKEND_TEXT2:", this.backendText);
     return this.backendText;
   }
 

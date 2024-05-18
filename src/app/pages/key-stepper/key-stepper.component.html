@@ -40,7 +40,7 @@
     <!--      <app-s2k-upload (selectedFile) = helpSetSelectedFile($event)></app-s2k-upload>-->
     <!--    </ng-container>-->
     <ng-container *ngIf="currentStep === 1">
-      <app-s3k-segmentation-decrypt></app-s3k-segmentation-decrypt>
+      <app-s3k-segmentation-decrypt #s3kDecrypt></app-s3k-segmentation-decrypt>
     </ng-container>
     <ng-container *ngIf="currentStep === 2">
       <app-s2k-decrypt></app-s2k-decrypt>

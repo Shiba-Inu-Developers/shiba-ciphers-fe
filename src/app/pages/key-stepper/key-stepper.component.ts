@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { S3kSegmentationDecryptComponent } from '../s3k-segmentation-decrypt/s3k-segmentation-decrypt.component';
 
 @Component({
   selector: 'app-key-stepper',
@@ -10,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class KeyStepperComponent implements OnInit {
   @Input() file: File | null = null;
+  @ViewChild('s3kDecrypt') s3kDecrypt!: S3kSegmentationDecryptComponent;
 
   selectedFile: File | null = null;
   selectedFileText: File | null = null;
@@ -17,6 +19,7 @@ export class KeyStepperComponent implements OnInit {
   temporaryJson: any;
   isTutorialPage: boolean = false;
   currentStep = 1;
+  rectangles: any = [];
 
   constructor(private userService: UserService, private router: Router) {
     // Získanie aktuálnej URL cesty
@@ -47,9 +50,10 @@ export class KeyStepperComponent implements OnInit {
 
   onNext() {
     this.currentStep++;
+    this.s3kDecrypt.updateRectangles(this.rectangles);
   }
 
-/*
+  /*
   onNext() {
     if (this.currentStep == 1) {
       this.onS1Process();
@@ -129,7 +133,7 @@ export class KeyStepperComponent implements OnInit {
       error: (error) => console.error('There was an error!', error),
     });
   }
-/*
+  /*
   onS1Process() {
     console.log('S1 processing');
     this.userService.sendAreasToBE_s1().subscribe({

@@ -10,8 +10,30 @@ export class UserService {
 
   private rootURL = "https://localhost:44460/weatherforecast";
 
+  private hashT = "";
+  private hashK = "";
+
+  setHashT(hashT: string) {
+    this.hashT = hashT;
+  }
+
+  getHashT() {
+    return this.hashT;
+  }
+
+  setHashK(hashK: string) {
+    this.hashK = hashK;
+  }
+
+  getHashK() {
+    return this.hashK;
+  }
+
+
   constructor(private http: HttpClient, private router: Router) {
   }
+
+
 
   getUsers() {
     this.http.get('/api/weatherforecast/Users').subscribe((result) => {
@@ -44,7 +66,7 @@ export class UserService {
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     });
-    return this.http.post('api/myimages/stepper-s0', formData, { headers: headers, responseType: 'text' });
+    return this.http.put('api/myimages/stepper-s0', formData, { headers: headers, responseType: 'text' });
   }
 
 

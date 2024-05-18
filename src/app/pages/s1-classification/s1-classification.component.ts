@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { ImageService } from '../../services/image.service';
 import { Router } from '@angular/router';
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-s1-classification',
@@ -24,7 +25,7 @@ export class S1ClassificationComponent {
   keyPercentage: number = 0;
   textPercentage: number = 0;
 
-  constructor(private imageService: ImageService, private router: Router) {
+  constructor(private userService: UserService, private imageService: ImageService, private router: Router) {
     // Získanie aktuálnej URL cesty
     const currentUrl = this.router.url;
     // Overenie, či aktuálna URL cesta zodpovedá tutoriálovej URL ceste
@@ -111,9 +112,13 @@ export class S1ClassificationComponent {
   async saveTextInStorage() {
     if (!this.isTutorialPage) {
       const selectedFile = this.getSelectedFile();
-      console.log('Selected file:', selectedFile);
+      //console.log('Selected file:', selectedFile);
       if (selectedFile) {
         this.imageService.setImage(selectedFile);
+
+        this.userService.sendImageToBE_s0(selectedFile).subscribe((result) => {
+          console.warn('result', result);
+        });
 
         await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -127,9 +132,13 @@ export class S1ClassificationComponent {
   async saveKeyInStorage() {
     if (!this.isTutorialPage) {
       const selectedFile = this.getSelectedFile();
-      console.log('Selected file:', selectedFile);
+      //console.log('Selected file:', selectedFile);
       if (selectedFile) {
         this.imageService.setImage(selectedFile);
+
+        this.userService.sendImageToBE_s0(selectedFile).subscribe((result) => {
+          console.warn('result', result);
+        });
 
         await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -141,13 +150,30 @@ export class S1ClassificationComponent {
   }
 
   processImage(): void {
-    console.log(this.fileUrl, this.tutorialPic);
+    /*console.log(this.fileUrl, this.tutorialPic);
 
     // TODO: Implement your image processing logic here
     if (this.fileUrl !== null || this.tutorialPic) {
       this.keyPercentage = 25;
       this.textPercentage = 83;
       this.isImageProcessed = true;
+    }*/
+    const selectedFile = this.getSelectedFile();
+    if (selectedFile) {
+      this.imageService.setImage(selectedFile);
+
+      this.userService.sendImageToBE_s0(selectedFile).subscribe((result) => {
+        console.warn('result', result);
+        let resJson = JSON.parse(result);
+        if (resJson.type == "text"){
+          this.userService.setHashT(resJson.hash);
+        } else {
+          this.userService.setHashK(resJson.hash);
+        }
+        this.keyPercentage = Math.round(resJson.confidence.key * 100);
+        this.textPercentage = Math.round(resJson.confidence.cyphertext * 100);
+        this.isImageProcessed = true;
+      });
     }
   }
 

@@ -44,7 +44,7 @@ export class KeyStepperComponent implements OnInit {
   onBack() {
     this.currentStep--;
   }
-
+/*
   onNext() {
     if (this.currentStep == 1) {
       this.onS1Process();
@@ -53,7 +53,7 @@ export class KeyStepperComponent implements OnInit {
     }
     this.currentStep++;
   }
-
+*/
   onStepChange(step: number) {
     this.currentStep = step;
     console.log('Current step:', this.currentStep);
@@ -124,7 +124,7 @@ export class KeyStepperComponent implements OnInit {
       error: (error) => console.error('There was an error!', error),
     });
   }
-
+/*
   onS1Process() {
     console.log('S1 processing');
     this.userService.sendAreasToBE_s1().subscribe({
@@ -141,7 +141,7 @@ export class KeyStepperComponent implements OnInit {
       error: (error) => console.error('There was an error!', error),
     });
   }
-
+*/
   onS2tProcess() {
     console.log('S2t processing');
     this.temporaryJson = 'AreasJson';

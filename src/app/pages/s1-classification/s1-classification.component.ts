@@ -112,11 +112,11 @@ export class S1ClassificationComponent {
   async saveTextInStorage() {
     if (!this.isTutorialPage) {
       const selectedFile = this.getSelectedFile();
-      //console.log('Selected file:', selectedFile);
       if (selectedFile) {
         this.imageService.setImage(selectedFile);
+        this.userService.setHashT(this.userService.getRandomHash())
 
-        this.userService.sendImageToBE_s0(selectedFile).subscribe((result) => {
+        this.userService.sendImageTextToSegmentation().subscribe((result) => {
           console.warn('result', result);
         });
 
@@ -132,11 +132,11 @@ export class S1ClassificationComponent {
   async saveKeyInStorage() {
     if (!this.isTutorialPage) {
       const selectedFile = this.getSelectedFile();
-      //console.log('Selected file:', selectedFile);
       if (selectedFile) {
         this.imageService.setImage(selectedFile);
+        this.userService.setHashK(this.userService.getRandomHash())
 
-        this.userService.sendImageToBE_s0(selectedFile).subscribe((result) => {
+        this.userService.sendImageKeyToSegmentation().subscribe((result) => {
           console.warn('result', result);
         });
 
@@ -150,14 +150,6 @@ export class S1ClassificationComponent {
   }
 
   processImage(): void {
-    /*console.log(this.fileUrl, this.tutorialPic);
-
-    // TODO: Implement your image processing logic here
-    if (this.fileUrl !== null || this.tutorialPic) {
-      this.keyPercentage = 25;
-      this.textPercentage = 83;
-      this.isImageProcessed = true;
-    }*/
     const selectedFile = this.getSelectedFile();
     if (selectedFile) {
       this.imageService.setImage(selectedFile);
@@ -165,11 +157,7 @@ export class S1ClassificationComponent {
       this.userService.sendImageToBE_s0(selectedFile).subscribe((result) => {
         console.warn('result', result);
         let resJson = JSON.parse(result);
-        if (resJson.type == "text"){
-          this.userService.setHashT(resJson.hash);
-        } else {
-          this.userService.setHashK(resJson.hash);
-        }
+        this.userService.setRandomHash(resJson.hash);
         this.keyPercentage = Math.round(resJson.confidence.key * 100);
         this.textPercentage = Math.round(resJson.confidence.cyphertext * 100);
         this.isImageProcessed = true;

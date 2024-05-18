@@ -12,6 +12,15 @@ export class UserService {
 
   private hashT = "";
   private hashK = "";
+  private randomHash = "";
+
+  setRandomHash(randomHash: string) {
+    this.randomHash = randomHash;
+  }
+
+  getRandomHash() {
+    return this.randomHash;
+  }
 
   setHashT(hashT: string) {
     this.hashT = hashT;
@@ -55,27 +64,6 @@ export class UserService {
     return this.http.put<any>('/api/weatherforecast/update-user-info', data, { headers });
   }
 
-
-
-
-  // STEPPER
-  sendImageToBE_s0(file: File | null) {
-    const formData = new FormData();
-    // @ts-ignore
-    formData.append('image', file);
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + localStorage.getItem('token'),
-    });
-    return this.http.put('api/myimages/stepper-s0', formData, { headers: headers, responseType: 'text' });
-  }
-
-
-  sendAreasToBE_s1() {
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + localStorage.getItem('token'),
-    });
-    return this.http.post<string>('api/myimages/stepper-s1', { headers: headers, responseType: 'text' });
-  }
 
   sendAreasToBE_s2t(areas: any) {
     var formData = new FormData();
@@ -143,5 +131,45 @@ export class UserService {
     });
     return this.http.get('api/myimages/get-image-ds', {headers: headers});
   }
+
+
+
+  // STEPPER GOOD
+  sendImageToBE_s0(file: File | null) {
+    const formData = new FormData();
+    // @ts-ignore
+    formData.append('image', file);
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+    });
+    return this.http.put('api/myimages/stepper-s0', formData, { headers: headers, responseType: 'text' });
+  }
+
+
+  sendImageTextToSegmentation() {
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+    });
+    return this.http.post<string>(`api/myimages/stepper-s1t/${this.getHashT()}`, { headers: headers, responseType: 'text' });
+  }
+
+  sendImageKeyToSegmentation() {
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+    });
+    return this.http.post<string>(`api/myimages/stepper-s1k/${this.getHashK()}`, { headers: headers, responseType: 'text' });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

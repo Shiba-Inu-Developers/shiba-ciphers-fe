@@ -163,14 +163,21 @@ export class UserService {
   }
 
   sendAreasToBE_s2k(areas: any) {
-    var formData = new FormData();
-    formData.append('areas', areas);
+    const serverAreas = areas.map((area: any) => ({
+      x: Math.round(area.x),
+      y: Math.round(area.y),
+      width: Math.round(area.width),
+      height: Math.round(area.height),
+      type: area.type || null
+    }));
+
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      'Content-Type': 'application/json'
     });
-    return this.http.post(`api/myimages/stepper-s2k/${this.getHashK()}`, formData, { headers: headers, responseType: 'text'});
-  }
 
+    return this.http.post(`api/myimages/stepper-s2k/${this.getHashK()}`, JSON.stringify({areas: serverAreas}), { headers: headers, responseType: 'text'});
+  }
 
 
 

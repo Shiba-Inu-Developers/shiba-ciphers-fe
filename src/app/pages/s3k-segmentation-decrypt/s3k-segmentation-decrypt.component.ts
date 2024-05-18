@@ -67,9 +67,18 @@ export class S3kSegmentationDecryptComponent implements OnInit {
       rectanglesArray.push({x, y, width, height});
     });
 
-    let rectanglesJson = JSON.stringify({areas: rectanglesArray});
+    let serverAreas = rectanglesArray.map((area: any) => ({
+      x: Math.round(area.x),
+      y: Math.round(area.y),
+      width: Math.round(area.width),
+      height: Math.round(area.height),
+      type: area.type || null
+    }));
+
+    let rectanglesJson = JSON.stringify({areas: serverAreas});
     console.log(rectanglesJson);
-    this.userService.sendAreasToBE_s2k(rectanglesJson).subscribe((res) => {
+
+    this.userService.sendAreasToBE_s2k(serverAreas).subscribe((res) => {
       console.log(res);
     });
   }

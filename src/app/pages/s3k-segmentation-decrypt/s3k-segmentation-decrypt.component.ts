@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ImageService } from '../../services/image.service';
 import { Router } from '@angular/router';
-import {UserService} from "../../services/user.service";
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-s3k-segmentation-decrypt',
@@ -24,7 +24,11 @@ export class S3kSegmentationDecryptComponent implements OnInit {
   backendText: string = '';
   isTutorialPage: boolean = false;
 
-  constructor(private imageService: ImageService, private router: Router, private userService: UserService) {
+  constructor(
+    private imageService: ImageService,
+    private router: Router,
+    private userService: UserService
+  ) {
     // Získanie aktuálnej URL cesty
     const currentUrl = this.router.url;
     // Overenie, či aktuálna URL cesta zodpovedá tutoriálovej URL ceste
@@ -44,6 +48,14 @@ export class S3kSegmentationDecryptComponent implements OnInit {
       if (selectedFileName) {
         this.loadImage(selectedFileName);
       }
+
+      // Pevne dané súradnice obdĺžnikov
+      this.rectangles = [
+        { start: { x: 50, y: 50 }, end: { x: 150, y: 100 } },
+        { start: { x: 200, y: 150 }, end: { x: 350, y: 250 } },
+      ];
+
+      this.drawAllRectangles();
     } else {
       const context = this.canvas.nativeElement.getContext('2d');
       if (!context) {
@@ -54,9 +66,13 @@ export class S3kSegmentationDecryptComponent implements OnInit {
     }
   }
 
-
   updateRectangles(rectangles: any): string {
-    let rectanglesArray: {x: number, y: number, width: number, height: number}[] = [];
+    let rectanglesArray: {
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+    }[] = [];
 
     this.rectangles.forEach((rectangle) => {
       let x = rectangle.start.x;
@@ -64,7 +80,7 @@ export class S3kSegmentationDecryptComponent implements OnInit {
       let width = rectangle.end.x - rectangle.start.x;
       let height = rectangle.end.y - rectangle.start.y;
 
-      rectanglesArray.push({x, y, width, height});
+      rectanglesArray.push({ x, y, width, height });
     });
 
     let serverAreas = rectanglesArray.map((area: any) => ({
@@ -72,10 +88,10 @@ export class S3kSegmentationDecryptComponent implements OnInit {
       y: Math.round(area.y),
       width: Math.round(area.width),
       height: Math.round(area.height),
-      type: area.type || null
+      type: area.type || null,
     }));
 
-    let rectanglesJson = JSON.stringify({areas: serverAreas});
+    let rectanglesJson = JSON.stringify({ areas: serverAreas });
     console.log(rectanglesJson);
 
     this.userService.sendAreasToBE_s2k(serverAreas).subscribe((res) => {
@@ -85,7 +101,6 @@ export class S3kSegmentationDecryptComponent implements OnInit {
 
     return this.backendText;
   }
-
 
   loadImage(url: string): void {
     fetch(url)

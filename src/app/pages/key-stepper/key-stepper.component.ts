@@ -49,9 +49,17 @@ export class KeyStepperComponent implements OnInit {
     this.currentStep--;
   }
 
-  onNext() {
-    this.currentStep++;
-    this.decryptedKeyTextJson = this.s3kDecrypt.updateRectangles(this.rectangles);
+  async onNext() {
+    this.userService.sendAreasToBE_s3k(this.decryptedKeyTextJson).subscribe(
+      (response) => {
+        // Ak je odpoveď úspešná, zvýšime currentStep
+        this.currentStep++;
+      },
+      (error) => {
+        // Ak nastane chyba, môžete tu pridať kód na spracovanie chyby
+        console.error(error);
+      }
+    );
   }
 
   /*

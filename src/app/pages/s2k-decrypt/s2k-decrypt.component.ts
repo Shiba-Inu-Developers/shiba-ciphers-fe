@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { ImageService } from '../../services/image.service';
 import { Router } from '@angular/router';
 
@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./s2k-decrypt.component.css'],
 })
 export class S2kDecryptComponent implements OnInit {
+  @Input() backendText: string = '';
   isTutorialPage: boolean = false;
-  backendText: string = '';
 
   constructor(private imageService: ImageService, private router: Router) {
     // Získanie aktuálnej URL cesty

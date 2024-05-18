@@ -55,7 +55,7 @@ export class S3kSegmentationDecryptComponent implements OnInit {
   }
 
 
-  updateRectangles(rectangles: any): void {
+  updateRectangles(rectangles: any): string {
     let rectanglesArray: {x: number, y: number, width: number, height: number}[] = [];
 
     this.rectangles.forEach((rectangle) => {
@@ -80,7 +80,10 @@ export class S3kSegmentationDecryptComponent implements OnInit {
 
     this.userService.sendAreasToBE_s2k(serverAreas).subscribe((res) => {
       console.log(res);
+      this.backendText = res;
     });
+
+    return this.backendText;
   }
 
 

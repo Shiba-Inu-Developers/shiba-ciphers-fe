@@ -19,7 +19,8 @@ export class KeyStepperComponent implements OnInit {
   temporaryJson: any;
   isTutorialPage: boolean = false;
   currentStep = 1;
-  rectangles: any = [];
+  rectangles: any;
+  decryptedKeyTextJson: any;
 
   constructor(private userService: UserService, private router: Router) {
     // Získanie aktuálnej URL cesty
@@ -50,7 +51,7 @@ export class KeyStepperComponent implements OnInit {
 
   onNext() {
     this.currentStep++;
-    this.s3kDecrypt.updateRectangles(this.rectangles);
+    this.decryptedKeyTextJson = this.s3kDecrypt.updateRectangles(this.rectangles);
   }
 
   /*

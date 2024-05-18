@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ImageService } from '../../services/image.service';
 import { Router } from '@angular/router';
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-s3k-segmentation-decrypt',
@@ -23,7 +24,7 @@ export class S3kSegmentationDecryptComponent implements OnInit {
   backendText: string = '';
   isTutorialPage: boolean = false;
 
-  constructor(private imageService: ImageService, private router: Router) {
+  constructor(private imageService: ImageService, private router: Router, private userService: UserService) {
     // Získanie aktuálnej URL cesty
     const currentUrl = this.router.url;
     // Overenie, či aktuálna URL cesta zodpovedá tutoriálovej URL ceste
@@ -52,6 +53,27 @@ export class S3kSegmentationDecryptComponent implements OnInit {
       this.loadImage('assets/pics/tutorialKey.jpg');
     }
   }
+
+
+  updateRectangles(rectangles: any): void {
+    let rectanglesArray: {x: number, y: number, width: number, height: number}[] = [];
+
+    this.rectangles.forEach((rectangle) => {
+      let x = rectangle.start.x;
+      let y = rectangle.start.y;
+      let width = rectangle.end.x - rectangle.start.x;
+      let height = rectangle.end.y - rectangle.start.y;
+
+      rectanglesArray.push({x, y, width, height});
+    });
+
+    let rectanglesJson = JSON.stringify({areas: rectanglesArray});
+    console.log(rectanglesJson);
+    this.userService.sendAreasToBE_s2k(rectanglesJson).subscribe((res) => {
+      console.log(res);
+    });
+  }
+
 
   loadImage(url: string): void {
     fetch(url)
@@ -133,8 +155,8 @@ export class S3kSegmentationDecryptComponent implements OnInit {
       console.log(`Rectangle ${index + 1}:`);
       console.log(
         `Coordinates: (x: ${rectangle.end.x}, y: ${rectangle.end.y}, ${
-          rectangle.start.x - rectangle.end.x
-        }, ${rectangle.start.y - rectangle.end.y})`
+          rectangle.end.x - rectangle.start.x
+        }, ${rectangle.end.y - rectangle.start.y})`
       );
     });
   }

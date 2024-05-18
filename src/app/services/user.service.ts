@@ -65,15 +65,6 @@ export class UserService {
   }
 
 
-  sendAreasToBE_s2t(areas: any) {
-    var formData = new FormData();
-    formData.append('areas', areas);
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + localStorage.getItem('token'),
-    });
-    return this.http.post('api/myimages/stepper-s2t', formData, { headers: headers, responseType: 'text'});
-  }
-
   // ???
   // s3t
   // ???
@@ -162,6 +153,23 @@ export class UserService {
 
 
 
+  sendAreasToBE_s2t(areas: any) {
+    var formData = new FormData();
+    formData.append('areas', areas);
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+    });
+    return this.http.post(`api/myimages/stepper-s2t/${this.getHashT()}`, formData, { headers: headers, responseType: 'text'});
+  }
+
+  sendAreasToBE_s2k(areas: any) {
+    var formData = new FormData();
+    formData.append('areas', areas);
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+    });
+    return this.http.post(`api/myimages/stepper-s2k/${this.getHashK()}`, formData, { headers: headers, responseType: 'text'});
+  }
 
 
 

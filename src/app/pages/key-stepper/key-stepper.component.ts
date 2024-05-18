@@ -44,6 +44,11 @@ export class KeyStepperComponent implements OnInit {
   onBack() {
     this.currentStep--;
   }
+
+  onNext() {
+    this.currentStep++;
+  }
+
 /*
   onNext() {
     if (this.currentStep == 1) {

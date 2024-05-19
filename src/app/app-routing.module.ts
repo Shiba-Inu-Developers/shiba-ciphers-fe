@@ -7,7 +7,6 @@ import { SignUpComponent } from './pages/auth/sign-up/sign-up.component';
 import { CipherComponent } from './pages/cipher/cipher.component';
 import { VerifyOtpComponent } from './pages/auth/verify-otp/verify-otp.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { StepperComponent } from './pages/stepper/stepper.component';
 import { AuthGuard } from './pages/auth/auth.guard';
 import { MyDocumentsComponent } from './pages/my-documents/my-documents.component';
 import { S1ClassificationComponent } from './pages/s1-classification/s1-classification.component';
@@ -19,7 +18,6 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    // canActivate: [AuthGuard], //Pridat AuthGuard aby sa zobrazovalo len to co je potrebne
   },
   {
     path: 'profile',
@@ -46,25 +44,23 @@ const routes: Routes = [
     component: MyDocumentsComponent,
     canActivate: [AuthGuard],
   },
-  { path: 'stepper', component: StepperComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'sign-up', component: SignUpComponent },
   {
     path: 'classification',
     component: S1ClassificationComponent,
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'key-stepper',
     component: KeyStepperComponent,
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'text-stepper',
     component: TextStepperComponent,
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
-  { path: 'cipher', component: StepperComponent },
   { path: 'otp-verification', component: VerifyOtpComponent },
   { path: '404', component: NotFoundComponent },
   { path: '', component: HomeComponent },

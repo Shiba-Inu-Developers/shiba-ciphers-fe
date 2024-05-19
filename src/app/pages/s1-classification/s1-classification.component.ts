@@ -69,7 +69,6 @@ export class S1ClassificationComponent {
       };
       this.adjustContainerHeight('assets/pics/tutorialClass.jpg');
     }
-    console.log(this.tutorialPic);
   }
 
   isImage(file: File): boolean {
@@ -88,11 +87,6 @@ export class S1ClassificationComponent {
 
   ngOnDestroy(): void {
     const selectedFile = this.getSelectedFile();
-    if (selectedFile) {
-      console.log('Vybraný súbor:', selectedFile.name);
-      console.log('Typ súboru:', selectedFile.type);
-      // Ďalšie spracovanie súboru
-    }
   }
 
   async saveTextInStorage() {

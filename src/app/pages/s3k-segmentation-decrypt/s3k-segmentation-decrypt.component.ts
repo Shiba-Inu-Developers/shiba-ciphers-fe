@@ -52,7 +52,6 @@ export class S3kSegmentationDecryptComponent implements OnInit {
       let rectangleArray:
         | { start: { x: number; y: number }; end: { x: number; y: number } }[] =
         [];
-      console.log('AREAS:', this.areas);
       this.areas.areas.forEach(
         (area: {
           x: number;
@@ -116,13 +115,10 @@ export class S3kSegmentationDecryptComponent implements OnInit {
     }));
 
     let rectanglesJson = JSON.stringify({ areas: serverAreas });
-    console.log(rectanglesJson);
 
     this.backendText = await this.userService
       .sendAreasToBE_s2k(serverAreas)
       .toPromise();
-
-    console.log('BACKEND_TEXT2:', this.backendText);
     return this.backendText;
   }
 
@@ -171,7 +167,6 @@ export class S3kSegmentationDecryptComponent implements OnInit {
     this.rectangleNames.push(`Rectangle ${this.rectangles.length}`);
     this.start = null;
     this.drawAllRectangles();
-    this.printAllRectanglesCoordinates();
   }
 
   drawAllRectangles(
@@ -211,21 +206,9 @@ export class S3kSegmentationDecryptComponent implements OnInit {
     });
   }
 
-  printAllRectanglesCoordinates(): void {
-    this.rectangles.forEach((rectangle, index) => {
-      console.log(`Rectangle ${index + 1}:`);
-      console.log(
-        `Coordinates: (x: ${rectangle.end.x}, y: ${rectangle.end.y}, ${
-          rectangle.end.x - rectangle.start.x
-        }, ${rectangle.end.y - rectangle.start.y})`
-      );
-    });
-  }
-
   removeRectangle(index: number): void {
     this.rectangles.splice(index, 1);
     this.rectangleNames.splice(index, 1);
     this.drawAllRectangles();
-    this.printAllRectanglesCoordinates();
   }
 }

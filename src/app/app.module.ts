@@ -20,9 +20,6 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { ModalService } from './components/modal/modal.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { StepperComponent } from './pages/stepper/stepper.component';
-import { CipherTextComponent } from './pages/cipher-text/cipher-text.component';
-import { CipherKeyComponent } from './pages/cipher-key/cipher-key.component';
 import { AuthGuard } from './pages/auth/auth.guard';
 import { MyDocumentsComponent } from './pages/my-documents/my-documents.component';
 import { S1ClassificationComponent } from './pages/s1-classification/s1-classification.component';
@@ -51,11 +48,8 @@ import { S2kDecryptComponent } from './pages/s2k-decrypt/s2k-decrypt.component';
     VerifyOtpComponent,
     ProfileComponent,
     ModalComponent,
-    StepperComponent,
     KeyStepperComponent,
     TextStepperComponent,
-    CipherTextComponent,
-    CipherKeyComponent,
     MyDocumentsComponent,
     S1ClassificationComponent,
     S2tSegmentationComponent,

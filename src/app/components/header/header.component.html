@@ -1,49 +1,45 @@
-<!-- app.component.html -->
-<div class="flex items-center justify-between p-6 bg-gray-800 text-white">
+<div class="flex items-center justify-between p-4 bg-gray-800 text-white">
   <div class="flex items-center space-x-4">
-    <i class="material-icons" style="font-size: 50px; color: white">diamond</i>
-    <nav class="hidden md:flex space-x-10">
-      <a class="text-base font-medium hover:text-gray-300" routerLink="/"
+    <button
+      class="md:hidden text-white focus:outline-none"
+      (click)="toggleMenu()"
+    >
+      <i class="material-icons text-4xl">menu</i>
+    </button>
+    <nav class="hidden md:flex space-x-4 md:space-x-10">
+      <a
+        class="text-sm md:text-base font-medium hover:text-gray-300"
+        routerLink="/"
         >Home</a
       >
-      <a class="text-base font-medium hover:text-gray-300" routerLink="/profile"
+      <a
+        *ngIf="isLogged"
+        class="text-sm md:text-base font-medium hover:text-gray-300"
+        routerLink="/profile"
         >Profile</a
       >
-      <!--      <a-->
-      <!--        class="text-base font-medium hover:text-gray-300"-->
-      <!--        routerLink="/stepper"-->
-      <!--        >Stepper</a-->
-      <!--      >-->
       <a
-        class="text-base font-medium hover:text-gray-300"
-        routerLink="/key-stepper"
-        >Key Stepper</a
-      >
-
-      <!-- Tab pre klasifikáciu "Text" -->
-      <a
-        class="text-base font-medium hover:text-gray-300"
-        routerLink="/text-stepper"
-        >Text Stepper</a
-      >
-
-      <a
-        class="text-base font-medium hover:text-gray-300"
+        *ngIf="isLogged"
+        class="text-sm md:text-base font-medium hover:text-gray-300"
         routerLink="/classification"
         >Classification</a
       >
-
       <a
-        class="text-base font-medium hover:text-gray-300"
+        *ngIf="isLogged"
+        class="text-sm md:text-base font-medium hover:text-gray-300"
         routerLink="/my-documents"
         >My Documents</a
       >
-      <!-- <a class="text-base font-medium hover:text-gray-300" routerLink="/contact"
-        >Contact</a
-      > -->
     </nav>
   </div>
-  <div class="flex items-center justify-end md:flex-1 lg:w-0">
+
+  <div class="flex-1 text-center md:block" *ngIf="!isMenuOpen">
+    <span class="text-base md:text-lg font-semibold"
+      >Application for Text Decryption</span
+    >
+  </div>
+
+  <div class="hidden md:flex items-center justify-end">
     <a
       *ngIf="isLogged; else loginLink"
       class="flex items-center space-x-2"
@@ -51,18 +47,65 @@
       (click)="onLogout()"
     >
       <span>Odhlásiť sa</span>
-      <i class="material-icons" style="font-size: 50px; color: white"
-        >account_circle</i
-      >
+      <i class="material-icons text-3xl md:text-4xl">account_circle</i>
     </a>
-
     <ng-template #loginLink>
       <a class="flex items-center space-x-2" [routerLink]="['/login']">
         <span>Prihlásiť sa</span>
-        <i class="material-icons" style="font-size: 50px; color: white"
-          >account_circle</i
-        >
+        <i class="material-icons text-3xl md:text-4xl">account_circle</i>
       </a>
     </ng-template>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div
+    *ngIf="isMenuOpen"
+    class="md:hidden mt-4 w-full bg-gray-700 p-4 rounded-lg"
+  >
+    <nav class="space-y-2">
+      <a
+        class="block text-base font-medium hover:text-gray-300"
+        routerLink="/"
+        (click)="toggleMenu()"
+        >Home</a
+      >
+      <a
+        *ngIf="isLogged"
+        class="block text-base font-medium hover:text-gray-300"
+        routerLink="/profile"
+        (click)="toggleMenu()"
+        >Profile</a
+      >
+      <a
+        *ngIf="isLogged"
+        class="block text-base font-medium hover:text-gray-300"
+        routerLink="/classification"
+        (click)="toggleMenu()"
+        >Classification</a
+      >
+      <a
+        *ngIf="isLogged"
+        class="block text-base font-medium hover:text-gray-300"
+        routerLink="/my-documents"
+        (click)="toggleMenu()"
+        >My Documents</a
+      >
+      <div class="border-t border-gray-600 my-4"></div>
+      <a
+        *ngIf="isLogged; else loginLinkMobile"
+        class="block text-base font-medium hover:text-gray-300"
+        [routerLink]="['/login']"
+        (click)="onLogout(); toggleMenu()"
+        >Odhlásiť sa</a
+      >
+      <ng-template #loginLinkMobile>
+        <a
+          class="block text-base font-medium hover:text-gray-300"
+          [routerLink]="['/login']"
+          (click)="toggleMenu()"
+          >Prihlásiť sa</a
+        >
+      </ng-template>
+    </nav>
   </div>
 </div>

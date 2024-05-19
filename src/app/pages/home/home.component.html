@@ -1,38 +1,54 @@
 <div class="container mx-auto px-4">
   <div class="py-8 text-center">
-    <h1 class="text-5xl font-bold">Welcome to the historical text recognition platform</h1>
+    <h1 class="text-5xl font-bold">
+      Welcome to the historical text recognition platform
+    </h1>
     <p class="text-lg mt-4">
-      The platform offers possibilities for classification, recognition, segmentation, transcription and decryption for
-      historical texts and nomenclature keys directly from the <b>historical image</b>.
+      The platform offers possibilities for classification, recognition,
+      segmentation, transcription and decryption for historical texts and
+      nomenclature keys directly from the <b>historical image</b>.
     </p>
     <p class="text-lg mt-4">
-      If you are just <b>starting out with the platform</b>, do not hesitate to go to the classification tab where you can
-      upload your image and choose from the processing options.
+      If you are just <b>starting out with the platform</b>, do not hesitate to
+      go to the classification tab where you can upload your image and choose
+      from the processing options.
     </p>
   </div>
   <h2 class="text-3xl font-bold" style="text-align: center">Few examples:</h2>
   <div class="flex justify-center mt-8">
     <div>
-      <img src="https://www.nationalarchives.gov.uk/wp-content/uploads/2016/08/page-of-cyphers-sp-53-22.jpg" alt="Example 1" style="width: 350px; height: 500px;">
+      <img
+        src="https://www.nationalarchives.gov.uk/wp-content/uploads/2016/08/page-of-cyphers-sp-53-22.jpg"
+        alt="Example 1"
+        style="width: 350px; height: 500px"
+      />
     </div>
     <div style="width: 50px"></div>
     <div>
-      <img src="https://www.nationalarchives.gov.uk/wp-content/uploads/2016/08/mary-queen-of-scots-to-william-cecil-sp-53-5-f72.jpg" alt="Example 2" style="width: 350px; height: 500px;">
+      <img
+        src="https://www.nationalarchives.gov.uk/wp-content/uploads/2016/08/mary-queen-of-scots-to-william-cecil-sp-53-5-f72.jpg"
+        alt="Example 2"
+        style="width: 350px; height: 500px"
+      />
     </div>
     <div style="width: 50px"></div>
     <div>
-      <img src="https://www.nationalarchives.gov.uk/wp-content/uploads/2016/08/Sir-Edward-Stafford-to-Elizabeth-SP-78-18.jpg" alt="Example 3" style="width: 350px; height: 500px;">
+      <img
+        src="https://www.nationalarchives.gov.uk/wp-content/uploads/2016/08/Sir-Edward-Stafford-to-Elizabeth-SP-78-18.jpg"
+        alt="Example 3"
+        style="width: 350px; height: 500px"
+      />
     </div>
   </div>
   <div class="flex justify-center mt-8">
     <a
-      href="#"
+      [routerLink]="['/classification']"
       class="bg-indigo-600 text-white font-bold py-2 px-4 rounded mr-4 hover:bg-indigo-500"
     >
       Classification
     </a>
     <a
-      href="#"
+      [routerLink]="['/my-documents']"
       class="bg-indigo-600 text-white font-bold py-2 px-4 rounded hover:bg-indigo-500"
     >
       My Documents

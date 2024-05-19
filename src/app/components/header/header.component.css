@@ -1,0 +1,64 @@
+/* General styling for the header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #1a202c;
+  color: #fff;
+}
+
+/* Styling for mobile menu */
+.mobile-menu {
+  background-color: #2d3748;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+/* Navigation links */
+nav a {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #a0aec0;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #cbd5e0;
+}
+
+/* Mobile menu toggle button */
+.menu-toggle {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+/* Ensure icons are properly sized */
+.material-icons {
+  font-size: 1.5rem;
+  transition: font-size 0.3s;
+}
+
+@media (min-width: 768px) {
+  .material-icons {
+    font-size: 2rem;
+  }
+}
+
+/* Centered text for the application description */
+.text-center {
+  text-align: center;
+  flex: 1;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .hidden-md {
+    display: none;
+  }
+}

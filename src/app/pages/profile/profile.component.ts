@@ -1,5 +1,10 @@
-import { Component, ViewChild, ViewContainerRef, AfterViewInit } from '@angular/core';
-import {Subject, pipe, Observable} from 'rxjs';
+import {
+  Component,
+  ViewChild,
+  ViewContainerRef,
+  AfterViewInit,
+} from '@angular/core';
+import { Subject, pipe, Observable } from 'rxjs';
 import { ModalComponent } from 'src/app/components/modal/modal.component';
 import {
   NgbActiveModal,
@@ -8,8 +13,8 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { ModalService } from 'src/app/components/modal/modal.service';
 import { takeUntil } from 'rxjs/operators';
-import {User} from "oidc-client";
-import {UserService} from "../../services/user.service";
+import { User } from 'oidc-client';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -17,7 +22,6 @@ import {UserService} from "../../services/user.service";
   styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements AfterViewInit {
-
   firstName = '';
   lastName = '';
   email = '';
@@ -43,7 +47,7 @@ export class ProfileComponent implements AfterViewInit {
         this.lastName = data.lastName;
         this.email = data.email;
       },
-      error: (error) => console.error('There was an error!', error)
+      error: (error) => console.error('There was an error!', error),
     });
   }
 
@@ -75,8 +79,7 @@ export class ProfileComponent implements AfterViewInit {
         this.firstName = data.firstName;
         this.lastName = data.lastName;
       },
-      error: (error) => console.error('There was an error!', error)
+      error: (error) => console.error('There was an error!', error),
     });
   }
-
 }

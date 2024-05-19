@@ -67,14 +67,21 @@
       *ngIf="currentStep !== 1"
       (click)="onBack()"
     >
-      Späť
+      Back
     </button>
     <button
       class="text-white bg-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
       *ngIf="currentStep !== 2"
       (click)="onNext()"
     >
-      Ďalej
+      Next
+    </button>
+    <button
+      class="text-white bg-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+      *ngIf="currentStep == 2"
+      (click)="finish()"
+    >
+      Finish
     </button>
   </div>
 </div>

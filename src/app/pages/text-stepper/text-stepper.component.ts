@@ -211,4 +211,7 @@ export class TextStepperComponent {
   onDecipherResult() {
     console.log('Decrypt result processing');
   }
+  finish() {
+    this.router.navigate(['/']);
+  }
 }

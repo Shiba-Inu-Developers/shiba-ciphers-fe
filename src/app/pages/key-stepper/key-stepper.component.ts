@@ -223,4 +223,8 @@ export class KeyStepperComponent implements OnInit {
   onDecipherResult() {
     console.log('Decrypt result processing');
   }
+
+  finish() {
+    this.router.navigate(['/']);
+  }
 }

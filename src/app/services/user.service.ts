@@ -192,6 +192,11 @@ export class UserService {
   }
 
 
+  getAllImages() {
+    return this.http.get('api/myimages/all-images');
+  }
+
+
 
 
 

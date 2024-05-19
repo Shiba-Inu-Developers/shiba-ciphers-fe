@@ -1,10 +1,10 @@
-import {Component, ViewChild} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import {S3kSegmentationDecryptComponent} from "../s3k-segmentation-decrypt/s3k-segmentation-decrypt.component";
-import {S3tDecryptComponent} from "../s3t-decrypt/s3t-decrypt.component";
-import {S2tSegmentationComponent} from "../s2t-segmentation/s2t-segmentation.component";
+import { S3kSegmentationDecryptComponent } from '../s3k-segmentation-decrypt/s3k-segmentation-decrypt.component';
+import { S3tDecryptComponent } from '../s3t-decrypt/s3t-decrypt.component';
+import { S2tSegmentationComponent } from '../s2t-segmentation/s2t-segmentation.component';
 
 @Component({
   selector: 'app-text-stepper',
@@ -12,7 +12,6 @@ import {S2tSegmentationComponent} from "../s2t-segmentation/s2t-segmentation.com
   styleUrls: ['./text-stepper.component.css'],
 })
 export class TextStepperComponent {
-  coordinates = [];
   @ViewChild('s3tDecrypt') s3tDecrypt!: S2tSegmentationComponent;
 
   selectedFile: File | null = null;
@@ -21,10 +20,13 @@ export class TextStepperComponent {
   temporaryJson: any;
   isTutorialPage: boolean = false;
   decryptedTextTextJson: any;
+  areas: any;
 
   currentStep = 1;
 
   constructor(private userService: UserService, private router: Router) {
+    const navigation = this.router.getCurrentNavigation();
+    this.areas = navigation?.extras.state?.result;
     // Získanie aktuálnej URL cesty
     const currentUrl = this.router.url;
     // Overenie, či aktuálna URL cesta zodpovedá tutoriálovej URL ceste
@@ -38,22 +40,22 @@ export class TextStepperComponent {
   }
 
   async onNext() {
-    console.log("SS:", this.s3tDecrypt.rectangles)
-    this.decryptedTextTextJson = this.s3tDecrypt.updateRectangles(this.s3tDecrypt.rectangles);
+    console.log('SS:', this.s3tDecrypt.rectangles);
+    this.decryptedTextTextJson = this.s3tDecrypt.updateRectangles(
+      this.s3tDecrypt.rectangles
+    );
     await new Promise((resolve) => setTimeout(resolve, 500));
-    let decryptedKeyTextObject = JSON.parse(this.decryptedTextTextJson.__zone_symbol__value);
-    console.log("DecryptedKeyTextObject:", decryptedKeyTextObject);
+    let decryptedKeyTextObject = JSON.parse(
+      this.decryptedTextTextJson.__zone_symbol__value
+    );
+    console.log('DecryptedKeyTextObject:', decryptedKeyTextObject);
     let decryptedKeyTextString = JSON.stringify(decryptedKeyTextObject);
-    console.log("DecryptedKeyTextString:", decryptedKeyTextString);
+    console.log('DecryptedKeyTextString:', decryptedKeyTextString);
     this.decryptedTextTextJson = decryptedKeyTextString;
     this.currentStep++;
   }
 
-
-
-
-
-/*
+  /*
   onNext() {
     if (this.currentStep == 1) {
       this.onS1Process();
@@ -82,7 +84,7 @@ export class TextStepperComponent {
 
   //TODO: VHODIT DO JEDNEJ FUNCKIE
 
-/*
+  /*
   onS1Process() {
     console.log('S1 processing');
     this.userService.sendAreasToBE_s1().subscribe({
@@ -208,10 +210,5 @@ export class TextStepperComponent {
   //S5-Decipher-Result
   onDecipherResult() {
     console.log('Decrypt result processing');
-  }
-
-  coordinatesChange(coordinates: any) {
-    console.log(coordinates);
-    this.coordinates = coordinates;
   }
 }

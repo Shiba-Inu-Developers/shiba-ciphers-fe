@@ -49,28 +49,30 @@ export class S3kSegmentationDecryptComponent implements OnInit {
       if (selectedFileName) {
         this.loadImage(selectedFileName);
       }
-
+      let rectangleArray:
+        | { start: { x: number; y: number }; end: { x: number; y: number } }[] =
+        [];
       console.log('AREAS:', this.areas);
-
-      let rectangleArray = [];
-      rectangleArray.push({
-        start: { x: 50, y: 50 },
-        end: { x: 150, y: 100 },
-      });
-      rectangleArray.push({
-        start: { x: 200, y: 150 },
-        end: { x: 350, y: 250 },
-      });
-      this.rectangleNames.push(`Rectangle ${this.rectangles.length}`);
-      this.rectangleNames.push(`Rectangle ${this.rectangles.length}`);
-      // Pevne dané súradnice obdĺžnikov
-      // this.rectangles.push();
-      // this.rectangleNames.push(`Rectangle ${this.rectangles.length}`);
-      // this.rectangles.push({
-      //   start: { x: 200, y: 150 },
-      //   end: { x: 350, y: 250 },
-      // });
-      // this.rectangleNames.push(`Rectangle ${this.rectangles.length}`);
+      this.areas.areas.forEach(
+        (area: {
+          x: number;
+          y: number;
+          width: number;
+          height: number;
+          type: string;
+        }) => {
+          const x_start = area.x;
+          const y_start = area.y;
+          const x_end = area.x + area.width;
+          const y_end = area.y + area.height;
+          let rectangle1 = {
+            start: { x: x_start, y: y_start },
+            end: { x: x_end, y: y_end },
+          };
+          rectangleArray.push(rectangle1);
+          this.rectangleNames.push(`Rectangle ${area.type}`);
+        }
+      );
 
       this.drawAllRectangles(rectangleArray);
     } else {

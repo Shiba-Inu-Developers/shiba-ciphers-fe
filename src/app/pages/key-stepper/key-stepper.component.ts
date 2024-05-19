@@ -21,8 +21,11 @@ export class KeyStepperComponent implements OnInit {
   currentStep = 1;
   rectangles: any;
   decryptedKeyTextJson: any;
+  areas: any;
 
   constructor(private userService: UserService, private router: Router) {
+    const navigation = this.router.getCurrentNavigation();
+    this.areas = navigation?.extras.state?.result;
     // Získanie aktuálnej URL cesty
     const currentUrl = this.router.url;
     // Overenie, či aktuálna URL cesta zodpovedá tutoriálovej URL ceste
@@ -50,13 +53,17 @@ export class KeyStepperComponent implements OnInit {
   }
 
   async onNext() {
-    console.log("SS:", this.s3kDecrypt.rectangles)
-    this.decryptedKeyTextJson = this.s3kDecrypt.updateRectangles(this.s3kDecrypt.rectangles);
+    console.log('SS:', this.s3kDecrypt.rectangles);
+    this.decryptedKeyTextJson = this.s3kDecrypt.updateRectangles(
+      this.s3kDecrypt.rectangles
+    );
     await new Promise((resolve) => setTimeout(resolve, 500));
-    let decryptedKeyTextObject = JSON.parse(this.decryptedKeyTextJson.__zone_symbol__value);
-    console.log("DecryptedKeyTextObject:", decryptedKeyTextObject);
+    let decryptedKeyTextObject = JSON.parse(
+      this.decryptedKeyTextJson.__zone_symbol__value
+    );
+    console.log('DecryptedKeyTextObject:', decryptedKeyTextObject);
     let decryptedKeyTextString = JSON.stringify(decryptedKeyTextObject);
-    console.log("DecryptedKeyTextString:", decryptedKeyTextString);
+    console.log('DecryptedKeyTextString:', decryptedKeyTextString);
     this.decryptedKeyTextJson = decryptedKeyTextString;
     this.currentStep++;
   }
@@ -176,7 +183,6 @@ export class KeyStepperComponent implements OnInit {
   }
 
   // NEW STEPPER FUNCTIONS
-
 
   //S2t-Segmentation
   //Ulož: (upravený) segmentovaný textImage do DataStore

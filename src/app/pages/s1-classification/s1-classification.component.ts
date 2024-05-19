@@ -102,13 +102,16 @@ export class S1ClassificationComponent {
         this.imageService.setImage(selectedFile);
         this.userService.setHashT(this.userService.getRandomHash());
 
-        this.userService.sendImageTextToSegmentation().subscribe((result) => {
-          console.warn('result', result);
-        });
+        this.userService
+          .sendImageTextToSegmentation()
+          .subscribe(async (result) => {
+            console.warn('result', result);
+            await new Promise((resolve) => setTimeout(resolve, 100));
 
-        await new Promise((resolve) => setTimeout(resolve, 100));
-
-        this.router.navigate(['/text-stepper']);
+            this.router.navigate(['/text-stepper'], {
+              state: { result: result },
+            });
+          });
       }
     } else {
       this.router.navigate(['/tutorial-text-stepper']);
@@ -122,13 +125,16 @@ export class S1ClassificationComponent {
         this.imageService.setImage(selectedFile);
         this.userService.setHashK(this.userService.getRandomHash());
 
-        this.userService.sendImageKeyToSegmentation().subscribe((result) => {
-          console.warn('result', result);
-        });
+        this.userService
+          .sendImageKeyToSegmentation()
+          .subscribe(async (result) => {
+            console.warn('result', result);
+            await new Promise((resolve) => setTimeout(resolve, 100));
 
-        await new Promise((resolve) => setTimeout(resolve, 100));
-
-        this.router.navigate(['/key-stepper']);
+            this.router.navigate(['/key-stepper'], {
+              state: { result: result },
+            });
+          });
       }
     } else {
       this.router.navigate(['/tutorial-key-stepper']);
@@ -147,14 +153,16 @@ export class S1ClassificationComponent {
     if (selectedFile) {
       this.imageService.setImage(selectedFile);
 
-      this.userService.sendImageToBE_s0(selectedFile, this.imageTitle).subscribe((result) => {
-        console.warn('result', result);
-        let resJson = JSON.parse(result);
-        this.userService.setRandomHash(resJson.hash);
-        this.keyPercentage = Math.round(resJson.confidence.key * 100);
-        this.textPercentage = Math.round(resJson.confidence.cyphertext * 100);
-        this.isImageProcessed = true;
-      });
+      this.userService
+        .sendImageToBE_s0(selectedFile, this.imageTitle)
+        .subscribe((result) => {
+          console.warn('result', result);
+          let resJson = JSON.parse(result);
+          this.userService.setRandomHash(resJson.hash);
+          this.keyPercentage = Math.round(resJson.confidence.key * 100);
+          this.textPercentage = Math.round(resJson.confidence.cyphertext * 100);
+          this.isImageProcessed = true;
+        });
     }
   }
 

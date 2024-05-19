@@ -3,12 +3,13 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Input,
   OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
 import { ImageService } from 'src/app/services/image.service';
-import {UserService} from "../../services/user.service";
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-s2t-segmentation',
@@ -16,31 +17,83 @@ import {UserService} from "../../services/user.service";
   styleUrls: ['./s2t-segmentation.component.css'],
 })
 export class S2tSegmentationComponent implements OnInit, AfterViewInit {
-  @Output() coordinatesChange: EventEmitter<
-    {
-      x: number;
-      y: number;
-      height: number;
-      width: number;
-    }[]
-  > = new EventEmitter();
+  @Input() areas: any;
   @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('image', { static: true })
   imageElement!: ElementRef<HTMLImageElement>;
-  ctx!: CanvasRenderingContext2D;
+  private ctx!: CanvasRenderingContext2D;
+
+  fileUrl: string | null = null;
+
+  selectedFileName: string | null = null;
+
+  rectangleNames: string[] = [];
   start: { x: number; y: number } | null = null;
   rectangles: {
     start: { x: number; y: number };
     end: { x: number; y: number };
   }[] = [];
-  rectangleNames: string[] = [];
-  selectedFileName!: string;
   backendText: string | undefined = '';
 
-  constructor(private imageService: ImageService, private userService: UserService) {}
+  constructor(
+    private imageService: ImageService,
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
-    this.selectedFileName = this.imageService.getImageUrl() ?? '';
+    // this.selectedFileName = this.imageService.getImageUrl() ?? '';
+    this.fileUrl = localStorage.getItem('selectedFile');
+    const context = this.canvas.nativeElement.getContext('2d');
+    if (!context) {
+      throw new Error('Could not get 2D rendering context from canvas');
+    }
+    this.ctx = context;
+
+    const selectedFileName = this.imageService.getImageUrl();
+    if (selectedFileName) {
+      this.loadImage(selectedFileName);
+    }
+    let rectangleArray:
+      | { start: { x: number; y: number }; end: { x: number; y: number } }[] =
+      [];
+    console.log('AREAS:', this.areas);
+    this.areas.areas.forEach(
+      (area: {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+        type: string;
+      }) => {
+        const x_start = area.x;
+        const y_start = area.y;
+        const x_end = area.x + area.width;
+        const y_end = area.y + area.height;
+        let rectangle1 = {
+          start: { x: x_start, y: y_start },
+          end: { x: x_end, y: y_end },
+        };
+        rectangleArray.push(rectangle1);
+        this.rectangleNames.push(`Rectangle ${area.type}`);
+      }
+    );
+
+    this.drawAllRectangles(rectangleArray);
+  }
+
+  loadImage(url: string): void {
+    fetch(url)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const file = new File([blob], url);
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const img = this.imageElement.nativeElement;
+          img.onload = () => this.adjustCanvasSize(img);
+          img.src = event.target?.result as string;
+        };
+        reader.readAsDataURL(file);
+      });
   }
 
   ngAfterViewInit() {
@@ -48,9 +101,6 @@ export class S2tSegmentationComponent implements OnInit, AfterViewInit {
     this.ctx = canvas.getContext('2d')!;
     this.adjustCanvasSize(this.imageElement.nativeElement);
   }
-
-
-
 
   async updateRectangles(rectangles: any): Promise<string | undefined> {
     let rectanglesArray: {
@@ -60,14 +110,19 @@ export class S2tSegmentationComponent implements OnInit, AfterViewInit {
       height: number;
     }[] = [];
 
-    rectangles.forEach((rectangle: { start: { x: number; y: number; }; end: { x: number; y: number; }; }) => {
-      let x = rectangle.start.x;
-      let y = rectangle.start.y;
-      let width = rectangle.end.x - rectangle.start.x;
-      let height = rectangle.end.y - rectangle.start.y;
+    rectangles.forEach(
+      (rectangle: {
+        start: { x: number; y: number };
+        end: { x: number; y: number };
+      }) => {
+        let x = rectangle.start.x;
+        let y = rectangle.start.y;
+        let width = rectangle.end.x - rectangle.start.x;
+        let height = rectangle.end.y - rectangle.start.y;
 
-      rectanglesArray.push({ x, y, width, height });
-    });
+        rectanglesArray.push({ x, y, width, height });
+      }
+    );
 
     let serverAreas = rectanglesArray.map((area: any) => ({
       x: Math.round(area.x),
@@ -80,14 +135,13 @@ export class S2tSegmentationComponent implements OnInit, AfterViewInit {
     let rectanglesJson = JSON.stringify({ areas: serverAreas });
     console.log(rectanglesJson);
 
-    this.backendText = await this.userService.sendAreasToBE_s2t(serverAreas).toPromise();
+    this.backendText = await this.userService
+      .sendAreasToBE_s2t(serverAreas)
+      .toPromise();
 
-    console.log("BACKEND_TEXT2:", this.backendText);
+    console.log('BACKEND_TEXT2:', this.backendText);
     return this.backendText;
   }
-
-
-
 
   adjustCanvasSize(image: HTMLImageElement): void {
     const canvas = this.canvas.nativeElement;
@@ -102,36 +156,51 @@ export class S2tSegmentationComponent implements OnInit, AfterViewInit {
 
   onCanvasMouseDown(event: MouseEvent): void {
     const rect = this.canvas.nativeElement.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    const scaleX = this.canvas.nativeElement.width / rect.width;
+    const scaleY = this.canvas.nativeElement.height / rect.height;
+    const x = (event.clientX - rect.left) * scaleX;
+    const y = (event.clientY - rect.top) * scaleY;
     this.start = { x, y };
   }
 
   onCanvasMouseUp(event: MouseEvent): void {
     if (!this.start) return;
-
     const rect = this.canvas.nativeElement.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-
+    const scaleX = this.canvas.nativeElement.width / rect.width;
+    const scaleY = this.canvas.nativeElement.height / rect.height;
+    const x = (event.clientX - rect.left) * scaleX;
+    const y = (event.clientY - rect.top) * scaleY;
     this.rectangles.push({ start: this.start, end: { x, y } });
     this.rectangleNames.push(`Rectangle ${this.rectangles.length}`);
     this.start = null;
     this.drawAllRectangles();
     this.printAllRectanglesCoordinates();
-    this.emitCoordinates();
   }
 
-  drawAllRectangles(): void {
-    const canvas = this.canvas.nativeElement;
-    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawAllRectangles(
+    rectangleArray?: {
+      start: { x: number; y: number };
+      end: { x: number; y: number };
+    }[]
+  ): void {
+    this.ctx.clearRect(
+      0,
+      0,
+      this.canvas.nativeElement.width,
+      this.canvas.nativeElement.height
+    );
     this.ctx.drawImage(
       this.imageElement.nativeElement,
       0,
       0,
-      canvas.width,
-      canvas.height
+      this.canvas.nativeElement.width,
+      this.canvas.nativeElement.height
     );
+    if (rectangleArray) {
+      rectangleArray.forEach((rectangle) => {
+        this.rectangles.push(rectangle);
+      });
+    }
     this.rectangles.forEach((rectangle) => {
       this.ctx.beginPath();
       this.ctx.lineWidth = 5;
@@ -162,14 +231,14 @@ export class S2tSegmentationComponent implements OnInit, AfterViewInit {
     this.drawAllRectangles();
   }
 
-  emitCoordinates(): void {
-    this.coordinatesChange.emit(
-      this.rectangles.map((rectangle) => ({
-        x: rectangle.start.x,
-        y: rectangle.start.y,
-        width: rectangle.end.x - rectangle.start.x,
-        height: rectangle.end.y - rectangle.start.y,
-      }))
-    );
-  }
+  // emitCoordinates(): void {
+  //   this.coordinatesChange.emit(
+  //     this.rectangles.map((rectangle) => ({
+  //       x: rectangle.start.x,
+  //       y: rectangle.start.y,
+  //       width: rectangle.end.x - rectangle.start.x,
+  //       height: rectangle.end.y - rectangle.start.y,
+  //     }))
+  //   );
+  // }
 }

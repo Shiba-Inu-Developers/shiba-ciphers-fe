@@ -9,6 +9,8 @@ import {UserService} from "../../services/user.service";
 export class S4DecipherComponent implements OnInit{
   @Output() keyId: EventEmitter<number> = new EventEmitter<number>();
   @Output() textId: EventEmitter<number> = new EventEmitter<number>();
+  @Output() keyHash: EventEmitter<string> = new EventEmitter<string>();
+  @Output() textHash: EventEmitter<string> = new EventEmitter<string>();
   imageKey: string | null = null;
   imageText: string | null = null;
   selectedKey: string = '';
@@ -94,7 +96,8 @@ export class S4DecipherComponent implements OnInit{
     this.selectedKeyTitle = this.keyOptions[selectedIndex];
     this.selectedKey = this.keyContents[selectedIndex];
     this.selectedKeyHash = this.keyHashes[selectedIndex];
-    this.keyId.emit(this.keyIds[selectedIndex]); // emit the value
+    this.keyId.emit(this.keyIds[selectedIndex]);
+    this.keyHash.emit(this.selectedKeyHash);
   }
 
   onTextChange(event: Event) {
@@ -102,6 +105,7 @@ export class S4DecipherComponent implements OnInit{
     this.selectedTextTitle = this.textOptions[selectedIndex];
     this.selectedText = this.textContents[selectedIndex];
     this.selectedTextHash = this.textHashes[selectedIndex];
-    this.textId.emit(this.textIds[selectedIndex]); // emit the value
+    this.textId.emit(this.textIds[selectedIndex]);
+    this.textHash.emit(this.selectedTextHash);
   }
 }

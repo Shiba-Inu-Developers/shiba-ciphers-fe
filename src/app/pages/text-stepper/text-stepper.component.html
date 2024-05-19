@@ -15,7 +15,7 @@
         class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500"
       >
         <span class="me-2">1</span>
-        <span class="hidden sm:inline-flex sm:ms-2">Classification</span>
+        <span class="hidden sm:inline-flex sm:ms-2">Text segmentation</span>
       </span>
     </li>
     <li
@@ -30,7 +30,9 @@
         class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500"
       >
         <span class="me-2">2</span>
-        <span class="hidden sm:inline-flex sm:ms-2">Text segmentation</span>
+        <span class="hidden sm:inline-flex sm:ms-2"
+        >Digitalization of text</span
+        >
       </span>
     </li>
     <li
@@ -42,7 +44,7 @@
       (click)="onStepChange(3)"
     >
       <span class="me-2">3</span>
-      Text decrypt
+      <span class="hidden sm:inline-flex sm:ms-2">Select pair</span>
     </li>
     <li
       class="flex md:w-full items-center cursor-pointer"
@@ -53,7 +55,7 @@
       (click)="onStepChange(4)"
     >
       <span class="me-2">4</span>
-      Key upload
+      <span class="hidden sm:inline-flex sm:ms-2">Decrypted result</span>
     </li>
     <!--    <li-->
     <!--      class="flex md:w-full items-center cursor-pointer"-->
@@ -87,10 +89,11 @@
       <app-s3t-decrypt [backendText]="decryptedTextTextJson"></app-s3t-decrypt>
     </ng-container>
     <ng-container *ngIf="currentStep === 3">
-      <app-s4-decipher (keyId)="handleKeyId($event)" (textId)="handleTextId($event)"></app-s4-decipher>
+      <app-s4-decipher (keyId)="handleKeyId($event)" (textId)="handleTextId($event)" (keyHash)="handleKeyHash($event)"
+                       (textHash)="handleTextHash($event)"></app-s4-decipher>
     </ng-container>
     <ng-container *ngIf="currentStep === 4">
-      <app-s5-decipher-result [decryptedText]="finalDecryptedText"></app-s5-decipher-result>
+      <app-s5-decipher-result [decryptedText]="finalDecryptedText" [keyHash]="finalKeyHash" [textHash]="finalTextHash"></app-s5-decipher-result>
     </ng-container>
   </div>
   <div class="flex justify-end mt-10">

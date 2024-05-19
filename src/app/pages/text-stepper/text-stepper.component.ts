@@ -23,7 +23,9 @@ export class TextStepperComponent {
   areas: any;
   keyId: number = 0;
   textId: number = 0;
-  finalDecryptedText: string = '';
+  finalDecryptedText: string = ''
+  finalKeyHash: string = '';
+  finalTextHash: string = '';
 
   currentStep = 1;
 
@@ -74,6 +76,14 @@ export class TextStepperComponent {
     else {
       this.currentStep++;
     }
+  }
+
+  handleKeyHash(keyHash: string) {
+    this.finalKeyHash = keyHash;
+  }
+
+  handleTextHash(textHash: string) {
+    this.finalTextHash = textHash;
   }
 
   handleKeyId(keyId: number) {

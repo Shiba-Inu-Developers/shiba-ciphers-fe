@@ -16,7 +16,7 @@ import { UserService } from '../../services/user.service';
   templateUrl: './s2t-segmentation.component.html',
   styleUrls: ['./s2t-segmentation.component.css'],
 })
-export class S2tSegmentationComponent implements OnInit, AfterViewInit {
+export class S2tSegmentationComponent implements OnInit {
   @Input() areas: any;
   @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('image', { static: true })
@@ -96,11 +96,11 @@ export class S2tSegmentationComponent implements OnInit, AfterViewInit {
       });
   }
 
-  ngAfterViewInit() {
-    const canvas = this.canvas.nativeElement;
-    this.ctx = canvas.getContext('2d')!;
-    this.adjustCanvasSize(this.imageElement.nativeElement);
-  }
+  // ngAfterViewInit() {
+  //   const canvas = this.canvas.nativeElement;
+  //   this.ctx = canvas.getContext('2d')!;
+  //   this.adjustCanvasSize(this.imageElement.nativeElement);
+  // }
 
   async updateRectangles(rectangles: any): Promise<string | undefined> {
     let rectanglesArray: {

@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ImageService } from '../../services/image.service';
 import { Router } from '@angular/router';
-import {UserService} from "../../services/user.service";
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-s1-classification',
@@ -24,8 +24,15 @@ export class S1ClassificationComponent {
   tutorialPic: boolean = false;
   keyPercentage: number = 0;
   textPercentage: number = 0;
+  imageTitle: string = ''; // New field for image title
+  showTitleError: boolean = false; // New field for title error message
+  showImageError: boolean = false; // New field for image error message
 
-  constructor(private userService: UserService, private imageService: ImageService, private router: Router) {
+  constructor(
+    private userService: UserService,
+    private imageService: ImageService,
+    private router: Router
+  ) {
     // Získanie aktuálnej URL cesty
     const currentUrl = this.router.url;
     // Overenie, či aktuálna URL cesta zodpovedá tutoriálovej URL ceste
@@ -33,6 +40,7 @@ export class S1ClassificationComponent {
   }
 
   onFileChange(event: Event) {
+    this.showImageError = false; // Reset image error message
     if (!this.isTutorialPage) {
       const file = this.getSelectedFile();
       if (file && this.isImage(file)) {
@@ -64,28 +72,6 @@ export class S1ClassificationComponent {
     console.log(this.tutorialPic);
   }
 
-  // onFileDrop(event: any) {
-  //   if (!this.isTutorialPage) {
-  //     console.log(event.dataTransfer);
-  //     event.preventDefault();
-  //     event.stopPropagation();
-  //     const files = this.getSelectedFile();
-  //     if (files) {
-  //       const file = files;
-  //       if (this.isImage(file)) {
-  //         const reader = new FileReader();
-  //         reader.onload = (event) => {
-  //           this.fileUrl = event.target?.result as string;
-  //           this.selectedFile.emit(file);
-  //         };
-  //         reader.readAsDataURL(file);
-  //       } else {
-  //         console.error('Dropped file is not an image.');
-  //       }
-  //     }
-  //   }
-  // }
-
   isImage(file: File): boolean {
     const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif']; // Prípustné koncovky obrázkových súborov
     const fileNameParts = file.name.split('.'); // Rozdelíme názov súboru na časti podľa bodiek
@@ -114,7 +100,7 @@ export class S1ClassificationComponent {
       const selectedFile = this.getSelectedFile();
       if (selectedFile) {
         this.imageService.setImage(selectedFile);
-        this.userService.setHashT(this.userService.getRandomHash())
+        this.userService.setHashT(this.userService.getRandomHash());
 
         this.userService.sendImageTextToSegmentation().subscribe((result) => {
           console.warn('result', result);
@@ -134,7 +120,7 @@ export class S1ClassificationComponent {
       const selectedFile = this.getSelectedFile();
       if (selectedFile) {
         this.imageService.setImage(selectedFile);
-        this.userService.setHashK(this.userService.getRandomHash())
+        this.userService.setHashK(this.userService.getRandomHash());
 
         this.userService.sendImageKeyToSegmentation().subscribe((result) => {
           console.warn('result', result);
@@ -150,6 +136,13 @@ export class S1ClassificationComponent {
   }
 
   processImage(): void {
+    this.showTitleError = !this.imageTitle; // Show error if title is empty
+    this.showImageError = !this.fileUrl; // Show error if image is not selected
+
+    if (this.showTitleError || this.showImageError) {
+      return; // Exit if there is an error
+    }
+
     const selectedFile = this.getSelectedFile();
     if (selectedFile) {
       this.imageService.setImage(selectedFile);

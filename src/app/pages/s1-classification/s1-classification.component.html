@@ -43,6 +43,18 @@
             />
           </label>
         </div>
+        <input
+          type="text"
+          placeholder="Enter title"
+          class="border rounded px-4 py-2 mb-4 w-full"
+          [(ngModel)]="imageTitle"
+        />
+        <p *ngIf="showTitleError" class="text-red-500">
+          Please enter a title first.
+        </p>
+        <p *ngIf="showImageError" class="text-red-500">
+          Please upload an image first.
+        </p>
         <button
           class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4"
           (click)="processImage()"
@@ -55,7 +67,7 @@
           <div class="flex flex-col items-center justify-center p-6">
             <p>{{ keyPercentage / 100 | percent : "1.0-2" }}</p>
             <button
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 disabled:bg-gray-500"
               (click)="saveKeyInStorage()"
               [disabled]="!isImageProcessed"
             >
@@ -63,7 +75,7 @@
             </button>
             <p>{{ textPercentage / 100 | percent : "1.0-2" }}</p>
             <button
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-500"
               (click)="saveTextInStorage()"
               [disabled]="!isImageProcessed"
             >

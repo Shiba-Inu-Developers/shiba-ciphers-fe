@@ -92,6 +92,7 @@ export class S2tSegmentationComponent implements OnInit, AfterViewInit {
     );
     this.rectangles.forEach((rectangle) => {
       this.ctx.beginPath();
+      this.ctx.lineWidth = 5;
       this.ctx.rect(
         rectangle.start.x,
         rectangle.start.y,

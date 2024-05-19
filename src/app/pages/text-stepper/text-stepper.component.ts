@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import {S3kSegmentationDecryptComponent} from "../s3k-segmentation-decrypt/s3k-segmentation-decrypt.component";
+import {S3tDecryptComponent} from "../s3t-decrypt/s3t-decrypt.component";
+import {S2tSegmentationComponent} from "../s2t-segmentation/s2t-segmentation.component";
 
 @Component({
   selector: 'app-text-stepper',
@@ -10,12 +13,14 @@ import { Router } from '@angular/router';
 })
 export class TextStepperComponent {
   coordinates = [];
+  @ViewChild('s3tDecrypt') s3tDecrypt!: S2tSegmentationComponent;
 
   selectedFile: File | null = null;
   selectedFileText: File | null = null;
   selectedFileKey: File | null = null;
   temporaryJson: any;
   isTutorialPage: boolean = false;
+  decryptedTextTextJson: any;
 
   currentStep = 1;
 
@@ -31,6 +36,23 @@ export class TextStepperComponent {
   onBack() {
     this.currentStep--;
   }
+
+  async onNext() {
+    console.log("SS:", this.s3tDecrypt.rectangles)
+    this.decryptedTextTextJson = this.s3tDecrypt.updateRectangles(this.s3tDecrypt.rectangles);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    let decryptedKeyTextObject = JSON.parse(this.decryptedTextTextJson.__zone_symbol__value);
+    console.log("DecryptedKeyTextObject:", decryptedKeyTextObject);
+    let decryptedKeyTextString = JSON.stringify(decryptedKeyTextObject);
+    console.log("DecryptedKeyTextString:", decryptedKeyTextString);
+    this.decryptedTextTextJson = decryptedKeyTextString;
+    this.currentStep++;
+  }
+
+
+
+
+
 /*
   onNext() {
     if (this.currentStep == 1) {

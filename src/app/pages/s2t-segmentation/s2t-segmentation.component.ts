@@ -8,6 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ImageService } from 'src/app/services/image.service';
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-s2t-segmentation',
@@ -34,8 +35,9 @@ export class S2tSegmentationComponent implements OnInit, AfterViewInit {
   }[] = [];
   rectangleNames: string[] = [];
   selectedFileName!: string;
+  backendText: string | undefined = '';
 
-  constructor(private imageService: ImageService) {}
+  constructor(private imageService: ImageService, private userService: UserService) {}
 
   ngOnInit() {
     this.selectedFileName = this.imageService.getImageUrl() ?? '';
@@ -46,6 +48,46 @@ export class S2tSegmentationComponent implements OnInit, AfterViewInit {
     this.ctx = canvas.getContext('2d')!;
     this.adjustCanvasSize(this.imageElement.nativeElement);
   }
+
+
+
+
+  async updateRectangles(rectangles: any): Promise<string | undefined> {
+    let rectanglesArray: {
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+    }[] = [];
+
+    rectangles.forEach((rectangle: { start: { x: number; y: number; }; end: { x: number; y: number; }; }) => {
+      let x = rectangle.start.x;
+      let y = rectangle.start.y;
+      let width = rectangle.end.x - rectangle.start.x;
+      let height = rectangle.end.y - rectangle.start.y;
+
+      rectanglesArray.push({ x, y, width, height });
+    });
+
+    let serverAreas = rectanglesArray.map((area: any) => ({
+      x: Math.round(area.x),
+      y: Math.round(area.y),
+      width: Math.round(area.width),
+      height: Math.round(area.height),
+      type: area.type || null,
+    }));
+
+    let rectanglesJson = JSON.stringify({ areas: serverAreas });
+    console.log(rectanglesJson);
+
+    this.backendText = await this.userService.sendAreasToBE_s2t(serverAreas).toPromise();
+
+    console.log("BACKEND_TEXT2:", this.backendText);
+    return this.backendText;
+  }
+
+
+
 
   adjustCanvasSize(image: HTMLImageElement): void {
     const canvas = this.canvas.nativeElement;

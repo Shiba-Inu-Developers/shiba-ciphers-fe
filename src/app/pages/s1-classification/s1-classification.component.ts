@@ -147,7 +147,7 @@ export class S1ClassificationComponent {
     if (selectedFile) {
       this.imageService.setImage(selectedFile);
 
-      this.userService.sendImageToBE_s0(selectedFile).subscribe((result) => {
+      this.userService.sendImageToBE_s0(selectedFile, this.imageTitle).subscribe((result) => {
         console.warn('result', result);
         let resJson = JSON.parse(result);
         this.userService.setRandomHash(resJson.hash);

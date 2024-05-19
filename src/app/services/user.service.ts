@@ -126,15 +126,19 @@ export class UserService {
 
 
   // STEPPER GOOD
-  sendImageToBE_s0(file: File | null) {
+  sendImageToBE_s0(file: File | null, imageTitle: string) {
     const formData = new FormData();
     // @ts-ignore
     formData.append('image', file);
+    formData.append('imageTitle', imageTitle);
+
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     });
+
     return this.http.put('api/myimages/stepper-s0', formData, { headers: headers, responseType: 'text' });
   }
+
 
 
   sendImageTextToSegmentation() {

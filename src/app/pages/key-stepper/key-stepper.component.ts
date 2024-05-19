@@ -89,58 +89,6 @@ export class KeyStepperComponent implements OnInit {
   }
 
   //TODO: VHODIT DO JEDNEJ FUNCKIE
-
-  // Cookies pre BE:
-  // imageType = ["Text", "Key"]
-  onTextProcess(file: File | null) {
-    console.log('Text processing');
-    // take image from cipher-text
-    this.selectedFileText = file;
-    console.log('TEXT: ', this.selectedFileText);
-    // send to API endpoint file and imageType
-
-    var step = 's1';
-    this.userService.sendImageToBE_s0(this.selectedFileText).subscribe({
-      next: (data) => {
-        console.log('Data:', data);
-      },
-      error: (error) => console.error('There was an error!', error),
-    });
-  }
-
-  onKeyProcess(file: File | null) {
-    console.log('Key processing');
-    // take image from cipher-key
-    this.selectedFileKey = file;
-    console.log('KEY: ', this.selectedFileKey);
-
-    var step = 's1';
-    this.userService.sendImageToBE_s0(this.selectedFileText).subscribe({
-      next: (data) => {
-        console.log('Data:', data);
-      },
-      error: (error) => console.error('There was an error!', error),
-    });
-  }
-
-  onS0Process(file: File | null) {
-    console.log('S0 processing');
-    this.selectedFileText = file;
-    console.log('IMAGE: ', this.selectedFileText);
-
-    this.userService.sendImageToBE_s0(this.selectedFileText).subscribe({
-      next: (data: string) => {
-        try {
-          const jsonData = JSON.parse(data);
-          console.log('Data:', jsonData);
-          //TODO: update component element
-        } catch (error) {
-          console.error('Error parsing JSON:', error);
-        }
-      },
-      error: (error) => console.error('There was an error!', error),
-    });
-  }
   /*
   onS1Process() {
     console.log('S1 processing');
@@ -229,19 +177,6 @@ export class KeyStepperComponent implements OnInit {
 
   // NEW STEPPER FUNCTIONS
 
-  //S1-Classification
-  //Ulož: originál textImage do DataStore
-  //Vráť: segmentovaný textImage (JSON)
-  onClassificationProcess() {
-    console.log('Classification processing');
-    var image = this.selectedFileText;
-    this.userService.sendImageToBE_s0(this.selectedFileText).subscribe({
-      next: (data) => {
-        console.log('Data:', data);
-      },
-      error: (error) => console.error('There was an error!', error),
-    });
-  }
 
   //S2t-Segmentation
   //Ulož: (upravený) segmentovaný textImage do DataStore

@@ -1,0 +1,11 @@
+.table-fixed th,
+.table-fixed td {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.table-fixed th,
+.table-fixed td:hover {
+  overflow: auto;
+  white-space: normal;
+}

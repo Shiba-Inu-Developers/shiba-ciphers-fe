@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { ImageService } from '../../services/image.service';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
@@ -9,6 +9,7 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./s3k-segmentation-decrypt.component.css'],
 })
 export class S3kSegmentationDecryptComponent implements OnInit {
+  @Input() areas: any;
   @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('image', { static: true })
   imageElement!: ElementRef<HTMLImageElement>;
@@ -49,13 +50,29 @@ export class S3kSegmentationDecryptComponent implements OnInit {
         this.loadImage(selectedFileName);
       }
 
-      // Pevne dané súradnice obdĺžnikov
-      this.rectangles = [
-        { start: { x: 50, y: 50 }, end: { x: 150, y: 100 } },
-        { start: { x: 200, y: 150 }, end: { x: 350, y: 250 } },
-      ];
+      console.log('AREAS:', this.areas);
 
-      this.drawAllRectangles();
+      let rectangleArray = [];
+      rectangleArray.push({
+        start: { x: 50, y: 50 },
+        end: { x: 150, y: 100 },
+      });
+      rectangleArray.push({
+        start: { x: 200, y: 150 },
+        end: { x: 350, y: 250 },
+      });
+      this.rectangleNames.push(`Rectangle ${this.rectangles.length}`);
+      this.rectangleNames.push(`Rectangle ${this.rectangles.length}`);
+      // Pevne dané súradnice obdĺžnikov
+      // this.rectangles.push();
+      // this.rectangleNames.push(`Rectangle ${this.rectangles.length}`);
+      // this.rectangles.push({
+      //   start: { x: 200, y: 150 },
+      //   end: { x: 350, y: 250 },
+      // });
+      // this.rectangleNames.push(`Rectangle ${this.rectangles.length}`);
+
+      this.drawAllRectangles(rectangleArray);
     } else {
       const context = this.canvas.nativeElement.getContext('2d');
       if (!context) {
@@ -74,14 +91,19 @@ export class S3kSegmentationDecryptComponent implements OnInit {
       height: number;
     }[] = [];
 
-    rectangles.forEach((rectangle: { start: { x: number; y: number; }; end: { x: number; y: number; }; }) => {
-      let x = rectangle.start.x;
-      let y = rectangle.start.y;
-      let width = rectangle.end.x - rectangle.start.x;
-      let height = rectangle.end.y - rectangle.start.y;
+    rectangles.forEach(
+      (rectangle: {
+        start: { x: number; y: number };
+        end: { x: number; y: number };
+      }) => {
+        let x = rectangle.start.x;
+        let y = rectangle.start.y;
+        let width = rectangle.end.x - rectangle.start.x;
+        let height = rectangle.end.y - rectangle.start.y;
 
-      rectanglesArray.push({ x, y, width, height });
-    });
+        rectanglesArray.push({ x, y, width, height });
+      }
+    );
 
     let serverAreas = rectanglesArray.map((area: any) => ({
       x: Math.round(area.x),
@@ -94,9 +116,11 @@ export class S3kSegmentationDecryptComponent implements OnInit {
     let rectanglesJson = JSON.stringify({ areas: serverAreas });
     console.log(rectanglesJson);
 
-    this.backendText = await this.userService.sendAreasToBE_s2k(serverAreas).toPromise();
+    this.backendText = await this.userService
+      .sendAreasToBE_s2k(serverAreas)
+      .toPromise();
 
-    console.log("BACKEND_TEXT2:", this.backendText);
+    console.log('BACKEND_TEXT2:', this.backendText);
     return this.backendText;
   }
 
@@ -148,7 +172,12 @@ export class S3kSegmentationDecryptComponent implements OnInit {
     this.printAllRectanglesCoordinates();
   }
 
-  drawAllRectangles(): void {
+  drawAllRectangles(
+    rectangleArray?: {
+      start: { x: number; y: number };
+      end: { x: number; y: number };
+    }[]
+  ): void {
     this.ctx.clearRect(
       0,
       0,
@@ -162,6 +191,11 @@ export class S3kSegmentationDecryptComponent implements OnInit {
       this.canvas.nativeElement.width,
       this.canvas.nativeElement.height
     );
+    if (rectangleArray) {
+      rectangleArray.forEach((rectangle) => {
+        this.rectangles.push(rectangle);
+      });
+    }
     this.rectangles.forEach((rectangle) => {
       this.ctx.beginPath();
       this.ctx.lineWidth = 5;

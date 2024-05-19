@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {UserService} from "../../services/user.service";
 
 @Component({
@@ -7,16 +7,26 @@ import {UserService} from "../../services/user.service";
   styleUrls: ['./s4-decipher.component.css'],
 })
 export class S4DecipherComponent implements OnInit{
+  @Output() keyId: EventEmitter<number> = new EventEmitter<number>();
+  @Output() textId: EventEmitter<number> = new EventEmitter<number>();
   imageKey: string | null = null;
   imageText: string | null = null;
   selectedKey: string = '';
   selectedText: string = '';
   selectedKeyTitle: string = '';
   selectedTextTitle: string = '';
+  selectedKeyHash: string = '';
+  selectedTextHash: string = '';
+  selectedKeyId: number = 0;
+  selectedTextId: number = 0;
   keyOptions: string[] = [];
   textOptions: string[] = [];
   keyContents: string[] = [];
   textContents: string[] = [];
+  keyHashes: string[] = [];
+  textHashes: string[] = [];
+  keyIds: number[] = [];
+  textIds: number[] = [];
 
   allImages: any;
   loading = true;
@@ -32,16 +42,24 @@ export class S4DecipherComponent implements OnInit{
 
       let keyTitles: string[] = [];
       let keyContents: string[] = [];
+      let keyHashes: string[] = [];
+      let keyIds: number[] = [];
       let textTitles: string[] = [];
       let textContents: string[] = [];
+      let textHashes: string[] = [];
+      let textIds: number[] = [];
 
       this.allImages.forEach((image: any) => {
         if (image.type === 'key') {
           keyTitles.push(image.title);
           keyContents.push(image.content);
+          keyHashes.push(image.hash);
+          keyIds.push(image.id);
         } else if (image.type === 'text') {
           textTitles.push(image.title);
           textContents.push(image.content);
+          textHashes.push(image.hash);
+          textIds.push(image.id);
         }
       });
 
@@ -50,6 +68,12 @@ export class S4DecipherComponent implements OnInit{
 
       this.keyContents = keyContents;
       this.textContents = textContents;
+
+      this.keyHashes = keyHashes;
+      this.textHashes = textHashes;
+
+      this.keyIds = keyIds;
+      this.textIds = textIds;
 
       this.loading = false;
     });
@@ -69,11 +93,15 @@ export class S4DecipherComponent implements OnInit{
     const selectedIndex = (event.target as HTMLSelectElement).selectedIndex;
     this.selectedKeyTitle = this.keyOptions[selectedIndex];
     this.selectedKey = this.keyContents[selectedIndex];
+    this.selectedKeyHash = this.keyHashes[selectedIndex];
+    this.keyId.emit(this.keyIds[selectedIndex]); // emit the value
   }
 
   onTextChange(event: Event) {
     const selectedIndex = (event.target as HTMLSelectElement).selectedIndex;
     this.selectedTextTitle = this.textOptions[selectedIndex];
     this.selectedText = this.textContents[selectedIndex];
+    this.selectedTextHash = this.textHashes[selectedIndex];
+    this.textId.emit(this.textIds[selectedIndex]); // emit the value
   }
 }

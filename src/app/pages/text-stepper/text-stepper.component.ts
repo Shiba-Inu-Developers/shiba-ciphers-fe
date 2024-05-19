@@ -21,6 +21,9 @@ export class TextStepperComponent {
   isTutorialPage: boolean = false;
   decryptedTextTextJson: any;
   areas: any;
+  keyId: number = 0;
+  textId: number = 0;
+  finalDecryptedText: string = '';
 
   currentStep = 1;
 
@@ -40,7 +43,7 @@ export class TextStepperComponent {
   }
 
   async onNext() {
-    if (this.currentStep !== 3) {
+    if (this.currentStep == 1) {
       console.log('SS:', this.s3tDecrypt.rectangles);
       this.decryptedTextTextJson = this.s3tDecrypt.updateRectangles(
         this.s3tDecrypt.rectangles
@@ -54,9 +57,31 @@ export class TextStepperComponent {
       console.log('DecryptedKeyTextString:', decryptedKeyTextString);
       this.decryptedTextTextJson = decryptedKeyTextString;
       this.currentStep++;
-    } else {
+    }
+    else if (this.currentStep == 3) {
+      //SEND TO DECRYPT
+      this.userService.sendToDecrypt(this.keyId, this.textId).subscribe(
+        response => {
+          console.log("DECRYTED TEXTTTTTTTTTT:", response);
+          this.finalDecryptedText = response;
+        },
+        error => {
+          console.error(error);
+        }
+      );
       this.currentStep++;
     }
+    else {
+      this.currentStep++;
+    }
+  }
+
+  handleKeyId(keyId: number) {
+    this.keyId = keyId;
+  }
+
+  handleTextId(textId: number) {
+    this.textId = textId;
   }
 
   /*

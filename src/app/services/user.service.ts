@@ -191,6 +191,21 @@ export class UserService {
     return this.http.post(`api/myimages/stepper-s2k/${this.getHashK()}`, JSON.stringify({areas: serverAreas}), { headers: headers, responseType: 'text'});
   }
 
+  sendToDecrypt(idKey: number, idText: number) {
+
+    let obj = {
+      key: idKey,
+      text: idText
+    };
+    let jsonToSend = JSON.stringify(obj);
+
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      'Content-Type': 'application/json'
+    });
+    return this.http.post('api/myimages/decrypt', jsonToSend, { headers: headers, responseType: 'text' });
+  }
+
 
   getAllImages() {
     return this.http.get('api/myimages/all-images');

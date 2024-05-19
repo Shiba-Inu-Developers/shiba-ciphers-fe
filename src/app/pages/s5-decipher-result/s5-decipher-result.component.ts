@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -7,9 +7,10 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./s5-decipher-result.component.css'],
 })
 export class S5DecipherResultComponent implements OnInit {
+  @Input() decryptedText: string = '';
   keyImageUrl: string = '';
   textImageUrl: string = '';
-  decryptedText: string = '';
+  //decryptedText: string = '';
 
   constructor(private http: HttpClient) {}
 

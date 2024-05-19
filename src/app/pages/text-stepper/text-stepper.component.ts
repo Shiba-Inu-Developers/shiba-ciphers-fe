@@ -40,19 +40,23 @@ export class TextStepperComponent {
   }
 
   async onNext() {
-    console.log('SS:', this.s3tDecrypt.rectangles);
-    this.decryptedTextTextJson = this.s3tDecrypt.updateRectangles(
-      this.s3tDecrypt.rectangles
-    );
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    let decryptedKeyTextObject = JSON.parse(
-      this.decryptedTextTextJson.__zone_symbol__value
-    );
-    console.log('DecryptedKeyTextObject:', decryptedKeyTextObject);
-    let decryptedKeyTextString = JSON.stringify(decryptedKeyTextObject);
-    console.log('DecryptedKeyTextString:', decryptedKeyTextString);
-    this.decryptedTextTextJson = decryptedKeyTextString;
-    this.currentStep++;
+    if (this.currentStep !== 3) {
+      console.log('SS:', this.s3tDecrypt.rectangles);
+      this.decryptedTextTextJson = this.s3tDecrypt.updateRectangles(
+        this.s3tDecrypt.rectangles
+      );
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      let decryptedKeyTextObject = JSON.parse(
+        this.decryptedTextTextJson.__zone_symbol__value
+      );
+      console.log('DecryptedKeyTextObject:', decryptedKeyTextObject);
+      let decryptedKeyTextString = JSON.stringify(decryptedKeyTextObject);
+      console.log('DecryptedKeyTextString:', decryptedKeyTextString);
+      this.decryptedTextTextJson = decryptedKeyTextString;
+      this.currentStep++;
+    } else {
+      this.currentStep++;
+    }
   }
 
   /*

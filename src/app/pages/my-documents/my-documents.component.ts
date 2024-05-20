@@ -11,22 +11,43 @@ export class MyDocumentsComponent implements OnInit{
   documents: any[] = [];
   documentTexts: any[] = [];
   documentKeys: any[] = [];
+  documentTextsHashes: string[] = [];
+  documentKeysHashes: string[] = [];
 
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.getAllDocumentsText()
-    this.getAllDocumentsKeys()
+    this.getAllImages();
   }
 
-  getAllDocumentsText() {
-    this.http.get<any[]>('/api/myimages/text-records').subscribe((documents: any[]) => {
-      this.documentTexts = documents;
+  getAllImages() {
+    this.http.get<any[]>('/api/myimages/all-images').subscribe((documents: any[]) => {
+      this.documents = documents;
+      this.documentTexts = documents.filter(document => document.type === 'text');
+      this.documentKeys = documents.filter(document => document.type === 'key');
+      this.documentTextsHashes = this.documentTexts.map(document => document.hash);
+      this.documentKeysHashes = this.documentKeys.map(document => document.hash);
     });
   }
-  getAllDocumentsKeys() {
-    this.http.get<any[]>('/api/myimages/key-records').subscribe((documents: any[]) => {
-      this.documentKeys = documents;
+
+  changePriorityText(index: number, isPublic: boolean) {
+    const hash = this.documentTextsHashes[index];
+    const ppublic = !isPublic;
+    this.http.post(`/api/myimages/change-public/${hash}`, { ppublic: ppublic }).subscribe(response => {
+      console.log(response);
+    }, error => {
+      console.log(error);
     });
   }
+
+  changePriorityKey(index: number, isPublic: boolean) {
+    const hash = this.documentKeysHashes[index];
+    const ppublic = !isPublic;
+    this.http.post(`/api/myimages/change-public/${hash}`, { ppublic: ppublic }).subscribe(response => {
+      console.log(response);
+    }, error => {
+      console.log(error);
+    });
+  }
+
 }

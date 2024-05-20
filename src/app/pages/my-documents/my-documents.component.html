@@ -35,7 +35,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of documentTexts" class="hover:bg-gray-50">
+            <tr *ngFor="let item of documentTexts; let i = index" class="hover:bg-gray-50">
               <td class="text-center py-2">{{ item.type }}</td>
               <td
                 class="py-2 overflow-hidden overflow-ellipsis whitespace-nowrap text-center"
@@ -45,7 +45,7 @@
               <td
                 class="py-2 overflow-hidden overflow-ellipsis whitespace-nowrap text-center"
               >
-                {{ item.creationDate }}
+                {{ item.creationDate | date:'medium' }}
               </td>
               <td class="text-center py-2">
                 <input type="checkbox" value="{{item.isPublic ? 'checked' : 'unchecked'}}" disabled="disabled"/>
@@ -53,6 +53,7 @@
               <td class="text-center py-2">
                 <button
                   class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded shadow-md transform transition-all hover:scale-110"
+                  (click) = "changePriorityText(i, item.isPublic)"
                 >
                   Change Priority
                 </button>
@@ -96,7 +97,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of documentKeys" class="hover:bg-gray-50">
+            <tr *ngFor="let item of documentKeys; let i = index" class="hover:bg-gray-50">
               <td class="text-center py-2">{{ item.type }}</td>
               <td
                 class="py-2 overflow-hidden overflow-ellipsis whitespace-nowrap text-center"
@@ -106,7 +107,7 @@
               <td
                 class="py-2 overflow-hidden overflow-ellipsis whitespace-nowrap text-center"
               >
-                {{ item.creationDate }}
+                {{ item.creationDate | date:'medium' }}
               </td>
               <td class="text-center py-2">
                 <input type="checkbox" value="{{item.isPublic ? 'checked' : 'unchecked'}}" disabled="disabled"/>
@@ -114,6 +115,7 @@
               <td class="text-center py-2">
                 <button
                   class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded shadow-md transform transition-all hover:scale-110"
+                  (click) = "changePriorityKey(i, item.isPublic)"
                 >
                   Change Priority
                 </button>

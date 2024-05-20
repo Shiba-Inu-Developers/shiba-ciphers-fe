@@ -27,7 +27,7 @@
                 Creation Date
               </th>
               <th class="w-1/5 border-b-2 border-gray-300 py-2 text-center">
-                Public/Private
+                Public
               </th>
               <th class="w-1/6 border-b-2 border-gray-300 py-2 text-center">
                 Action
@@ -47,7 +47,9 @@
               >
                 {{ item.creationDate }}
               </td>
-              <td class="text-center py-2">{{ item.isPublic }}</td>
+              <td class="text-center py-2">
+                <input type="checkbox" value="{{item.isPublic ? 'checked' : 'unchecked'}}" disabled="disabled"/>
+              </td>
               <td class="text-center py-2">
                 <button
                   class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded shadow-md transform transition-all hover:scale-110"
@@ -86,7 +88,7 @@
                 Creation Date
               </th>
               <th class="w-1/5 border-b-2 border-gray-300 py-2 text-center">
-                Public/Private
+                Public
               </th>
               <th class="w-1/6 border-b-2 border-gray-300 py-2 text-center">
                 Action
@@ -106,7 +108,9 @@
               >
                 {{ item.creationDate }}
               </td>
-              <td class="text-center py-2">{{ item.isPublic }}</td>
+              <td class="text-center py-2">
+                <input type="checkbox" value="{{item.isPublic ? 'checked' : 'unchecked'}}" disabled="disabled"/>
+              </td>
               <td class="text-center py-2">
                 <button
                   class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded shadow-md transform transition-all hover:scale-110"

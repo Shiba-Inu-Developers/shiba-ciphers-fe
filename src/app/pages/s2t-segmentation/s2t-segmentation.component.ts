@@ -34,11 +34,12 @@ export class S2tSegmentationComponent implements OnInit {
     end: { x: number; y: number };
   }[] = [];
   backendText: string | undefined = '';
+  tmpRectangle: { x: number, y: number, x2: number, y2: number } | undefined = undefined
 
   constructor(
     private imageService: ImageService,
     private userService: UserService
-  ) {}
+  ) { }
 
   ngOnInit() {
     // this.selectedFileName = this.imageService.getImageUrl() ?? '';
@@ -77,7 +78,13 @@ export class S2tSegmentationComponent implements OnInit {
       }
     );
 
-    this.drawAllRectangles(rectangleArray);
+    if (rectangleArray) {
+      rectangleArray.forEach((rectangle) => {
+        this.rectangles.push(rectangle);
+      });
+    }
+
+    this.drawAllRectangles();
   }
 
   loadImage(url: string): void {
@@ -140,8 +147,6 @@ export class S2tSegmentationComponent implements OnInit {
     const height = image.naturalHeight * (width / image.naturalWidth);
     canvas.width = width;
     canvas.height = height;
-    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-    this.ctx.drawImage(image, 0, 0, width, height);
     this.drawAllRectangles();
   }
 
@@ -152,6 +157,21 @@ export class S2tSegmentationComponent implements OnInit {
     const x = (event.clientX - rect.left) * scaleX;
     const y = (event.clientY - rect.top) * scaleY;
     this.start = { x, y };
+    this.tmpRectangle = { x, y, x2: x, y2: y }
+  }
+
+  onCanvasMouseMove(event: MouseEvent): void {
+    if (!this.tmpRectangle) {
+      return
+    };
+    const rect = this.canvas.nativeElement.getBoundingClientRect();
+    const scaleX = this.canvas.nativeElement.width / rect.width;
+    const scaleY = this.canvas.nativeElement.height / rect.height;
+    const x = (event.clientX - rect.left) * scaleX;
+    const y = (event.clientY - rect.top) * scaleY;
+    this.tmpRectangle.x2 = x
+    this.tmpRectangle.y2 = y
+    this.drawAllRectangles()
   }
 
   onCanvasMouseUp(event: MouseEvent): void {
@@ -164,15 +184,15 @@ export class S2tSegmentationComponent implements OnInit {
     this.rectangles.push({ start: this.start, end: { x, y } });
     this.rectangleNames.push(`Rectangle ${this.rectangles.length}`);
     this.start = null;
+
+    if (this.tmpRectangle) {
+      this.tmpRectangle = undefined
+    }
+
     this.drawAllRectangles();
   }
 
-  drawAllRectangles(
-    rectangleArray?: {
-      start: { x: number; y: number };
-      end: { x: number; y: number };
-    }[]
-  ): void {
+  drawAllRectangles(): void {
     this.ctx.clearRect(
       0,
       0,
@@ -186,22 +206,24 @@ export class S2tSegmentationComponent implements OnInit {
       this.canvas.nativeElement.width,
       this.canvas.nativeElement.height
     );
-    if (rectangleArray) {
-      rectangleArray.forEach((rectangle) => {
-        this.rectangles.push(rectangle);
-      });
-    }
     this.rectangles.forEach((rectangle) => {
       this.ctx.beginPath();
-      this.ctx.lineWidth = 5;
+      this.ctx.lineWidth = 3;
       this.ctx.rect(
         rectangle.start.x,
         rectangle.start.y,
         rectangle.end.x - rectangle.start.x,
         rectangle.end.y - rectangle.start.y
       );
+      this.ctx.fillStyle = "rgba(255,0,0,0.3)"
+      this.ctx.fill()
       this.ctx.stroke();
     });
+
+    if (this.tmpRectangle) {
+      this.ctx.fillStyle = "rgba(0,0,255,0.3)"
+      this.ctx.fillRect(this.tmpRectangle.x, this.tmpRectangle.y, this.tmpRectangle.x2 - this.tmpRectangle.x, this.tmpRectangle.y2 - this.tmpRectangle.y)
+    }
   }
 
   removeRectangle(index: number): void {
